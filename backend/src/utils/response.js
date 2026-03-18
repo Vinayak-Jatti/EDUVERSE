@@ -1,5 +1,5 @@
 import { ERROR_CODES } from "./errorCodes.js";
-import config from "../config/config.js";
+import config from "../config/env.js";
 
 // ─── Core builder ─────────────────────────────────────────────────────────────
 const buildResponse = ({

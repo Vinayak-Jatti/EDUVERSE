@@ -1,4 +1,4 @@
-import { sendError } from "../utils/apiResponse.js";
+import { sendError } from "../utils/response.js";
 
 const notFound = (req, res) => {
   return sendError(res, req, {

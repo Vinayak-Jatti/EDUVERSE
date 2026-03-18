@@ -1,5 +1,5 @@
 import mysql from "mysql2/promise";
-import config from "./config.js";
+import config from "./env.js";
 
 const pool = mysql.createPool({
   host: config.db.host,
@@ -9,6 +9,7 @@ const pool = mysql.createPool({
   database: config.db.name,
   waitForConnections: true,
   connectionLimit: 10,
+  multipleStatements: true,
 });
 
 pool.on("error", (err) => {

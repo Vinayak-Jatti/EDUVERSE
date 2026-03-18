@@ -1,4 +1,4 @@
-import { sendError } from "../utils/apiResponse.js";
+import { sendError } from "../utils/response.js";
 
 /**
  * Global error handler — must be the last middleware in app.js.

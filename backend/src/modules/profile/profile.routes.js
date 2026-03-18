@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { register } from "../controllers/auth.controller.js";
-import { authLimiter } from "../middlewares/rateLimiter.js";
-import { registerValidation } from "../validations/auth.validation.js";
+import * as profileController from "./profile.controller.js";
 
 const router = Router();
 
 // ─── Public ───────────────────────────────────────
-router.post("/register", authLimiter, registerValidation, register);
+router.get("/:identifier", profileController.getProfile);
 
 // ─── Protected ────────────────────────────────────
+router.patch("/me", profileController.updateProfile);
 
 export default router;

@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
-import userRepository from "../repositories/user.repository.js";
-import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../utils/jwt.js";
-import createError from "../utils/createError.js";
+import userRepository from "../user/user.repository.js";
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../../utils/jwt.js";
+import createError from "../../utils/ApiError.js";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 

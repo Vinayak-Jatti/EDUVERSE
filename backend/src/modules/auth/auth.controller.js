@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
-import { registerUser } from "../services/auth.service.js";
-import { sendSuccess, sendCreated, sendError, sendNoContent } from "../utils/apiResponse.js";
-import asyncHandler from "../utils/asyncHandler.js";
+import { registerUser } from "./auth.service.js";
+import { sendSuccess, sendCreated, sendError, sendNoContent } from "../../utils/response.js";
+import asyncHandler from "../../utils/asyncHandler.js";
 
 // ─── Register ─────────────────────────────────────────────────────────────────
 export const register = asyncHandler(async (req, res) => {
