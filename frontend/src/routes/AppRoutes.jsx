@@ -1,26 +1,30 @@
-import { Routes, Route } from "react-router-dom";
-import { MainLayout } from "@/components/layout";
-import { HomePage, DashboardPage, AboutPage, NotFoundPage } from "@/pages";
-import { ROUTES } from "@/constants";
+import { Routes, Route, Navigate } from "react-router-dom";
+import MainLayout from "../layouts/MainLayout.jsx";
+import AppLayout from "../layouts/AppLayout.jsx";
+import LandingPage from "../pages/LandingPage.jsx";
 
-// All app routes defined in one place.
-// To add a new page:
-//   1. Create src/pages/YourPage.jsx
-//   2. Export from src/pages/index.js
-//   3. Add a <Route> here
+// Feature Routes
+import Login from "../features/auth/pages/Login.jsx";
+import Register from "../features/auth/pages/Register.jsx";
+import Feed from "../features/post/pages/Feed.jsx";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* Routes wrapped in MainLayout get Navbar + Footer */}
+      {/* Public / Landing Wrapper */}
       <Route element={<MainLayout />}>
-        <Route path={ROUTES.HOME}      element={<HomePage />} />
-        <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
-        <Route path={ROUTES.ABOUT}     element={<AboutPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Route>
 
-      {/* 404 — no layout */}
-      <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
+      {/* Internal App Wrapper (Protected later) */}
+      <Route element={<AppLayout />}>
+        <Route path="/feed" element={<Feed />} />
+      </Route>
+
+      {/* 404 Redirect */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

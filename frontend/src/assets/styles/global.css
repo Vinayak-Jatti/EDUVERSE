@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+/* --- TAILWIND CORE --- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* LIGHT: #F8FAFC, #FFFFFF, #0F172A */
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --primary: #0F172A;
+  --accent-royal: #6366F1;
+  --accent-electric: #38BDF8;
+  --radius: 1.5rem;
+}
+
+/* --- SYSTEM RESET & TYPOGRAPHY --- */
+* {
+  box-sizing: border-box;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--primary);
+  font-family: 'Manrope', sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800; /* font-black */
+  letter-spacing: -0.05em; /* tracking-tighter */
+  line-height: 0.95;
+}
+
+/* --- REUSABLE COMPONENTS (USING CSS VARIABLES FOR FLEXIBILITY) --- */
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px -20px rgba(56, 189, 248, 0.15);
+}
+
+/* NOISE OVERLAY COMPONENT STYLES handled in Noise.jsx */
