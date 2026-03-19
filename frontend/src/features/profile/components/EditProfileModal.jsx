@@ -11,13 +11,29 @@ const EditProfileModal = ({ profile, isOpen, onClose, onUpdate }) => {
     institution_name: profile.institution_name || "",
     city: profile.city || "",
     edu_sector: profile.edu_sector || "college",
-    avatar_url: profile.avatar_url || ""
   });
+  
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(profile.avatar_url || `https://api.dicebear.com/7.x/shapes/svg?seed=${profile.username}`);
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleAvatarSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setError("Image must be smaller than 2MB");
+        return;
+      }
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+      setError("");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -26,11 +42,25 @@ const EditProfileModal = ({ profile, isOpen, onClose, onUpdate }) => {
     setError("");
 
     try {
-      const { data } = await apiClient.patch("/profile/me", formData);
+      const dbData = new FormData();
+      Object.keys(formData).forEach(key => {
+        dbData.append(key, formData[key]);
+      });
+      
+      if (avatarFile) {
+        dbData.append("avatar", avatarFile);
+      }
+
+      const { data } = await apiClient.patch("/profile/me", dbData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+      
       onUpdate(data.data);
       onClose();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to update profile");
+      setError(err.response?.data?.message || err.message || "Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -52,10 +82,10 @@ const EditProfileModal = ({ profile, isOpen, onClose, onUpdate }) => {
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden"
+            className="relative w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           >
             {/* Header */}
-            <div className="px-8 py-6 border-b border-black/5 flex items-center justify-between">
+            <div className="px-8 py-6 border-b border-black/5 flex items-center justify-between shrink-0">
               <div>
                 <h2 className="text-xl font-black uppercase tracking-tighter">Edit Profile</h2>
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Personalise your EDUVERSE identity</p>
@@ -68,34 +98,41 @@ const EditProfileModal = ({ profile, isOpen, onClose, onUpdate }) => {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="overflow-y-auto max-h-[70vh] no-scrollbar">
+            <form onSubmit={handleSubmit} className="overflow-y-auto w-full no-scrollbar flex-1 relative">
               <div className="p-8 space-y-8">
                 {error && <ErrorMessage message={error} />}
 
                 {/* Avatar Section */}
                 <div className="flex items-center gap-6">
-                  <div className="relative group">
+                  <div className="relative group cursor-pointer" onClick={() => document.getElementById("avatarUpload").click()}>
                     <div className="w-24 h-24 rounded-[2rem] overflow-hidden border-2 border-dashed border-gray-200 p-1 group-hover:border-black transition-all">
                       <img 
-                        src={formData.avatar_url || `https://api.dicebear.com/7.x/shapes/svg?seed=${profile.username}`} 
+                        src={avatarPreview} 
                         className="w-full h-full object-cover rounded-[1.7rem]" 
-                        alt="Avatar" 
+                        alt="Avatar Preview" 
                       />
                     </div>
-                    <button type="button" className="absolute -bottom-2 -right-2 p-2 bg-black text-white rounded-xl shadow-lg hover:scale-110 active:scale-95 transition-all">
+                    <div className="absolute -bottom-2 -right-2 p-2 bg-black text-white rounded-xl shadow-lg hover:scale-110 active:scale-95 transition-all">
                       <Camera size={16} />
-                    </button>
+                    </div>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Profile Image URL</p>
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-black mb-1">Profile Avatar</h3>
+                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-3">Max size: 2MB. Format: JPG, PNG, WEBP</p>
                     <input 
-                      type="text" 
-                      name="avatar_url"
-                      value={formData.avatar_url}
-                      onChange={handleChange}
-                      placeholder="https://..."
-                      className="w-full p-4 bg-gray-50 border border-black/5 rounded-2xl text-[11px] font-black uppercase tracking-widest focus:outline-none focus:border-black transition-colors"
+                      id="avatarUpload"
+                      type="file" 
+                      accept="image/png, image/jpeg, image/webp"
+                      onChange={handleAvatarSelect}
+                      className="hidden"
                     />
+                    <button 
+                      type="button"
+                      onClick={() => document.getElementById("avatarUpload").click()}
+                      className="px-6 py-2 bg-gray-50 border border-black/5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition-colors"
+                    >
+                      Choose Image
+                    </button>
                   </div>
                 </div>
 

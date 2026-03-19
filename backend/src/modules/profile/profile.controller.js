@@ -17,7 +17,13 @@ export const getProfile = asyncHandler(async (req, res) => {
  */
 export const updateProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
-  const updatedProfile = await profileService.updateProfile(userId, req.body);
+  const updateData = { ...req.body };
+
+  // If new files were uploaded to cloudinary, the paths are here
+  if (req.files?.avatar) updateData.avatar_url = req.files.avatar[0].path;
+  if (req.files?.cover) updateData.cover_url = req.files.cover[0].path;
+
+  const updatedProfile = await profileService.updateProfile(userId, updateData);
   return sendSuccess(res, req, { message: "Profile updated successfully", data: updatedProfile });
 });
 
