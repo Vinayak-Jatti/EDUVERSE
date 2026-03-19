@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import AppSidebar from "../components/layout/AppSidebar.jsx";
-import { Bell, MessageSquare, Plus, Search, Users, Menu, X } from "lucide-react";
+import { Bell, MessageSquare, Plus, Search, Users, Menu, X, LogOut } from "lucide-react";
 import Noise from "../components/common/Noise.jsx";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const AppLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A]">
@@ -53,9 +55,21 @@ const AppLayout = () => {
                 <span>Create</span>
               </button>
               
-              <div className="w-10 h-10 rounded-xl bg-gray-100 border border-black/5 overflow-hidden cursor-pointer hover:border-black transition-colors shrink-0">
-                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User" />
-              </div>
+              <button 
+                onClick={logout}
+                title="Logout"
+                className="hidden sm:flex items-center justify-center p-2.5 text-red-500 bg-red-50 hover:bg-red-100 hover:text-red-600 rounded-xl transition-colors border border-red-100/50 shrink-0"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
+              
+              <Link to={`/profile/${user?.username}`} className="w-10 h-10 rounded-xl bg-gray-100 border border-black/5 overflow-hidden cursor-pointer hover:border-black transition-colors shrink-0 block">
+                 <img 
+                   src={user?.avatar_url || `https://api.dicebear.com/7.x/shapes/svg?seed=${user?.username || 'Felix'}`} 
+                   alt={user?.display_name || "User"} 
+                   className="w-full h-full object-cover"
+                 />
+              </Link>
 
               {/* MOBILE MENU TOGGLE */}
               <button 

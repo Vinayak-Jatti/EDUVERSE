@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, Users, Trophy, Settings } from "lucide-react";
+import { Home, BookOpen, Users, Trophy, Settings, User } from "lucide-react";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 const SidebarItem = ({ icon: Icon, label, href, active }) => (
   <Link
@@ -18,16 +19,25 @@ const SidebarItem = ({ icon: Icon, label, href, active }) => (
 
 const AppSidebar = () => {
   const location = useLocation();
+  const { user } = useAuth();
 
   return (
     <aside className="fixed left-0 top-24 w-64 h-full bg-white border-r border-black/5 z-40 hidden lg:block">
-      <div className="flex flex-col h-full py-8">
+      <div className="flex flex-col h-full py-8 text-black font-sans">
         <SidebarItem 
           icon={Home} 
           label="Home Feed" 
           href="/feed" 
           active={location.pathname === "/feed"} 
         />
+        {user && (
+          <SidebarItem 
+            icon={User} 
+            label="My Profile" 
+            href={`/profile/${user.username}`} 
+            active={location.pathname === `/profile/${user.username}`} 
+          />
+        )}
         <SidebarItem 
           icon={BookOpen} 
           label="Resources" 

@@ -222,8 +222,12 @@ export const refreshTokens = asyncHandler(async (req, res) => {
   });
 });
 
+import * as profileService from "../profile/profile.service.js";
+
 export const getMe = asyncHandler(async (req, res) => {
   if (!req.user) throw createError("UNAUTHORIZED", "User not found");
+
+  const profile = await profileService.getProfile(req.user.id);
 
   sendSuccess(res, req, {
     message: "Current user profile fetched",
@@ -232,6 +236,9 @@ export const getMe = asyncHandler(async (req, res) => {
         id: req.user.id,
         email: req.user.email,
         status: req.user.status,
+        username: profile.username,
+        display_name: profile.display_name,
+        avatar_url: profile.avatar_url,
       }
     },
   });

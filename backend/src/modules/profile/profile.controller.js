@@ -7,7 +7,8 @@ import asyncHandler from "../../utils/asyncHandler.js";
  */
 export const getProfile = asyncHandler(async (req, res) => {
   const { identifier } = req.params;
-  const profile = await profileService.getProfile(identifier);
+  const currentUserId = req.user?.id; // Defined if user is logged in
+  const profile = await profileService.getProfile(identifier, currentUserId);
   return sendSuccess(res, req, { data: profile });
 });
 
@@ -15,7 +16,34 @@ export const getProfile = asyncHandler(async (req, res) => {
  * Handle update profile request
  */
 export const updateProfile = asyncHandler(async (req, res) => {
-  const userId = req.user.id; // From auth middleware
+  const userId = req.user.id;
   const updatedProfile = await profileService.updateProfile(userId, req.body);
-  return sendSuccess(res, req, { message: "Profile updated", data: updatedProfile });
+  return sendSuccess(res, req, { message: "Profile updated successfully", data: updatedProfile });
+});
+
+/**
+ * Handle follow actions
+ */
+export const followUser = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const result = await profileService.followUser(req.user.id, userId);
+  return sendSuccess(res, req, { message: result.message });
+});
+
+export const unfollowUser = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const result = await profileService.unfollowUser(req.user.id, userId);
+  return sendSuccess(res, req, { message: result.message });
+});
+
+export const getFollowers = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const followers = await profileService.getFollowers(userId);
+  return sendSuccess(res, req, { data: followers });
+});
+
+export const getFollowing = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const following = await profileService.getFollowing(userId);
+  return sendSuccess(res, req, { data: following });
 });

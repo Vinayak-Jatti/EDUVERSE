@@ -12,6 +12,7 @@ import OTPVerification from "../features/auth/pages/OTPVerification.jsx";
 import ForgotPassword from "../features/auth/pages/ForgotPassword.jsx";
 import ResetPassword from "../features/auth/pages/ResetPassword.jsx";
 import Feed from "../features/post/pages/Feed.jsx";
+import ProfilePage from "../features/profile/pages/ProfilePage.jsx";
 
 const AppRoutes = () => {
   return (
@@ -30,6 +31,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/feed" element={<Feed />} />
+          <Route path="/profile/:identifier" element={<ProfilePage />} />
           
           {/* Wired Placeholder Pages for Sidebar */}
           <Route path="/resources" element={<PlaceholderPage title="Resources" />} />

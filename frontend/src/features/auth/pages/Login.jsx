@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext.jsx";
 import AuthForm, { AuthInput, AuthButton } from "../components/AuthForm";
 import apiClient from "../../../services/apiClient";
 
@@ -11,6 +12,7 @@ const Login = () => {
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,9 +25,9 @@ const Login = () => {
 
     try {
       const response = await apiClient.post("/auth/login", formData);
+      const { accessToken, user } = response.data.data;
       
-      // Success: store token and navigate to feed
-      localStorage.setItem("accessToken", response.data.data.accessToken);
+      await login(accessToken);
       navigate("/feed");
     } catch (err) {
       const errorMessage = err.response?.data?.message || "Login failed. Please try again.";

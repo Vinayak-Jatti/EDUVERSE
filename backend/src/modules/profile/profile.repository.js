@@ -79,6 +79,51 @@ const profileRepository = {
       [userId]
     );
     return rows;
+  },
+
+  /**
+   * Following Logic
+   */
+  isFollowing: async (followerId, followingId) => {
+    const [rows] = await pool.execute(
+      `SELECT 1 FROM follows WHERE follower_id = ? AND following_id = ?`,
+      [followerId, followingId]
+    );
+    return rows.length > 0;
+  },
+
+  follow: async (followerId, followingId) => {
+    await pool.execute(
+      `INSERT IGNORE INTO follows (follower_id, following_id) VALUES (?, ?)`,
+      [followerId, followingId]
+    );
+  },
+
+  unfollow: async (followerId, followingId) => {
+    await pool.execute(
+      `DELETE FROM follows WHERE follower_id = ? AND following_id = ?`,
+      [followerId, followingId]
+    );
+  },
+
+  getFollowers: async (userId) => {
+    const [rows] = await pool.execute(
+      `SELECT up.* FROM user_profiles up
+       JOIN follows f ON up.user_id = f.follower_id
+       WHERE f.following_id = ?`,
+      [userId]
+    );
+    return rows;
+  },
+
+  getFollowing: async (userId) => {
+    const [rows] = await pool.execute(
+      `SELECT up.* FROM user_profiles up
+       JOIN follows f ON up.user_id = f.following_id
+       WHERE f.follower_id = ?`,
+      [userId]
+    );
+    return rows;
   }
 };
 
