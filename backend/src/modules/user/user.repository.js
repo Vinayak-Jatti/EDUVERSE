@@ -23,6 +23,13 @@ const userRepository = {
   },
 
   /**
+   * Update user fields
+   */
+  update: async (id, fields) => {
+    return await userModel.updateUser(id, fields);
+  },
+
+  /**
    * Deactivate user (soft delete)
    */
   deactivate: async (id) => {

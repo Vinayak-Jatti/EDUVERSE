@@ -27,10 +27,26 @@ export const findUserByEmail = async (email) => {
  * Create new core user
  */
 export const createUser = async (userData) => {
-  const { id, email, phone, status } = userData;
+  const { id, email, phone, status, email_verified } = userData;
   const [result] = await pool.execute(
-    `INSERT INTO ${TABLES.USERS} (id, email, phone, status) VALUES (?, ?, ?, ?)`,
-    [id, email || null, phone || null, status || 'pending']
+    `INSERT INTO ${TABLES.USERS} (id, email, phone, status, email_verified) VALUES (?, ?, ?, ?, ?)`,
+    [id, email || null, phone || null, status || 'pending', email_verified || 0]
+  );
+  return result;
+};
+
+/**
+ * Update user fields
+ */
+export const updateUser = async (id, fields) => {
+  const keys = Object.keys(fields);
+  const values = Object.values(fields);
+  
+  const setClause = keys.map(key => `${key} = ?`).join(", ");
+  
+  const [result] = await pool.execute(
+    `UPDATE ${TABLES.USERS} SET ${setClause}, updated_at = NOW() WHERE id = ?`,
+    [...values, id]
   );
   return result;
 };

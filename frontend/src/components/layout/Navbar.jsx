@@ -9,9 +9,9 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const navLinks = [
-    { label: "Features", href: "#features" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
+    { label: "Features", href: "/#features" },
+    { label: "About", href: "/#about" },
+    { label: "Contact", href: "/#contact" },
   ];
 
   return (
@@ -34,9 +34,9 @@ const Navbar = () => {
           {/* DESKTOP LINKS */}
           <div className="hidden md:flex items-center gap-10 bg-white/50 backdrop-blur-xl px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border border-black/5 shadow-sm">
             {navLinks.map((link) => (
-              <Link key={link.label} to={link.href} className="hover:text-indigo-600 transition-colors">
+              <a key={link.label} href={link.href} className="hover:text-indigo-600 transition-colors">
                 {link.label}
-              </Link>
+              </a>
             ))}
           </div>
 
@@ -74,14 +74,14 @@ const Navbar = () => {
           >
             <div className="flex flex-col gap-6">
               {navLinks.map((link) => (
-                <Link 
+                <a 
                   key={link.label} 
-                  to={link.href} 
+                  href={link.href} 
                   onClick={() => setIsOpen(false)}
                   className="text-sm font-black uppercase tracking-[0.2em] text-gray-500 hover:text-black transition-colors"
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
               <div className="pt-6 border-t border-black/5 flex flex-col gap-4">
                 <Link 

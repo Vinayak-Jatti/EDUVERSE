@@ -22,6 +22,14 @@ const authRepository = {
     return result;
   },
 
+  updateProviderPassword: async (userId, provider, newPasswordHash) => {
+    const [result] = await pool.execute(
+      `UPDATE ${TABLES.USER_AUTH_PROVIDERS} SET password_hash = ? WHERE user_id = ? AND provider = ?`,
+      [newPasswordHash, userId, provider]
+    );
+    return result;
+  },
+
   // ─── Sessions ───────────────────────────────────────────────────────────────
 
   createSession: async (sessionData) => {
@@ -77,7 +85,18 @@ const authRepository = {
       `UPDATE ${TABLES.OTP_TOKENS} SET used = 1 WHERE id = ?`,
       [otpId]
     );
-  }
+  },
+
+  /**
+   * Find provider by UID (for OAuth)
+   */
+  findProviderByUid: async (provider, providerUid) => {
+    const [rows] = await pool.execute(
+      `SELECT * FROM ${TABLES.USER_AUTH_PROVIDERS} WHERE provider = ? AND provider_uid = ?`,
+      [provider, providerUid]
+    );
+    return rows[0] ?? null;
+  },
 };
 
 export default authRepository;

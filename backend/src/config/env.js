@@ -44,6 +44,25 @@ const config = {
     refreshSecret: required("JWT_REFRESH_SECRET"),
     refreshExpiresIn: optional("JWT_REFRESH_EXPIRES_IN", "30d"),
   },
+  mail: {
+    host: required("MAIL_HOST"),
+    port: optional("MAIL_PORT", "2525"),
+    user: required("MAIL_USER"),
+    pass: required("MAIL_PASS"),
+    from: optional("MAIL_FROM", "EduVerse <no-reply@eduverse.app>"),
+  },
+  oauth: {
+    google: {
+      clientId: optional("GOOGLE_CLIENT_ID", ""),
+      clientSecret: optional("GOOGLE_CLIENT_SECRET", ""),
+      redirectUri: optional("GOOGLE_REDIRECT_URI", "http://localhost:3000/api/v1/auth/google/callback"),
+    },
+    github: {
+      clientId: optional("GITHUB_CLIENT_ID", ""),
+      clientSecret: optional("GITHUB_CLIENT_SECRET", ""),
+      redirectUri: optional("GITHUB_REDIRECT_URI", "http://localhost:3000/api/v1/auth/github/callback"),
+    },
+  },
 };
 
 export default config;

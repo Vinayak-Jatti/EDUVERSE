@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Github, Globe } from "lucide-react"; // Using Globe as a placeholder for Google if needed, or just custom icon
+import { Github, Globe, Eye, EyeOff } from "lucide-react";
 
 const AuthForm = ({ title, subtitle, footerText, footerLink, footerLinkText, children, onSubmit, showSocials = true }) => {
   return (
@@ -35,8 +35,18 @@ const AuthForm = ({ title, subtitle, footerText, footerLink, footerLinkText, chi
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <SocialButton icon={<Github className="w-4 h-4" />}>GitHub</SocialButton>
-              <SocialButton icon={<img src="https://www.google.com/favicon.ico" className="w-4 h-4 grayscale group-hover:grayscale-0 transition-all" alt="G" />}>Google</SocialButton>
+              <SocialButton 
+                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/github`}
+                icon={<Github className="w-4 h-4" />}
+              >
+                GitHub
+              </SocialButton>
+              <SocialButton 
+                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`}
+                icon={<img src="https://www.google.com/favicon.ico" className="w-4 h-4 grayscale group-hover:grayscale-0 transition-all" alt="G" />}
+              >
+                Google
+              </SocialButton>
             </div>
           </div>
         )}
@@ -54,9 +64,10 @@ const AuthForm = ({ title, subtitle, footerText, footerLink, footerLinkText, chi
   );
 };
 
-const SocialButton = ({ icon, children }) => (
+const SocialButton = ({ icon, children, onClick }) => (
   <button 
     type="button"
+    onClick={onClick}
     className="group flex items-center justify-center gap-2 py-4 border border-black/5 rounded-2xl bg-gray-50 hover:bg-black hover:text-white transition-all duration-300 active:scale-95 text-[10px] font-black uppercase tracking-widest"
   >
     {icon}
@@ -64,19 +75,36 @@ const SocialButton = ({ icon, children }) => (
   </button>
 );
 
-export const AuthInput = ({ label, ...props }) => (
-  <div className="space-y-2">
-    {label && (
-      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
-        {label}
-      </label>
-    )}
-    <input 
-      {...props} 
-      className="w-full p-4 bg-gray-50 border border-black/5 rounded-2xl text-[11px] font-black uppercase tracking-widest focus:outline-none focus:border-black transition-colors placeholder:text-gray-200" 
-    />
-  </div>
-);
+export const AuthInput = ({ label, type = "text", ...props }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const isPassword = type === "password";
+
+  return (
+    <div className="space-y-2 relative">
+      {label && (
+        <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">
+          {label}
+        </label>
+      )}
+      <div className="relative">
+        <input 
+          type={isPassword ? (showPassword ? "text" : "password") : type}
+          {...props} 
+          className="w-full p-4 bg-gray-50 border border-black/5 rounded-2xl text-[11px] font-black uppercase tracking-widest focus:outline-none focus:border-black transition-colors placeholder:text-gray-200" 
+        />
+        {isPassword && (
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
+          >
+            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export const AuthButton = ({ children, loading, ...props }) => (
   <button 

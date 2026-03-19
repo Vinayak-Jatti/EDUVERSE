@@ -71,7 +71,7 @@ const LandingPage = () => {
       </section>
 
       {/* 🧩 FEATURES SECTION */}
-      <section className="py-20 md:py-32 px-4 md:px-6 lg:px-20 bg-[#F9FAFB]">
+      <section id="features" className="py-20 md:py-32 px-4 md:px-6 lg:px-20 bg-[#F9FAFB]">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 md:mb-24 flex flex-col items-center">
             <span className="text-indigo-600 text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] mb-4">Core Capabilities</span>
@@ -93,7 +93,7 @@ const LandingPage = () => {
       </section>
 
       {/* 🖼️ SHOWCASE SECTION */}
-      <section className="py-20 md:py-32 px-4 md:px-6 lg:px-20">
+      <section id="about" className="py-20 md:py-32 px-4 md:px-6 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-20 gap-8">
             <div className="max-w-2xl text-center md:text-left">
@@ -121,7 +121,7 @@ const LandingPage = () => {
       </section>
 
       {/* ✉️ APPLY SECTION */}
-      <section className="py-20 md:py-32 px-4 md:px-6 lg:px-20 bg-gray-50 border-y border-black/5">
+      <section id="contact" className="py-20 md:py-32 px-4 md:px-6 lg:px-20 bg-gray-50 border-y border-black/5">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 md:gap-20">
           <div className="flex-1 text-center md:text-left">
              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tighter uppercase mb-6 md:mb-8 leading-none">

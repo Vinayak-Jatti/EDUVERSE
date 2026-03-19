@@ -1,14 +1,38 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthForm, { AuthInput, AuthButton } from "../components/AuthForm";
+import apiClient from "../../../services/apiClient";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    campus: "",
+    password: ""
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Logic will be added in Step 3/4
-    setTimeout(() => setLoading(false), 2000);
+    setError("");
+
+    try {
+      await apiClient.post("/auth/register", formData);
+      // Success: navigate to OTP verification
+      navigate("/verify-otp", { state: { email: formData.email } });
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -22,13 +46,56 @@ const Register = () => {
         onSubmit={handleSubmit}
       >
         <div className="grid grid-cols-2 gap-4">
-          <AuthInput label="First Name" placeholder="Jane" required />
-          <AuthInput label="Last Name" placeholder="Doe" required />
+          <AuthInput 
+            label="First Name" 
+            name="firstName"
+            placeholder="Jane" 
+            required 
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+          <AuthInput 
+            label="Last Name" 
+            name="lastName"
+            placeholder="Doe" 
+            required 
+            value={formData.lastName}
+            onChange={handleChange}
+          />
         </div>
-        <AuthInput label="Email Address" type="email" placeholder="jane@campus.edu" required />
-        <AuthInput label="Select Campus" placeholder="Type university name..." required />
-        <AuthInput label="Password" type="password" placeholder="••••••••" required />
+        <AuthInput 
+          label="Email Address" 
+          name="email"
+          type="email" 
+          placeholder="jane@campus.edu" 
+          required 
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <AuthInput 
+          label="Select Campus" 
+          name="campus"
+          placeholder="Type university name..." 
+          required 
+          value={formData.campus}
+          onChange={handleChange}
+        />
+        <AuthInput 
+          label="Password" 
+          name="password"
+          type="password" 
+          placeholder="••••••••" 
+          required 
+          value={formData.password}
+          onChange={handleChange}
+        />
         
+        {error && (
+          <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider text-center">
+            {error}
+          </p>
+        )}
+
         <p className="text-[9px] text-gray-400 text-center leading-relaxed px-4">
           By clicking sign up, you agree to our <span className="underline cursor-pointer">Terms of Service</span> and <span className="underline cursor-pointer">Privacy Policy</span>.
         </p>

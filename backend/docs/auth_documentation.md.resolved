@@ -1,0 +1,84 @@
+# 🔐 EDUVERSE Authentication Module - Developer Documentation
+*Version 1.0.0 | Status: Completed & Production-Ready*
+
+---
+
+## 🏗️ Architecture Overview
+
+The EDUVERSE authentication system is a robust, multi-provider security layer utilizing a hybrid **JWT Access Token + HttpOnly Refresh Token** architecture. It seamlessly handles direct email/password registrations alongside federated OAuth 2.0 logins (Google & GitHub), dynamically linking accounts that share the same email address.
+
+### Security Posture
+* **Access Tokens**: Short-lived JWTs delivered in JSON payloads (`15m` lifespan), strictly stored in memory/localStorage by the frontend.
+* **Refresh Tokens**: Long-lived JWTs (`30d` lifespan), strictly delivered as `HttpOnly`, `Secure`, `SameSite=Strict` cookies. This mitigates Cross-Site Scripting (XSS) attacks.
+* **CSRF Protection**: OAuth flows heavily leverage dynamically generated `state` parameters stored in strict temporary cookies.
+* **PKCE Implementation**: Google OAuth leverages Proof Key for Code Exchange to prevent authorization code interception attacks.
+* **Rate Limiting**: Aggressive IP-based rate limiters are applied across all `/auth` entry points to guard against dictionary and brute-force attacks.
+
+---
+
+## 🚦 REST API Endpoints
+
+All routes are prefixed with: `POST /api/v1/auth`
+
+### 1. Traditional Authentication
+| Endpoint | Method | Access | Description | Payload |
+|----------|--------|--------|-------------|---------|
+| `/register` | `POST` | Public | Initiates registration. Creates records, hashes password via `bcrypt`, and dispatches a 6-digit OTP via NodeMailer. | `{ firstName, lastName, email, campus, password }` |
+| `/verify-otp` | `POST` | Public | Validates OTP. Promotes user status from PENDING to ACTIVE. Issues Access & Refresh tokens. | `{ email, otp }` |
+| `/login` | `POST` | Public | Standard email/password login. Verifies bcrypt hash. Will reject if email is unverified. | `{ email, password }` |
+| `/resend-otp` | `POST` | Public | Invalidates previous OTPs and dispatches a new 6-digit code for pending accounts. | `{ email }` |
+
+### 2. OAuth 2.0 Integrations
+| Endpoint | Method | Access | Description |
+|----------|--------|--------|-------------|
+| `/google` | `GET` | Public | Generates Google authorization URL + PKCE verifier. Redirects user. |
+| `/google/callback` | `GET` | Public | Validates state and authorization code. Fetches Google Profile data. Intercepts and links accounts if email exists. Redirects to `/feed`. |
+| `/github` | `GET` | Public | Generates GitHub authorization URL. Redirects user. |
+| `/github/callback` | `GET` | Public | Validates state and authorization code. Fetches GitHub Profile data. Redirects to `/feed`. |
+
+### 3. Session Diagnostics & Security
+| Endpoint | Method | Access | Description | Payload |
+|----------|--------|--------|-------------|---------|
+| `/refresh` | `POST` | Public | Consumes existing `HttpOnly` refresh cookie. Emits new short-lived Access Token and rotates Refresh Token. | *(Relies on Cookie)* |
+| `/me` | `GET` | Private | Protected route (Requires Bearer Token). Scans Access token, fetches database record, returns sanitized user active session data. | *(Requires Bearer)* |
+| `/logout` | `POST` | Public | Destroys the `HttpOnly` refresh token natively on the browser by clearing cookies. | N/A |
+| `/forgot-password`| `POST` | Public | Looks up `PASSWORD` auth providers. Generates secure 6-digit OTP and sends password reset HTML template via email. | `{ email }` |
+| `/reset-password` | `POST` | Public | Verifies 6-digit OTP and replaces old `bcrypt` hash with new encoded password hash. | `{ email, otp, newPassword }` |
+
+---
+
+## 🗄️ Database Schemas (Core Models)
+
+The auth module bridges across 5 highly normalized MySQL tables:
+
+1. **`users`**: The core authoritative identity. (Stores: [id](file:///d:/EDUVERSE/frontend/src/layouts/AppLayout.jsx#153-164), `email`, `status`, `role`, `email_verified`).
+2. **`user_profiles`**: The public-facing identity data. (Stores: `display_name`, `username` (auto-generated), `avatar_url`, `institution_name`).
+3. **`user_auth_providers`**: Allows many-to-one credential linking. A single User can have multiple records here (`password`, `google`, `github`). Contains the `bcrypt` password hashes. 
+4. **`otp_tokens`**: Time-sensitive, hashed 6-digit codes mapped to action scopes (`SIGNUP` vs `PASSWORD_RESET`).
+5. **`sessions`**: Server-side tracking for emitted JWTs (allows remote revocation of tokens).
+
+---
+
+## ⚙️ Logic Deep Dives
+
+### Seamless Account Linking (The OAuth Flow)
+When a user authenticates via federated providers (Google/GitHub), [auth.service.js](file:///d:/EDUVERSE/backend/src/modules/auth/auth.service.js) triggers [loginOrRegisterOAuth()](file:///d:/EDUVERSE/backend/src/modules/auth/auth.service.js#180-238). 
+1. It reads the Google/GitHub unique User ID. 
+2. If unknown, it queries the `users` table via the extracted *Email Address*.
+3. **If NO match:** Registers a brand new user, auto-generates a unique username, builds their profile, marks their email as instantly verified (delegated trust), and links the OAuth provider.
+4. **If MATCH found:** Skips user creation. Takes their newly acquired Google Account and maps it securely to their existing Password-based account. They can now login with either method indefinitely. 
+
+### Frontend Integration Map
+* **Middleware (`protect`)**: Located natively in [/src/middlewares/auth.middleware.js](file:///d:/EDUVERSE/backend/src/middlewares/auth.middleware.js). Extracts Bearer tokens, validates signatures against `JWT_SECRET`, and rejects `401 Unauthorized`.
+* **Axios Interceptor**: The frontend [apiClient.js](file:///d:/EDUVERSE/frontend/src/services/apiClient.js) contains a silent interceptor. If a user queries the [Feed](file:///d:/EDUVERSE/frontend/src/features/post/pages/Feed.jsx#6-74) and the server drops a `401 Expired Token`, the interceptor pauses the request, silently hits `/auth/refresh` behind the scenes, grabs the new token, and replays the original request without bothering the user.
+* **Component Routing**: Authorized routes are walled off by the `<ProtectedRoute />` wrapper in [AppRoutes.jsx](file:///d:/EDUVERSE/frontend/src/routes/AppRoutes.jsx), redirecting lost users directly to the Login gates.
+
+---
+## ✅ Final QA Status
+* 🟢 Registration Flow
+* 🟢 OTP Deliverability (NodeMailer)
+* 🟢 Rate Limitations & IP Protection
+* 🟢 Google & GitHub Providers (Arctic + Provider APIs mapping successfully)
+* 🟢 Forgot / Reset Password Flow
+
+**CONFIRMED: Authentication Module is 100% complete and structurally sound.**

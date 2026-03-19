@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import PostCard from "../components/PostCard";
 import { motion } from "framer-motion";
 
 const Feed = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+    if (token) {
+      localStorage.setItem("accessToken", token);
+      // Remove token from URL for security/cleanliness
+      searchParams.delete("token");
+      setSearchParams(searchParams, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
   const tabs = ["All", "Posts", "Twits", "Squads", "Videos", "Tech News"];
   
   const posts = [

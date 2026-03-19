@@ -5,6 +5,9 @@ export const ERROR_CODES = Object.freeze({
   TOKEN_INVALID:         { statusCode: 401, message: "Invalid token" },
   TOKEN_EXPIRED:         { statusCode: 401, message: "Token has expired" },
   REFRESH_TOKEN_INVALID: { statusCode: 401, message: "Invalid or expired refresh token" },
+  EMAIL_NOT_VERIFIED:    { statusCode: 403, message: "Email not verified. Please check your inbox for the OTP." },
+  INVALID_OTP:           { statusCode: 400, message: "Invalid OTP code" },
+  OTP_EXPIRED:           { statusCode: 400, message: "OTP has expired" },
   FORBIDDEN:             { statusCode: 403, message: "Forbidden: insufficient permissions" },
 
   // ─── Resource ─────────────────────────────────
