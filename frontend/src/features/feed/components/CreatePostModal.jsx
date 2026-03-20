@@ -18,17 +18,17 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
   const handleFileSelect = (e, type) => {
     const files = Array.from(e.target.files);
     
-    // Size Validation
+    // Cloudinary Free Tier Limit Validation
     const maxSize = type === "video" ? 10 * 1024 * 1024 : 3 * 1024 * 1024;
     const oversized = files.find(f => f.size > maxSize);
     
     if (oversized) {
-      toast.error(`File "${oversized.name}" too big! Max for ${type} is ${maxSize / 1024 / 1024}MB.`);
+      toast.error(`"${oversized.name}" exceeds free-tier limit! Max for ${type === 'video' ? 'Mastery Stream' : 'Image'} is ${maxSize / 1024 / 1024}MB.`);
       return;
     }
 
     if (type === "video" && (mediaFiles.some(m => m.type === "video") || files.length > 1)) {
-        toast.warning("Only one video allowed per post");
+        toast.warning("Only one Mastery Stream allowed per publication");
         return;
     }
 
@@ -62,25 +62,34 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     setLoading(true);
 
     try {
+      const isMastery = mediaFiles.some(m => m.type === "video");
+      const url = isMastery ? "/mastery-streams" : "/feed";
+      
       const formData = new FormData();
       formData.append("body", body);
       formData.append("visibility", visibility);
-      if (assetLink) formData.append("link_url", assetLink);
       
-      mediaFiles.forEach(m => {
-        if (m.type === "image") formData.append("images", m.file);
-        if (m.type === "video") formData.append("videos", m.file);
-      });
+      if (isMastery) {
+         // Dedicated Mastery Stream Protocol
+         const masteryMedia = mediaFiles.find(m => m.type === "video");
+         formData.append("media", masteryMedia.file);
+      } else {
+         // Generic Publication Protocol
+         if (assetLink) formData.append("link_url", assetLink);
+         mediaFiles.forEach(m => {
+           if (m.type === "image") formData.append("images", m.file);
+         });
+      }
 
-      const { data } = await apiClient.post("/feed", formData, {
+      const { data } = await apiClient.post(url, formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
       
-      toast.success("Post live on EduVerse! 🚀");
+      toast.success(isMastery ? "Mastery Stream LIVE! 🚀" : "Post live on EduVerse! 🚀");
       onPostCreated(data.data);
       handleClose();
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to create post");
+      toast.error(err.response?.data?.message || "Hub Error: Please try again.");
     } finally {
       setLoading(false);
     }

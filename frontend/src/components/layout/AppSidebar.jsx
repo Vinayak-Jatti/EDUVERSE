@@ -46,7 +46,8 @@ const AppSidebar = () => {
         <SidebarItem 
           icon={Users} 
           label="Study Groups" 
-          href="/groups" 
+          href="/squads" 
+          active={location.pathname === "/squads"} 
         />
         <SidebarItem 
           icon={Trophy} 

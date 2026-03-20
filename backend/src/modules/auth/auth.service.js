@@ -118,7 +118,7 @@ export const verifyOtpOnSignup = async ({ email, otp }) => {
  */
 export const loginUser = async ({ email, password }) => {
   const user = await userRepository.findByEmail(email);
-  if (!user) throw createError("INVALID_CREDENTIALS");
+  if (!user) throw createError("USER_NOT_FOUND", "No account found with this email");
 
   if (user.status === USER_STATUS.PENDING || !user.email_verified) {
     throw createError("EMAIL_NOT_VERIFIED");

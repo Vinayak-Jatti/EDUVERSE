@@ -18,6 +18,7 @@ import { useAuth } from "../../../context/AuthContext";
 import ErrorMessage from "../../../components/shared/ErrorMessage";
 import EditProfileModal from "../components/EditProfileModal";
 import PostCard from "../../feed/components/PostCard";
+import InsightCard from "../../feed/components/InsightCard";
 import { FileText, Image as ImageIcon } from "lucide-react";
 
 const ProfilePage = () => {
@@ -215,7 +216,12 @@ const ProfilePage = () => {
                            <div className="w-8 h-8 border-4 border-black/10 border-t-black rounded-full animate-spin" />
                         </div>
                       ) : posts.length > 0 ? (
-                        posts.map(post => <PostCard key={post.id} post={post} />)
+                        posts.map(post => {
+                           if (post.post_type === 'insight' || post.post_type === 'text') {
+                               return <InsightCard key={post.id} post={post} />;
+                           }
+                           return <PostCard key={post.id} post={post} />;
+                        })
                       ) : (
                         <div className="flex flex-col items-center justify-center p-20 text-center">
                           <div className="w-16 h-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center mb-4 text-gray-300">

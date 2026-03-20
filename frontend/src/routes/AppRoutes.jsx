@@ -13,6 +13,7 @@ import ForgotPassword from "../features/auth/pages/ForgotPassword.jsx";
 import ResetPassword from "../features/auth/pages/ResetPassword.jsx";
 import Feed from "../features/feed/pages/FeedPage.jsx";
 import ProfilePage from "../features/profile/pages/ProfilePage.jsx";
+import SquadExplorer from "../features/squad/pages/SquadExplorer.jsx";
 
 const AppRoutes = () => {
   return (
@@ -32,10 +33,10 @@ const AppRoutes = () => {
         <Route element={<AppLayout />}>
           <Route path="/feed" element={<Feed />} />
           <Route path="/profile/:identifier" element={<ProfilePage />} />
+          <Route path="/squads" element={<SquadExplorer />} />
           
           {/* Wired Placeholder Pages for Sidebar */}
           <Route path="/resources" element={<PlaceholderPage title="Resources" />} />
-          <Route path="/groups" element={<PlaceholderPage title="Study Groups" />} />
           <Route path="/achievements" element={<PlaceholderPage title="Achievements" />} />
           <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
         </Route>

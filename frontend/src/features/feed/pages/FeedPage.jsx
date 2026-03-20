@@ -4,27 +4,41 @@ import PostCard from "../components/PostCard";
 import ErrorMessage from "../../../components/shared/ErrorMessage";
 import { Plus, Image as ImageIcon, Video, Smile } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 import CreatePostModal from "../components/CreatePostModal";
 import FeedRibbon from "../components/FeedRibbon";
+import CreateInsightBox from "../components/CreateInsightBox";
+import InsightCard from "../components/InsightCard";
+import NewsCard from "../components/NewsCard";
+import MasteryStreamCard from "../components/MasteryStreamCard";
 
 const FeedPage = () => {
+  const { user } = useAuth();
   const [posts, setPosts] = useState([]);
+  const [techNews, setTechNews] = useState([]);
+  const [activeFilter, setActiveFilter] = useState("all");
+  const [nextNewsPage, setNextNewsPage] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [newsLoading, setNewsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState("all");
-  const { user } = useAuth();
 
   useEffect(() => {
-    fetchFeed();
+    fetchPosts();
   }, []);
 
-  const fetchFeed = async () => {
+  useEffect(() => {
+    if (activeFilter === "news" && techNews.length === 0) {
+      handleFetchTechNews();
+    }
+  }, [activeFilter]);
+
+  const fetchPosts = async () => {
     setLoading(true);
     try {
       const { data } = await apiClient.get("/feed");
-      setPosts(data.data);
+      setPosts(data.data || []);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load feed");
     } finally {
@@ -32,79 +46,116 @@ const FeedPage = () => {
     }
   };
 
+  const handleFetchTechNews = async (page = null) => {
+    // Check Frontend Cache for first page
+    if (!page) {
+      const cached = localStorage.getItem("eduverse_news_cache");
+      if (cached) {
+          const { data, expiry } = JSON.parse(cached);
+          if (Date.now() < expiry) {
+              console.log("Serving Tech Intel from Local Storage ⚡");
+              setTechNews(data.results);
+              setNextNewsPage(data.nextPage);
+              return;
+          }
+      }
+    }
+
+    setNewsLoading(true);
+    try {
+      const { data } = await apiClient.get(`/news${page ? `?page=${page}` : ''}`);
+      if (page) {
+        setTechNews(prev => [...prev, ...data.data.results]);
+      } else {
+        setTechNews(data.data.results);
+        // Save to Local Cache (60 mins)
+        localStorage.setItem("eduverse_news_cache", JSON.stringify({
+           data: { results: data.data.results, nextPage: data.data.nextPage },
+           expiry: Date.now() + 60 * 60 * 1000
+        }));
+      }
+      setNextNewsPage(data.data.nextPage);
+    } catch (err) {
+      console.error("News catch:", err);
+    } finally {
+      setNewsLoading(false);
+    }
+  };
+
   const handlePostCreated = (newPost) => {
     setPosts([newPost, ...posts]);
   };
+
+  const filteredPosts = posts.filter(p => {
+    if (activeFilter === 'all') return true;
+    if (activeFilter === 'videos') return p.post_type === 'video';
+    if (activeFilter === 'insights') return p.post_type === 'insight' || p.post_type === 'text';
+    if (activeFilter === 'posts') return p.post_type === 'image' || p.post_type === 'document';
+    return true;
+  });
+
+  const isLoading = activeFilter === 'news' ? newsLoading && techNews.length === 0 : loading;
+  const showNewsFeed = activeFilter === 'news';
 
   return (
     <div className="max-w-xl mx-auto pb-20">
       <FeedRibbon activeFilter={activeFilter} onFilterChange={setActiveFilter} />
 
-      {/* Create Post Entry */}
-      <div className="bg-white border border-black/5 rounded-[2.5rem] p-6 mb-8 hover:shadow-xl hover:shadow-black/5 transition-all">
-         <div className="flex items-center gap-4 mb-6">
-           <div className="w-10 h-10 rounded-xl overflow-hidden border border-black/5">
-             <img src={user?.avatar_url || `https://api.dicebear.com/7.x/shapes/svg?seed=${user?.username}`} alt={user?.display_name} />
-           </div>
-           <button 
-             onClick={() => setIsModalOpen(true)}
-             className="flex-1 bg-gray-50 hover:bg-gray-100/50 rounded-2xl p-4 text-left transition-colors"
-           >
-              <span className="text-xs font-black uppercase tracking-widest text-gray-400">What's on your mind?</span>
-           </button>
-           <button 
-             onClick={() => setIsModalOpen(true)}
-             className="p-4 bg-black text-white rounded-2xl hover:bg-gray-800 transition-all active:scale-95 shadow-xl"
-            >
-             <Plus size={18} />
-           </button>
-         </div>
-
-         <div className="flex items-center gap-1 md:gap-4 border-t border-black/5 pt-6 px-1">
-             <FeedTool onClick={() => setIsModalOpen(true)} icon={<ImageIcon size={18} color="#6366f1" />} label="IMAGE" />
-             <FeedTool onClick={() => setIsModalOpen(true)} icon={<Video size={18} color="#ec4899" />} label="VIDEO" />
-             <FeedTool onClick={() => setIsModalOpen(true)} icon={<Smile size={18} color="#f59e0b" />} label="MOOD" />
-         </div>
-      </div>
-
-      <CreatePostModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        onPostCreated={handlePostCreated} 
-      />
+      {/* Create Insight / Post Entry (Hide when in News tab) */}
+      {!showNewsFeed && (
+        <>
+          <CreateInsightBox 
+            onModalOpen={() => setIsModalOpen(true)} 
+            onInsightCreated={handlePostCreated} 
+          />
+          <CreatePostModal 
+            isOpen={isModalOpen} 
+            onClose={() => setIsModalOpen(false)} 
+            onPostCreated={handlePostCreated} 
+          />
+        </>
+      )}
 
       {/* Feed List */}
       <div className="space-y-6">
-        {loading ? (
+        {isLoading ? (
           <div className="space-y-6">
             <SkeletonLoader />
             <SkeletonLoader />
           </div>
         ) : error ? (
           <ErrorMessage message={error} />
-        ) : posts.filter(p => {
-            if (activeFilter === 'all') return true;
-            if (activeFilter === 'videos') return p.post_type === 'video';
-            if (activeFilter === 'news') return p.post_type === 'news_link';
-            if (activeFilter === 'insights') return p.post_type === 'text';
-            if (activeFilter === 'posts') return p.post_type === 'image' || p.post_type === 'document';
-            return true;
-        }).length === 0 ? (
+        ) : (showNewsFeed ? techNews : filteredPosts).length === 0 ? (
           <div className="p-20 text-center bg-white border border-black/5 rounded-[2.5rem]">
              <h3 className="text-sm font-black uppercase tracking-widest text-gray-400">{activeFilter.toUpperCase()} EMPTY</h3>
-             <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mt-2">No content found in this category.</p>
+             <p className="text-xs font-bold text-gray-300 uppercase tracking-widest mt-2 px-8">No content found in this category.</p>
           </div>
         ) : (
-          posts.filter(p => {
-            if (activeFilter === 'all') return true;
-            if (activeFilter === 'videos') return p.post_type === 'video';
-            if (activeFilter === 'news') return p.post_type === 'news_link';
-            if (activeFilter === 'insights') return p.post_type === 'text';
-            if (activeFilter === 'posts') return p.post_type === 'image' || p.post_type === 'document';
-            return true;
-        }).map(post => (
-            <PostCard key={post.id} post={post} />
-          ))
+          <>
+            {(showNewsFeed ? techNews : filteredPosts).map((item, idx) => {
+               if (showNewsFeed) {
+                 return <NewsCard key={item.id || idx} article={item} />;
+               }
+               if (item.post_type === 'video') {
+                 return <MasteryStreamCard key={item.id} post={item} />;
+               }
+               if (item.post_type === 'insight' || item.post_type === 'text') {
+                 return <InsightCard key={item.id} post={item} />;
+               }
+               return <PostCard key={item.id} post={item} />;
+            })}
+
+            {/* Load More for News */}
+            {showNewsFeed && nextNewsPage && (
+              <button 
+                onClick={() => handleFetchTechNews(nextNewsPage)}
+                disabled={newsLoading}
+                className="w-full py-5 bg-gray-50 text-gray-400 hover:text-black border border-black/5 rounded-[2rem] font-black uppercase text-[10px] tracking-widest transition-all active:scale-95 disabled:opacity-50"
+              >
+                {newsLoading ? 'DISCOVERING INTEL...' : 'LOAD MORE INTELLIGENCE'}
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>

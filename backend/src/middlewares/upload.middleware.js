@@ -4,12 +4,13 @@ import cloudinary from "../config/cloudinary.js";
 import createError from "../utils/ApiError.js";
 
 // ─── Shared Storage Configuration ─────────────────────
-const createStorage = (folderName, allowedFormats) => {
+const createStorage = (folderName, allowedFormats, resourceType = "image") => {
   return new CloudinaryStorage({
     cloudinary,
     params: {
       folder: `eduverse/${folderName}`,
       allowed_formats: allowedFormats,
+      resource_type: resourceType,
       // transformations can be added here if needed
     },
   });
@@ -51,13 +52,15 @@ export const uploadImage = multer({
 });
 
 /**
- * Video Uploader (Posts, Lessons)
- * Max Size: 10MB limit
+ * Specialized Mastery Stream Uploader (Independent Storage)
+ * Hard Limit: 10MB (10485760 bytes) - Cloudinary Free Tier limit
  */
-export const uploadVideo = multer({
-  storage: createStorage("videos", ["mp4", "webm", "mov"]),
-  fileFilter: fileFilter(/mp4|webm|quicktime/),
+export const masteryStreamUploader = multer({
+  storage: createStorage("mastery", ["mp4", "webm", "mov"], "auto"),
+  fileFilter: fileFilter(/mp4|webm|quicktime|video\/x-matroska/), 
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB (Lowered for Cloudinary economy)
+    fileSize: 10485760, // 10MB Hard Literal
   },
 });
+
+export const uploadVideo = masteryStreamUploader; // For Backward Compatibility 

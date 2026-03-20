@@ -24,6 +24,20 @@ const errorHandler = (err, req, res, _next) => {
     return sendError(res, req, { errorCode: "TOKEN_EXPIRED" });
   }
 
+  // Multer Errors (Media Upload)
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return sendError(res, req, { 
+      errorCode: "BAD_REQUEST", 
+      message: "Publication exceeds enterprise size limit! Please optimize your Mastery Stream." 
+    });
+  }
+  if (err.code === "LIMIT_UNEXPECTED_FILE") {
+    return sendError(res, req, { 
+      errorCode: "BAD_REQUEST", 
+      message: "Unexpected file segment detected. Please use the independent Mastery Stream uploader." 
+    });
+  }
+
   // Operational errors thrown via createError() — safe to expose
   if (err.isOperational) {
     return sendError(res, req, {

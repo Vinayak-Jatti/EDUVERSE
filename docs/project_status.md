@@ -36,13 +36,17 @@ This document tracks the progress, completed modules, and timelines of the EduVe
     *   **Creator's Command Dashboard**: Self-delete ownership logic, optimistic UI, and Toastify UX.
     *   **Post-Count Triggers**: Real-time database counters for profile statistics.
     *   **Security Alignment**: Custom Helmet CSP settings for trusted educational domains.
+### 4. Insights Module 🟢 (COMPLETED)
+**Dates:** March 20, 2026
+*   **Database Schema**: Dedicated `insights` table (`008_insights.sql`) with real-time SQL triggers.
+*   **Features Implementated**: 
+    - **500-Character Validation**: High-performance backend service for concise academic thought. 🧠📏
+    - **Unified Feed Ecosystem**: Engineered `UNION ALL` SQL queries to mix posts and insights seamlessly. 🏁🏎️
+    - **The "Academic Signature" UI**: Premium Insight Cards with custom **Double-Quote Watermarks** and professional black text. 🎨💎
 
 ---
 
-
----
-
-## 🚧 4. Study Groups (Squads) Module (ACTIVE DEVELOPMENT)
+## 🚧 5. Study Groups (Squads) Module (ACTIVE DEVELOPMENT)
 - **Status**: Planning & Layout Phase.
 - **Goals**: 
     - [ ] **Squad Creation**: Allow users to form private/public study circles.

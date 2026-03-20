@@ -13,7 +13,7 @@ const FeedRibbon = ({ activeFilter, onFilterChange }) => {
     { id: 'all', label: 'All', icon: <LayoutGrid size={16} /> },
     { id: 'insights', label: 'Insights', icon: <Sparkles size={16} /> },
     { id: 'posts', label: 'Posts', icon: <FileText size={16} /> },
-    { id: 'videos', label: 'Videos', icon: <PlayCircle size={16} /> },
+    { id: 'videos', label: 'Mastery Streams', icon: <PlayCircle size={16} /> },
     { id: 'news', label: 'Tech News', icon: <Zap size={16} /> },
   ];
 
