@@ -5,7 +5,7 @@ import createError from "../../utils/ApiError.js";
 /**
  * Logic to get the home feed
  */
-export const getHomeFeed = async ({ currentUserId, limit = 10, offset = 0 }) => {
+export const getHomeFeed = async ({ currentUserId, limit = 54, offset = 0 }) => {
   const posts = await postRepository.getFeed({ currentUserId, limit, offset });
   
   if (posts.length === 0) return [];
@@ -30,27 +30,64 @@ export const getHomeFeed = async ({ currentUserId, limit = 10, offset = 0 }) => 
 };
 
 /**
+ * Logic to get a specific user's posts (profile)
+ */
+export const getUserPosts = async ({ targetUserId, currentUserId, limit = 54, offset = 0 }) => {
+    const posts = await postRepository.getUserPosts({ targetUserId, currentUserId, limit, offset });
+    if (posts.length === 0) return [];
+  
+    // Fetch media for all these posts efficiently
+    const postIds = posts.map(p => p.id);
+    const allMedia = await postRepository.getMediaForPosts(postIds);
+  
+    // Group media by post_id
+    const mediaMap = allMedia.reduce((acc, current) => {
+      if (!acc[current.post_id]) acc[current.post_id] = [];
+      acc[current.post_id].push(current);
+      return acc;
+    }, {});
+  
+    // Append media arrays to posts
+    return posts.map(p => ({
+      ...p,
+      media: mediaMap[p.id] || [],
+      has_liked: !!p.has_liked
+    }));
+};
+
+/**
  * Create a new post with optional media
  */
-export const createPost = async (userId, { body, visibility, media = [] }) => {
+export const createPost = async (userId, { body, visibility, media = [], link_url = null }) => {
   const postId = uuidv4();
   
-  // Decide post type based on media presence
-  let postType = "text";
-  if (media.length > 0) {
-    postType = media[0].media_type === "video" ? "video" : "image";
+  // 1. Unify Media: If there's an external link, add it to the media array
+  if (link_url) {
+    const isPDF = link_url.toLowerCase().endsWith('.pdf');
+    media.push({
+        url: link_url,
+        media_type: isPDF ? 'document' : 'image', // Assume image for other links, or we could add more detection
+        mime_type: isPDF ? 'application/pdf' : 'image/jpeg'
+    });
   }
 
-  // 1. Save core post record
+  // 2. Decide overall post type based on first media element
+  let postType = "text";
+  if (media.length > 0) {
+    postType = media[0].media_type;
+  }
+
+  // 3. Save core post record
   await postRepository.create({
     id: postId,
     user_id: userId,
     post_type: postType,
     body: body || null,
-    visibility: visibility || "public"
+    visibility: visibility || "public",
+    link_url: null // We now store it in post_media for unified management!
   });
 
-  // 2. Save media child records
+  // 4. Save unified media child records
   if (media.length > 0) {
     for (let i = 0; i < media.length; i++) {
         await postRepository.addMedia({

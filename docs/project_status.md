@@ -26,8 +26,31 @@ This document tracks the progress, completed modules, and timelines of the EduVe
 
 ---
 
-## Pending Modules (Roadmap)
-*   🟡 **Home Feed & Posts Module** (Text, Rich Media, Interactions)
-*   🔴 **Study Groups / Squads Module**
-*   🔴 **Resource & File Sharing Hub**
-*   🔴 **Notifications System**
+### 3. Home Feed & Posts Module 🟢 (COMPLETED)
+**Dates:** March 19, 2026 – March 20, 2026 (12:00 PM)
+*   **Database Schema**: Unified `posts` and `post_media` with `TEXT` URL support.
+*   **Features Implementated**:
+    *   **Unified Media System**: Links (Unsplash, YouTube, PDFs) and Raw Uploads (Cloudinary) managed in one "Smart Gallery."
+    *   **EduVerse Ribbon**: High-end navigation system with premium filtering (All, Insights, Posts, Videos, Tech News).
+    *   **Integrated Profile Feed**: Dynamic user portfolio with media-rich galleries and 54-post depth.
+    *   **Creator's Command Dashboard**: Self-delete ownership logic, optimistic UI, and Toastify UX.
+    *   **Post-Count Triggers**: Real-time database counters for profile statistics.
+    *   **Security Alignment**: Custom Helmet CSP settings for trusted educational domains.
+
+---
+
+
+---
+
+## 🚧 4. Study Groups (Squads) Module (ACTIVE DEVELOPMENT)
+- **Status**: Planning & Layout Phase.
+- **Goals**: 
+    - [ ] **Squad Creation**: Allow users to form private/public study circles.
+    - [ ] **Squad Discovery**: Gallery to find "Trending" or "Subject-based" squads.
+    - [ ] **Squad-Direct Posting**: Restricting feed content to specific squad memberships.
+
+## 🚧 5. Known Issues & Backlog (Next Up)
+- [ ] **Initials Fallback Avatar System**: Implementation deferred due to stability (Currently using Stable shapes).
+- [ ] **Auth State Optimization**: Need to refine the `useAuth` hook for rapid profile updates.
+- [ ] **Resource Sharing Hub** 🔴 (UPCOMING)
+- [ ] **Notifications System** 🔴 (UPCOMING)

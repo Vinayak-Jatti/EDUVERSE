@@ -39,7 +39,7 @@ export const getHomeFeed = asyncHandler(async (req, res) => {
   
   const posts = await postService.getHomeFeed({ 
     currentUserId, 
-    limit: parseInt(limit) || 10, 
+    limit: parseInt(limit) || 54, 
     offset: parseInt(offset) || 0 
   });
   
@@ -47,11 +47,29 @@ export const getHomeFeed = asyncHandler(async (req, res) => {
 });
 
 /**
+ * Handle fetching posts for a specific user profile
+ */
+export const getUserPosts = asyncHandler(async (req, res) => {
+    const { userId } = req.params;
+    const currentUserId = req.user?.id;
+    const { limit, offset } = req.query;
+    
+    const posts = await postService.getUserPosts({ 
+      targetUserId: userId, 
+      currentUserId, 
+      limit: parseInt(limit) || 54, 
+      offset: parseInt(offset) || 0 
+    });
+    
+    sendSuccess(res, req, { message: "User posts fetched successfully", data: posts });
+  });
+
+/**
  * Handle creating a new post
  */
 export const createPost = asyncHandler(async (req, res) => {
   const currentUserId = req.user.id;
-  const { body, visibility } = req.body;
+  const { body, visibility, link_url } = req.body;
   
   // Prepare media files if uploaded
   const media = [];
@@ -66,7 +84,7 @@ export const createPost = asyncHandler(async (req, res) => {
     });
   }
 
-  const post = await postService.createPost(currentUserId, { body, visibility, media });
+  const post = await postService.createPost(currentUserId, { body, visibility, media, link_url });
   
   sendCreated(res, req, { message: "Post created successfully", data: post });
 });

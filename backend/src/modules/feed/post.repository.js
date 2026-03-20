@@ -6,10 +6,10 @@ const postRepository = {
    * Create a new post
    */
   create: async (postData) => {
-    const { id, user_id, post_type, body, visibility } = postData;
+    const { id, user_id, post_type, body, visibility, link_url } = postData;
     const [result] = await pool.execute(
-      `INSERT INTO posts (id, user_id, post_type, body, visibility) VALUES (?, ?, ?, ?, ?)`,
-      [id, user_id, post_type, body, visibility]
+      `INSERT INTO posts (id, user_id, post_type, body, visibility, link_url) VALUES (?, ?, ?, ?, ?, ?)`,
+      [id, user_id, post_type, body, visibility, link_url || null]
     );
     return result;
   },
@@ -27,11 +27,16 @@ const postRepository = {
   },
 
   /**
-   * Get fresh feed posts (global or following based)
+   * Get fresh feed posts
    */
-  getFeed: async ({ currentUserId, limit = 20, offset = 0 }) => {
-    // Basic feed: Latest public posts + my posts
-    // We can also filter by following list later
+  getFeed: async ({ currentUserId, limit = 10, offset = 0 }) => {
+    // MySQL execute doesn't like 'undefined'. Convert to null.
+    const uid = currentUserId || null;
+    
+    // LIMIT and OFFSET MUST be numbers in prepared statements
+    const lmt = Number(limit);
+    const ost = Number(offset);
+
     const [rows] = await pool.execute(
       `SELECT 
         p.*, 
@@ -45,8 +50,33 @@ const postRepository = {
        JOIN user_profiles up ON u.id = up.user_id
        WHERE p.is_deleted = 0 AND (p.visibility = 'public' OR p.user_id = ?)
        ORDER BY p.created_at DESC
-       LIMIT ? OFFSET ?`,
-      [currentUserId, currentUserId, limit, offset]
+       LIMIT ${lmt} OFFSET ${ost}`,
+      [uid, uid]
+    );
+    return rows;
+  },
+
+  /**
+   * Get posts for a specific user (profile)
+   */
+  getUserPosts: async ({ targetUserId, currentUserId, limit = 54, offset = 0 }) => {
+    const uid = currentUserId || null;
+    const lmt = Number(limit);
+    const ost = Number(offset);
+
+    const [rows] = await pool.execute(
+      `SELECT 
+        p.*, 
+        up.username, 
+        up.display_name, 
+        up.avatar_url,
+        (SELECT COUNT(*) FROM likes WHERE user_id = ? AND target_type = 'post' AND target_id = p.id) as has_liked
+       FROM posts p
+       JOIN user_profiles up ON p.user_id = up.user_id
+       WHERE p.user_id = ? AND p.is_deleted = 0
+       ORDER BY p.created_at DESC
+       LIMIT ${lmt} OFFSET ${ost}`,
+      [uid, targetUserId]
     );
     return rows;
   },
@@ -70,6 +100,7 @@ const postRepository = {
    * Get single post by ID
    */
   findById: async (id, currentUserId) => {
+    const uid = currentUserId || null;
     const [rows] = await pool.execute(
       `SELECT 
         p.*, 
@@ -80,7 +111,7 @@ const postRepository = {
        FROM posts p
        JOIN user_profiles up ON p.user_id = up.user_id
        WHERE p.id = ? AND p.is_deleted = 0`,
-      [currentUserId, id]
+      [uid, id]
     );
     return rows[0] || null;
   },

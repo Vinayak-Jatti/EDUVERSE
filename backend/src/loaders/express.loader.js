@@ -10,7 +10,33 @@ import { apiLimiter } from "../middlewares/rateLimit.middleware.js";
 
 export default (app) => {
   // 🛡 Security
-  app.use(helmet());
+  app.use(helmet({
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "img-src": [
+            "'self'", 
+            "data:", 
+            "https://images.unsplash.com", 
+            "https://source.unsplash.com", 
+            "https://api.dicebear.com", 
+            "https://lh3.googleusercontent.com", 
+            "https://res.cloudinary.com",
+            "https://*.cloudinary.com"
+        ],
+        "media-src": [
+            "'self'", 
+            "data:", 
+            "https://res.cloudinary.com",
+            "https://*.cloudinary.com",
+            "https://www.youtube.com", 
+            "https://youtube.com"
+        ]
+      }
+    }
+  }));
   app.use(cors({ origin: config.cors.origin, credentials: true }));
   app.use(xssClean());
 

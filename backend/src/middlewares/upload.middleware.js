@@ -46,18 +46,18 @@ export const uploadImage = multer({
   storage: createStorage("images", ["jpg", "jpeg", "png", "webp", "gif"]),
   fileFilter: fileFilter(/jpeg|jpg|png|webp|gif/),
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB
+    fileSize: 3 * 1024 * 1024, // 3MB (Lowered for Cloudinary economy)
   },
 });
 
 /**
  * Video Uploader (Posts, Lessons)
- * Max Size: 20MB limit
+ * Max Size: 10MB limit
  */
 export const uploadVideo = multer({
   storage: createStorage("videos", ["mp4", "webm", "mov"]),
   fileFilter: fileFilter(/mp4|webm|quicktime/),
   limits: {
-    fileSize: 20 * 1024 * 1024, // 20MB
+    fileSize: 10 * 1024 * 1024, // 10MB (Lowered for Cloudinary economy)
   },
 });

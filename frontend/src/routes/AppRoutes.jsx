@@ -11,7 +11,7 @@ import Register from "../features/auth/pages/Register.jsx";
 import OTPVerification from "../features/auth/pages/OTPVerification.jsx";
 import ForgotPassword from "../features/auth/pages/ForgotPassword.jsx";
 import ResetPassword from "../features/auth/pages/ResetPassword.jsx";
-import Feed from "../features/post/pages/Feed.jsx";
+import Feed from "../features/feed/pages/FeedPage.jsx";
 import ProfilePage from "../features/profile/pages/ProfilePage.jsx";
 
 const AppRoutes = () => {

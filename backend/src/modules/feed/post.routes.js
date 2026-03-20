@@ -11,6 +11,7 @@ const router = Router();
  * Optional auth: see following/likes if logged in, else see public feed
  */
 router.get("/", optional, postController.getHomeFeed);
+router.get("/user/:userId", optional, postController.getUserPosts);
 
 // ─── Post Creation ───────────────────────────────────
 /**

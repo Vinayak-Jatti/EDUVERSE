@@ -17,19 +17,29 @@ import apiClient from "../../../services/apiClient";
 import { useAuth } from "../../../context/AuthContext";
 import ErrorMessage from "../../../components/shared/ErrorMessage";
 import EditProfileModal from "../components/EditProfileModal";
+import PostCard from "../../feed/components/PostCard";
+import { FileText, Image as ImageIcon } from "lucide-react";
 
 const ProfilePage = () => {
   const { identifier } = useParams();
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, refreshMe } = useAuth();
   const [profile, setProfile] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingPosts, setLoadingPosts] = useState(false);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("posts");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
+  
   useEffect(() => {
     fetchProfile();
   }, [identifier]);
+
+  useEffect(() => {
+    if (profile?.user_id) {
+        fetchUserPosts();
+    }
+  }, [profile?.user_id]);
 
   const fetchProfile = async () => {
     setLoading(true);
@@ -40,6 +50,18 @@ const ProfilePage = () => {
       setError(err.response?.data?.message || "Could not load profile");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUserPosts = async () => {
+    setLoadingPosts(true);
+    try {
+      const { data } = await apiClient.get(`/feed/user/${profile.user_id}`);
+      setPosts(data.data);
+    } catch (err) {
+      console.error("Could not load user posts", err);
+    } finally {
+      setLoadingPosts(false);
     }
   };
 
@@ -187,13 +209,23 @@ const ProfilePage = () => {
                className="min-h-[300px]"
              >
                 {activeTab === "posts" && (
-                  <div className="flex flex-col items-center justify-center p-20 text-center">
-                    <div className="w-16 h-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center mb-4 text-gray-300">
-                      <BookOpen className="w-8 h-8" />
-                    </div>
-                    <h3 className="font-black uppercase tracking-widest text-[11px] mb-2 text-gray-400">No Posts Yet</h3>
-                    <p className="text-gray-300 text-xs font-bold font-black">Shared thoughts will appear here.</p>
-                  </div>
+                   <div className="flex flex-col gap-6">
+                      {loadingPosts ? (
+                        <div className="flex justify-center p-12">
+                           <div className="w-8 h-8 border-4 border-black/10 border-t-black rounded-full animate-spin" />
+                        </div>
+                      ) : posts.length > 0 ? (
+                        posts.map(post => <PostCard key={post.id} post={post} />)
+                      ) : (
+                        <div className="flex flex-col items-center justify-center p-20 text-center">
+                          <div className="w-16 h-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center mb-4 text-gray-300">
+                            <BookOpen className="w-8 h-8" />
+                          </div>
+                          <h3 className="font-black uppercase tracking-widest text-[11px] mb-2 text-gray-400">No Posts Yet</h3>
+                          <p className="text-gray-300 text-xs font-bold font-black">Shared thoughts will appear here.</p>
+                        </div>
+                      )}
+                   </div>
                 )}
                 
                 {activeTab === "interests" && (
@@ -210,13 +242,35 @@ const ProfilePage = () => {
                   </div>
                 )}
 
-                {activeTab === "media" && (
-                   <div className="grid grid-cols-3 gap-2">
-                      <div className="aspect-square bg-gray-50 rounded-2xl animate-pulse" />
-                      <div className="aspect-square bg-gray-50 rounded-2xl animate-pulse" />
-                      <div className="aspect-square bg-gray-50 rounded-2xl animate-pulse" />
-                   </div>
-                )}
+                 {activeTab === "media" && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-2">
+                       {posts.flatMap(p => p.media || []).length > 0 ? (
+                         posts.flatMap(p => p.media || []).map((m, idx) => (
+                           <a key={idx} href={m.url} target="_blank" rel="noopener noreferrer" className="aspect-square relative group overflow-hidden rounded-[2.5rem] border border-black/5 bg-gray-50 shadow-lg hover:shadow-xl transition-all">
+                              {m.media_type === 'image' ? (
+                                <img src={m.url} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Gallery" />
+                              ) : m.media_type === 'video' ? (
+                                <div className="w-full h-full bg-black/10 flex items-center justify-center">
+                                   <ImageIcon size={32} className="text-gray-400" />
+                                </div>
+                              ) : (
+                                <div className="w-full h-full flex flex-col items-center justify-center bg-indigo-50/50 text-indigo-500 p-4 text-center">
+                                   <FileText size={40} className="mb-2 group-hover:scale-110 transition-transform" />
+                                   <span className="text-[9px] font-black uppercase tracking-widest truncate w-full">{m.url.split('/').pop()}</span>
+                                </div>
+                              )}
+                           </a>
+                         ))
+                       ) : (
+                         <div className="col-span-full py-20 text-center flex flex-col items-center gap-4">
+                            <div className="w-16 h-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center text-gray-300">
+                               <ImageIcon className="w-8 h-8" />
+                            </div>
+                            <h3 className="text-gray-400 font-bold uppercase tracking-widest text-[11px]">No Media Yet</h3>
+                         </div>
+                       )}
+                    </div>
+                 )}
              </motion.div>
           </AnimatePresence>
         </div>
@@ -226,7 +280,10 @@ const ProfilePage = () => {
         profile={profile} 
         isOpen={isEditModalOpen} 
         onClose={() => setIsEditModalOpen(false)} 
-        onUpdate={(updatedData) => setProfile(updatedData)}
+        onUpdate={(updatedData) => {
+          setProfile(updatedData);
+          if (profile.isMe) refreshMe();
+        }}
       />
     </div>
   );
