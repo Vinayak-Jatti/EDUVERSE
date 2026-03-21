@@ -6,6 +6,7 @@ import ErrorMessage from "../../../components/shared/ErrorMessage";
 
 const EditProfileModal = ({ profile, isOpen, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
+    username: profile.username || "",
     display_name: profile.display_name || "",
     bio: profile.bio || "",
     institution_name: profile.institution_name || "",
@@ -40,6 +41,12 @@ const EditProfileModal = ({ profile, isOpen, onClose, onUpdate }) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    if (formData.username && !/^[a-z0-9_]{3,30}$/.test(formData.username)) {
+      setError("Username can only contain 3-30 lowercase letters, numbers, and underscores.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const dbData = new FormData();
@@ -139,6 +146,14 @@ const EditProfileModal = ({ profile, isOpen, onClose, onUpdate }) => {
                 {/* Info Fields */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <Input 
+                    label="Username" 
+                    name="username" 
+                    icon={<span className="text-[11px] font-black">@</span>}
+                    value={formData.username} 
+                    onChange={handleChange}
+                    placeholder="unique_handle"
+                  />
+                  <Input 
                     label="Display Name" 
                     name="display_name" 
                     value={formData.display_name} 
@@ -153,7 +168,7 @@ const EditProfileModal = ({ profile, isOpen, onClose, onUpdate }) => {
                       onChange={handleChange}
                       className="w-full p-4 bg-gray-50 border border-black/5 rounded-2xl text-[11px] font-black uppercase tracking-widest focus:outline-none focus:border-black transition-colors appearance-none"
                     >
-                      <option value="school text-black font-sans">School</option>
+                      <option value="school">School</option>
                       <option value="college">College</option>
                       <option value="university">University</option>
                       <option value="professional">Professional</option>

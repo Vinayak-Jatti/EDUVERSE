@@ -18,6 +18,7 @@ export const getProfile = async (identifier, currentUserId = null) => {
   }
 
   const interests = await profileRepository.getInterests(profile.user_id);
+  const connectionCount = await connectionsRepository.getAcceptedConnectionCount(profile.user_id);
   
   let isFollowing = false;
   let connectionStatus = 'none';
@@ -42,6 +43,7 @@ export const getProfile = async (identifier, currentUserId = null) => {
   return { 
     ...profile, 
     interests,
+    connection_count: connectionCount,
     isFollowing,
     connectionStatus,
     isMe: currentUserId === profile.user_id
@@ -55,6 +57,14 @@ export const updateProfile = async (userId, updateData) => {
   // Prevent direct update of counts or user_id
   const { post_count, follower_count, following_count, user_id, id, ...allowedUpdates } = updateData;
   
+  // If username is being changed, check for uniqueness
+  if (allowedUpdates.username) {
+    const existingUser = await profileRepository.findByUsername(allowedUpdates.username);
+    if (existingUser && existingUser.user_id !== userId) {
+      throw createError("CONFLICT", "Username is already occupied. Please choose a different one.");
+    }
+  }
+
   await profileRepository.update(userId, allowedUpdates);
   return await getProfile(userId, userId);
 };

@@ -67,6 +67,19 @@ const connectionsRepository = {
   },
 
   /**
+   * Count accepted connections for a user
+   */
+  async getAcceptedConnectionCount(userId) {
+    const query = `
+      SELECT COUNT(*) as connection_count
+      FROM connections 
+      WHERE (requester_id = ? OR addressee_id = ?) AND status = 'accepted'
+    `;
+    const [rows] = await pool.execute(query, [userId, userId]);
+    return rows[0].connection_count;
+  },
+
+  /**
    * List all accepted connections for a user
    */
   async getConnections(userId) {

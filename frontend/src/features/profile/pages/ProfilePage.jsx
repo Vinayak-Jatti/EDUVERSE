@@ -23,6 +23,9 @@ import EditProfileModal from "../components/EditProfileModal";
 import PostCard from "../../feed/components/PostCard";
 import InsightCard from "../../feed/components/InsightCard";
 import ConnectButton from "../../connections/components/ConnectButton";
+import AvatarViewerModal from "../components/AvatarViewerModal";
+import ProfileBio from "../components/ProfileBio";
+import ProfileStats from "../components/ProfileStats";
 
 const ProfilePage = () => {
   const { identifier } = useParams();
@@ -35,6 +38,7 @@ const ProfilePage = () => {
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("posts");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAvatarViewerOpen, setIsAvatarViewerOpen] = useState(false);
   
   useEffect(() => {
     fetchProfile();
@@ -80,23 +84,17 @@ const ProfilePage = () => {
   if (!profile) return null;
 
   return (
-    <div className="max-w-4xl mx-auto pb-20">
-      {/* Cover Image */}
-      <div className="h-40 md:h-64 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden rounded-b-[2rem] md:rounded-b-[3rem]">
-        {profile.cover_url && (
-          <img src={profile.cover_url} alt="Cover" className="w-full h-full object-cover" />
-        )}
-      </div>
-
+    <div className="max-w-4xl mx-auto pb-20 pt-10">
       {/* Profile Header */}
-      <div className="px-4 md:px-6 -mt-14 md:-mt-16 relative z-10">
+      <div className="px-4 md:px-6 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 md:gap-6">
           <div className="flex flex-col md:flex-row items-center md:items-end gap-5 md:gap-6 text-center md:text-left">
             {/* Avatar */}
             <motion.div 
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-[2rem] md:rounded-[2.5rem] bg-white p-1.5 md:p-2 shadow-2xl overflow-hidden border border-black/5"
+              onClick={() => setIsAvatarViewerOpen(true)}
+              className="w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-[2rem] md:rounded-[2.5rem] bg-white p-1.5 md:p-2 shadow-2xl overflow-hidden border border-black/5 cursor-pointer hover:scale-105 transition-transform"
             >
               <img 
                 src={profile.avatar_url || `https://api.dicebear.com/7.x/shapes/svg?seed=${profile.username}`} 
@@ -128,7 +126,7 @@ const ProfilePage = () => {
                 )}
                 <div className="flex items-center gap-1">
                   <Calendar className="w-3 h-3" />
-                  <span>Joined {new Date(profile.created_at).toLocaleYear ? new Date(profile.created_at).getFullYear() : '2024'}</span>
+                  <span>Joined {profile.created_at ? new Date(profile.created_at).getFullYear() : '2024'}</span>
                 </div>
               </div>
             </div>
@@ -174,33 +172,16 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Bio */}
-        {profile.bio && (
-          <div className="mt-8 max-w-2xl px-1">
-            <p className="text-[14px] md:text-base text-gray-600 font-medium leading-relaxed">
-              {profile.bio}
-            </p>
-          </div>
-        )}
+        {/* Profile Bio & Interests (Modularized) */}
+        <ProfileBio profile={profile} />
 
-        {/* Stats */}
-        <div className="mt-8 flex items-center gap-6 md:gap-8 border-y border-black/5 py-6 overflow-x-auto no-scrollbar px-1">
-          <Stat label="Academic Posts" value={profile.post_count} />
-          <Stat label="Mutual Connections" value={profile.connection_count || 0} />
-          
-          <div className="flex items-center gap-2 ml-auto">
-            {profile.website_url && <SocialLink icon={<LinkIcon />} href={profile.website_url} />}
-            {profile.github_url && <SocialLink icon={<Github />} href={profile.github_url} />}
-            {profile.linkedin_url && <SocialLink icon={<Linkedin />} href={profile.linkedin_url} />}
-          </div>
-        </div>
+        <ProfileStats profile={profile} />
 
         {/* Content Tabs */}
         <div className="mt-6 md:mt-8">
           <div className="flex border-b border-black/5 mb-6 md:mb-8 overflow-x-auto no-scrollbar">
             <Tab label="Posts" active={activeTab === "posts"} onClick={() => setActiveTab("posts")} />
             <Tab label="Media" active={activeTab === "media"} onClick={() => setActiveTab("media")} />
-            <Tab label="Interests" active={activeTab === "interests"} onClick={() => setActiveTab("interests")} />
           </div>
 
           <AnimatePresence mode="wait">
@@ -235,20 +216,6 @@ const ProfilePage = () => {
                         </div>
                       )}
                    </div>
-                )}
-                
-                {activeTab === "interests" && (
-                  <div className="flex flex-wrap gap-3">
-                    {profile.interests && profile.interests.length > 0 ? (
-                      profile.interests.map(interest => (
-                        <span key={interest.id} className="px-5 py-3 bg-gray-50 border border-black/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-gray-500">
-                          #{interest.name}
-                        </span>
-                      ))
-                    ) : (
-                      <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">No interests listed</p>
-                    )}
-                  </div>
                 )}
 
                  {activeTab === "media" && (
@@ -292,18 +259,21 @@ const ProfilePage = () => {
         onUpdate={(updatedData) => {
           setProfile(updatedData);
           if (profile.isMe) refreshMe();
+          // Profile URL Sync upon username change
+          if (updatedData.username !== profile.username) {
+            navigate(`/profile/${updatedData.username}`, { replace: true });
+          }
         }}
+      />
+
+      <AvatarViewerModal 
+        isOpen={isAvatarViewerOpen} 
+        onClose={() => setIsAvatarViewerOpen(false)} 
+        profile={profile} 
       />
     </div>
   );
 };
-
-const Stat = ({ label, value }) => (
-  <div className="text-center md:text-left">
-    <div className="text-xl font-black tracking-tighter leading-none">{value}</div>
-    <div className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 mt-1">{label}</div>
-  </div>
-);
 
 const Tab = ({ label, active, onClick }) => (
   <button 
@@ -318,17 +288,6 @@ const Tab = ({ label, active, onClick }) => (
       />
     )}
   </button>
-);
-
-const SocialLink = ({ icon, href }) => (
-  <a 
-    href={href} 
-    target="_blank" 
-    rel="noopener noreferrer"
-    className="w-10 h-10 flex items-center justify-center bg-white border border-black/5 rounded-xl text-gray-400 hover:bg-black hover:text-white transition-all shadow-sm"
-  >
-    {React.cloneElement(icon, { size: 16 })}
-  </a>
 );
 
 export default ProfilePage;
