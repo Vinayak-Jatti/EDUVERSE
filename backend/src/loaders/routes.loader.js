@@ -7,6 +7,7 @@ import newsRoutes from "../modules/news/news.routes.js";
 import masteryRoutes from "../modules/mastery/mastery.routes.js";
 import connectionsRoutes from "../modules/connections/connections.routes.js";
 import chatRoutes from "../modules/chats/chats.routes.js";
+import contactRoutes from "../modules/contact/contact.routes.js";
 
 export default (app) => {
   // Base health check
@@ -24,4 +25,5 @@ export default (app) => {
   app.use("/api/v1/mastery-streams", masteryRoutes);
   app.use("/api/v1/connections", connectionsRoutes);
   app.use("/api/v1/chats", chatRoutes);
+  app.use("/api/v1/contact", contactRoutes);
 };

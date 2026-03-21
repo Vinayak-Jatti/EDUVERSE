@@ -10,10 +10,6 @@ const MainLayout = () => {
       <main className="relative z-10">
         <Outlet /> 
       </main>
-      
-      <footer className="py-20 px-6 lg:px-20 border-t border-black/5 opacity-40 text-[10px] font-bold uppercase tracking-[0.4em] text-center">
-        © 2024 EDUVERSE. All rights reserved.
-      </footer>
     </div>
   );
 };

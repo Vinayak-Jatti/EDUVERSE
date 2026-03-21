@@ -64,8 +64,6 @@ CREATE INDEX idx_insight_squad      ON insights(squad_id);
 -- TRIGGERS TO MAINTAIN MEMBER COUNTS
 -- ============================================================
 
-DELIMITER //
-
 -- Increment count on join
 CREATE TRIGGER trg_squad_member_insert
     AFTER INSERT ON squad_memberships
@@ -74,7 +72,7 @@ BEGIN
     UPDATE squads
     SET member_count = member_count + 1
     WHERE id = NEW.squad_id;
-END //
+END;
 
 -- Decrement count on leave
 CREATE TRIGGER trg_squad_member_delete
@@ -84,6 +82,4 @@ BEGIN
     UPDATE squads
     SET member_count = GREATEST(member_count - 1, 1)
     WHERE id = OLD.squad_id;
-END //
-
-DELIMITER ;
+END;

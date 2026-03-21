@@ -31,9 +31,7 @@ CREATE INDEX idx_insights_active           ON insights(is_deleted, created_at DE
 -- TRIGGERS TO UPDATE USER POST COUNTS (Since Insights act like micro-posts)
 -- ============================================================
 
-DELIMITER //
-
-DROP TRIGGER IF EXISTS trg_user_insight_insert //
+DROP TRIGGER IF EXISTS trg_user_insight_insert;
 CREATE TRIGGER trg_user_insight_insert
     AFTER INSERT ON insights
     FOR EACH ROW
@@ -41,9 +39,9 @@ BEGIN
     UPDATE user_profiles
     SET post_count = post_count + 1
     WHERE user_id = NEW.user_id;
-END //
+END;
 
-DROP TRIGGER IF EXISTS trg_user_insight_delete //
+DROP TRIGGER IF EXISTS trg_user_insight_delete;
 CREATE TRIGGER trg_user_insight_delete
     AFTER UPDATE ON insights
     FOR EACH ROW
@@ -53,6 +51,4 @@ BEGIN
         SET post_count = GREATEST(post_count - 1, 0)
         WHERE user_id = OLD.user_id;
     END IF;
-END //
-
-DELIMITER ;
+END;

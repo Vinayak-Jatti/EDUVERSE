@@ -1,6 +1,4 @@
-DELIMITER //
-
-DROP TRIGGER IF EXISTS trg_user_post_insert //
+DROP TRIGGER IF EXISTS trg_user_post_insert;
 CREATE TRIGGER trg_user_post_insert
     AFTER INSERT ON posts
     FOR EACH ROW
@@ -8,9 +6,9 @@ BEGIN
     UPDATE user_profiles
     SET post_count = post_count + 1
     WHERE user_id = NEW.user_id;
-END //
+END;
 
-DROP TRIGGER IF EXISTS trg_user_post_delete //
+DROP TRIGGER IF EXISTS trg_user_post_delete;
 CREATE TRIGGER trg_user_post_delete
     AFTER UPDATE ON posts
     FOR EACH ROW
@@ -20,9 +18,7 @@ BEGIN
         SET post_count = GREATEST(post_count - 1, 0)
         WHERE user_id = OLD.user_id;
     END IF;
-END //
-
-DELIMITER ;
+END;
 
 /* SYNC EXISTING COUNTS */
 UPDATE user_profiles up

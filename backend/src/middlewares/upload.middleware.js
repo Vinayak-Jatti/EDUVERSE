@@ -17,12 +17,15 @@ const createStorage = (folderName, allowedFormats, resourceType = "image") => {
 };
 
 // ─── File Filters ─────────────────────────────────────
-const fileFilter = (allowedTypes) => (req, file, cb) => {
-  if (allowedTypes.test(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(createError("BAD_REQUEST", `Invalid file type. Only ${allowedTypes} are allowed.`), false);
-  }
+const fileFilter = (allowedTypes) => {
+  return (req, file, cb) => {
+    if (allowedTypes.test(file.mimetype)) {
+      cb(null, true);
+    } else {
+      console.warn(`Signal Rejection: ${file.mimetype} is out of protocol.`);
+      cb(createError("BAD_REQUEST", `Manual Override Required: ${file.mimetype} is not a valid curriculum signal.`));
+    }
+  };
 };
 
 // ─── Exported Uploaders ───────────────────────────────
@@ -64,3 +67,14 @@ export const masteryStreamUploader = multer({
 });
 
 export const uploadVideo = masteryStreamUploader; // For Backward Compatibility 
+
+/**
+ * Career/Contact// Special uploader for Resumes/CVs (Memory Storage for buffering attachments)
+ */
+export const uploadResume = multer({
+  storage: multer.memoryStorage(),
+  fileFilter: fileFilter(/pdf|msword|vnd.openxmlformats-officedocument.wordprocessingml.document/),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+});

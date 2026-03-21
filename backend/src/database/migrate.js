@@ -5,54 +5,52 @@ import pool from "../config/db.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// MySQL error codes that mean "already exists" — safe to skip in reruns
 const IDEMPOTENT_CODES = new Set([
-  1050, // Table already exists
-  1061, // Duplicate key name (index)
+  1050, // Table exists
+  1060, // Column exists
+  1061, // Duplicate key (Index)
   1062, // Duplicate entry
-  1304, // Procedure/Function/Trigger already exists (old MySQL)
-  1359, // Trigger already exists (MySQL 8+)
-  1630, // Function already exists
+  1091, // Column/Key not found
+  1359, // Trigger exists
 ]);
 
-/**
- * Splits a SQL file into individual executable statements.
- * Correctly handles BEGIN...END compound statements (triggers, procedures)
- * so that semicolons inside them don't prematurely terminate the statement.
- */
 function splitStatements(sql) {
   const statements = [];
   let current = "";
-  let depth = 0; // BEGIN...END nesting depth
+  let depth = 0;
 
-  // Tokenise line by line for simplicity
   for (const line of sql.split("\n")) {
-    const trimmed = line.trimEnd();
-    const upper = trimmed.toUpperCase().trim();
+    const trimmedLine = line.trim();
+    const upperLine = trimmedLine.toUpperCase();
 
-    // Skip pure comment lines and blank lines at the top level
-    if (depth === 0 && (upper.startsWith("--") || upper === "")) continue;
+    // Skip comments/delimiter markers at depth 0
+    if (depth === 0 && (upperLine.startsWith("--") || upperLine.startsWith("DELIMITER") || upperLine === "")) continue;
 
-    // Track compound block depth.
-    //   - lines that are exactly "BEGIN" open a block
-    //   - lines that are exactly "END;" close a block  (NOT "END IF;" / "END LOOP;")
-    if (/^BEGIN$/i.test(upper)) depth++;
-    if (/^END;?$/i.test(upper) && depth > 0) depth = Math.max(0, depth - 1);
+    // Depth Tracking: Increase for BEGIN and IF
+    // Regex \b matches word boundaries to avoid catching them inside other words
+    const beginMatches = upperLine.match(/\bBEGIN\b/g);
+    const ifMatches = upperLine.match(/\bIF\b/g);
+    const endMatches = upperLine.match(/\bEND\b/g);
+    
+    // Note: This is an approximation. Real balance is complex in SQL.
+    if (beginMatches) depth += beginMatches.length;
+    if (ifMatches) depth += ifMatches.length;
+    if (endMatches) depth = Math.max(0, depth - endMatches.length);
 
-    current += trimmed + "\n";
+    current += line + "\n";
 
-    // A semicolon at depth=0 terminates the statement
-    if (depth === 0 && trimmed.endsWith(";")) {
-      const stmt = current.trim().replace(/;$/, "").trim();
-      if (stmt.length > 0) statements.push(stmt);
+    // Split at semicolon if we are at root level
+    if (depth === 0 && (trimmedLine.endsWith(";") || trimmedLine.endsWith("//"))) {
+      let stmt = current.trim();
+      // Cleanup trailing delimiters if used
+      stmt = stmt.replace(/;$/, "").replace(/\/\/$/, "").trim();
+      if (stmt) statements.push(stmt);
       current = "";
     }
   }
 
-  // Flush anything remaining (statement without trailing newline)
-  const remainder = current.trim().replace(/;$/, "").trim();
-  if (remainder.length > 0) statements.push(remainder);
-
+  const remainder = current.trim();
+  if (remainder) statements.push(remainder);
   return statements;
 }
 
@@ -69,8 +67,8 @@ const migrate = async () => {
     const rawSql = fs.readFileSync(path.join(migrationsDir, file), "utf8");
     const statements = splitStatements(rawSql);
 
-    let skipped = 0;
     let applied = 0;
+    let skipped = 0;
 
     for (const stmt of statements) {
       try {
@@ -83,13 +81,12 @@ const migrate = async () => {
           console.error(`\n❌ Fatal error in ${file}:`);
           console.error(`   errno  : ${err.errno}`);
           console.error(`   Message: ${err.message}`);
-          console.error(`   SQL    :\n${stmt.slice(0, 300)}`);
+          console.error(`   SQL    : ${stmt.slice(0, 300)}`);
           process.exit(1);
         }
       }
     }
-
-    console.log(`   ✅ Applied: ${applied}  ⏭  Skipped (already exists): ${skipped}`);
+    console.log(`   ✅ Success: ${applied} applied, ${skipped} skipped.`);
   }
 
   console.log("\n🏁 All migrations completed successfully.");

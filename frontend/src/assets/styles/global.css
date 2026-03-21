@@ -1,65 +1,88 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* --- TAILWIND CORE --- */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* LIGHT: #F8FAFC, #FFFFFF, #0F172A */
-  --background: #F8FAFC;
-  --surface: #FFFFFF;
-  --primary: #0F172A;
-  --accent-royal: #6366F1;
-  --accent-electric: #38BDF8;
-  --radius: 1.5rem;
+  --clay-bg: #FFFFFF;
+  --clay-shadow: #d1d9e6;
+  --clay-highlight: #ffffff;
 }
 
-/* --- SYSTEM RESET & TYPOGRAPHY --- */
-* {
-  box-sizing: border-box;
-  border-color: rgba(0, 0, 0, 0.05);
+@layer base {
+  body {
+    @apply bg-[#F8FAFC] text-black antialiased overflow-x-hidden;
+    font-family: 'Outfit', sans-serif;
+  }
 }
 
-body {
-  background-color: var(--background);
-  color: var(--primary);
-  font-family: 'Manrope', sans-serif;
-  margin: 0;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  /* PREMIUM CLAYMORPHISM: INFLATED 3D DESIGN */
+  .clay-card {
+    background: var(--clay-bg);
+    border-radius: 3.5rem;
+    box-shadow: 
+      12px 12px 24px #d1d9e6,
+      -12px -12px 24px #ffffff,
+      inset 4px 4px 8px rgba(255,255,255,0.8),
+      inset -4px -4px 8px rgba(0,0,0,0.02);
+    position: relative;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+  }
+
+  /* ARCHITECTURAL 3D ELEVATION ON HOVER */
+  .clay-card:hover {
+    transform: translateY(-16px) scale(1.03);
+    box-shadow: 
+      0 50px 100px -20px rgba(0, 0, 0, 0.15),
+      0 30px 60px -30px rgba(0, 0, 0, 0.1);
+  }
+
+  /* PREMIUM SKEUOMORPHISM: PHYSICAL PRESSED/BEVELED DESIGN */
+  .skeuo-node {
+    background: #FFFFFF;
+    box-shadow: 
+      6px 6px 12px #e2e8f0,
+      -6px -6px 12px #ffffff;
+    border-radius: 2rem;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .skeuo-node:hover {
+    box-shadow: 
+      inset 4px 4px 8px #e2e8f0,
+      inset -4px -4px 8px #ffffff;
+    transform: scale(0.98);
+  }
+
+  /* 3D EMBOSSED TYPOGRAPHY */
+  .text-3d {
+    text-shadow: 
+      1px 1px 0px #ffffff,
+      2px 2px 0px rgba(0,0,0,0.05);
+  }
+
+  .font-manrope {
+    font-family: 'Manrope', sans-serif;
+  }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 800; /* font-black */
-  letter-spacing: -0.05em; /* tracking-tighter */
-  line-height: 0.95;
+/* Custom Scrollbar for Premium Feel */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-/* --- REUSABLE COMPONENTS (USING CSS VARIABLES FOR FLEXIBILITY) --- */
-
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--radius);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
 }
 
-.glass-card:hover {
-  transform: translateY(-8px);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 40px -20px rgba(56, 189, 248, 0.15);
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
 }
-
-/* NOISE OVERLAY COMPONENT STYLES handled in Noise.jsx */

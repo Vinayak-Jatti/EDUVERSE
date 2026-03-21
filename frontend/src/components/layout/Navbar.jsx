@@ -1,109 +1,103 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { GraduationCap, Menu, X, Users, MessageSquare, Award, FolderOpen } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-
   const navLinks = [
-    { label: "Features", href: "/#features" },
-    { label: "About", href: "/#about" },
-    { label: "Contact", href: "/#contact" },
+    { name: "About", href: "/#about", icon: <Users size={18} /> },
+    { name: "Features", href: "/#features", icon: <Award size={18} /> },
+    { name: "Join Us", href: "/#apply", icon: <MessageSquare size={18} /> },
   ];
 
   return (
-    <>
-      <motion.nav 
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", damping: 20, stiffness: 100 }}
-        className="fixed top-0 left-0 w-full z-[100] p-4 lg:p-8 flex items-center justify-center pointer-events-none"
-      >
-        <div className="w-full max-w-7xl flex items-center justify-between mx-auto pointer-events-auto bg-white/50 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-4 md:p-0 rounded-3xl md:rounded-none border border-black/5 md:border-none">
-          {/* LOGO */}
-          <Link to="/" className="text-xl lg:text-2xl font-black tracking-tighter flex items-center gap-2 text-black">
-            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-black rounded-lg flex items-center justify-center">
-              <div className="w-4 h-4 lg:w-5 lg:h-5 bg-white rounded-sm" />
-            </div>
-            <span>EDUVERSE</span>
-          </Link>
-          
-          {/* DESKTOP LINKS */}
-          <div className="hidden md:flex items-center gap-10 bg-white/50 backdrop-blur-xl px-10 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border border-black/5 shadow-sm">
-            {navLinks.map((link) => (
-              <a key={link.label} href={link.href} className="hover:text-indigo-600 transition-colors">
-                {link.label}
-              </a>
-            ))}
-          </div>
+    <nav className="fixed top-0 left-0 w-full z-50 px-4 py-6 md:px-10">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        
+        {/* LOGO NODE */}
+        <Link to="/" className="flex items-center gap-3 text-2xl font-black tracking-tighter text-black group">
+           <div className="skeuo-node w-10 h-10 bg-white flex items-center justify-center border-2 border-white group-hover:bg-black group-hover:text-white transition-all duration-500 shadow-md">
+              <GraduationCap size={20} strokeWidth={2.5} />
+           </div>
+           <span className="hidden sm:inline">EDUVERSE</span>
+        </Link>
 
-          {/* DESKTOP CTA */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link to="/login" className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 hover:opacity-100 transition-opacity text-black">
-              Sign In
-            </Link>
-            <Link 
-              to="/register" 
-              className="px-8 py-3 bg-black text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:bg-gray-800 transition-all active:scale-95"
-            >
-              Get Started
-            </Link>
-          </div>
-
-          {/* MOBILE HAMBURGER TOGGLE */}
-          <button 
-            onClick={toggleMenu}
-            className="md:hidden p-2 text-black transition-colors"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+        {/* DESKTOP LINKS */}
+        <div className="hidden md:flex items-center gap-10">
+           {navLinks.map((link, idx) => (
+             <a key={idx} href={link.href} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-black transition-colors">
+               {link.name}
+             </a>
+           ))}
+           <Link to="/login" className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors">
+             Sign In
+           </Link>
+           <Link to="/register" 
+              className="skeuo-node px-8 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg border-none"
+              style={{ background: '#000000', color: '#FFFFFF', boxShadow: '0 10px 20px -5px rgba(79, 70, 229, 0.4)' }}
+           >
+             Join the Network
+           </Link>
         </div>
-      </motion.nav>
 
-      {/* MOBILE MENU OVERLAY */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="fixed top-20 left-4 right-4 z-[90] md:hidden bg-white border border-black/5 rounded-[2.5rem] shadow-2xl overflow-hidden p-8"
-          >
-            <div className="flex flex-col gap-6">
-              {navLinks.map((link) => (
-                <a 
-                  key={link.label} 
-                  href={link.href} 
-                  onClick={() => setIsOpen(false)}
-                  className="text-sm font-black uppercase tracking-[0.2em] text-gray-500 hover:text-black transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <div className="pt-6 border-t border-black/5 flex flex-col gap-4">
-                <Link 
-                  to="/login" 
-                  onClick={() => setIsOpen(false)}
-                  className="text-sm font-black uppercase tracking-[0.2em] text-black"
-                >
-                  Sign In
-                </Link>
-                <Link 
-                  to="/register" 
-                  onClick={() => setIsOpen(false)}
-                  className="w-full py-4 bg-black text-white rounded-full text-center text-[10px] font-black uppercase tracking-[0.2em] shadow-lg"
-                >
-                  Get Started
-                </Link>
+        {/* MOBILE MENU TOGGLE */}
+        <button 
+           onClick={() => setIsOpen(!isOpen)}
+           className="md:hidden skeuo-node w-12 h-12 flex items-center justify-center bg-white shadow-md border-none active:scale-90 transition-all z-[60]"
+        >
+           {isOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+
+        {/* MOBILE OVERLAY */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+               initial={{ opacity: 0, y: -20 }}
+               animate={{ opacity: 1, y: 0 }}
+               exit={{ opacity: 0, y: -20 }}
+               className="fixed inset-x-0 top-0 pt-28 pb-12 px-6 bg-white shadow-2xl z-50 border-b-8 border-indigo-600 rounded-b-[3rem]"
+            >
+              <div className="flex flex-col gap-6">
+                 {navLinks.map((link, idx) => (
+                   <a 
+                     key={idx} 
+                     href={link.href} 
+                     onClick={() => setIsOpen(false)}
+                     className="clay-card p-6 flex items-center justify-between group shadow-none"
+                   >
+                      <div className="flex items-center gap-4">
+                         <div className="skeuo-node w-10 h-10 flex items-center justify-center bg-gray-50 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                           {link.icon}
+                         </div>
+                         <h4 className="text-[10px] font-black uppercase tracking-[0.4em]">{link.name}</h4>
+                      </div>
+                      <Award size={14} className="text-indigo-600 opacity-20 group-hover:opacity-100 transition-opacity" />
+                   </a>
+                 ))}
+                 
+                 <div className="grid grid-cols-2 gap-4 mt-6">
+                    <Link to="/login" 
+                       onClick={() => setIsOpen(false)}
+                       className="skeuo-node p-5 flex items-center justify-center text-[10px] font-black uppercase tracking-widest text-black/50 hover:text-black shadow-sm"
+                    >
+                       Sign In
+                    </Link>
+                    <Link to="/register" 
+                       onClick={() => setIsOpen(false)}
+                       className="skeuo-node p-5 flex items-center justify-center text-[10px] font-black uppercase tracking-widest bg-black text-white shadow-xl"
+                       style={{ background: '#000000', boxShadow: '0 10px 20px -5px rgba(79, 70, 229, 0.4)' }}
+                    >
+                       Join Us
+                    </Link>
+                 </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </nav>
   );
 };
 
