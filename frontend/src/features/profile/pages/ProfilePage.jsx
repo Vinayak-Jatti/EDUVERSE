@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { 
   Settings, 
   MapPin, 
@@ -10,7 +11,9 @@ import {
   MoreHorizontal,
   Mail,
   Github,
-  Linkedin
+  Linkedin,
+  FileText,
+  Image as ImageIcon
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import apiClient from "../../../services/apiClient";
@@ -19,10 +22,11 @@ import ErrorMessage from "../../../components/shared/ErrorMessage";
 import EditProfileModal from "../components/EditProfileModal";
 import PostCard from "../../feed/components/PostCard";
 import InsightCard from "../../feed/components/InsightCard";
-import { FileText, Image as ImageIcon } from "lucide-react";
+import ConnectButton from "../../connections/components/ConnectButton";
 
 const ProfilePage = () => {
   const { identifier } = useParams();
+  const navigate = useNavigate();
   const { user: currentUser, refreshMe } = useAuth();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -66,20 +70,6 @@ const ProfilePage = () => {
     }
   };
 
-  const handleFollow = async () => {
-    try {
-      if (profile.isFollowing) {
-        await apiClient.delete(`/profile/follow/${profile.user_id}`);
-        setProfile({ ...profile, isFollowing: false, follower_count: profile.follower_count - 1 });
-      } else {
-        await apiClient.post(`/profile/follow/${profile.user_id}`);
-        setProfile({ ...profile, isFollowing: true, follower_count: profile.follower_count + 1 });
-      }
-    } catch (err) {
-      console.error("Follow action failed", err);
-    }
-  };
-
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
       <div className="w-8 h-8 border-4 border-black border-t-transparent rounded-full animate-spin" />
@@ -92,38 +82,38 @@ const ProfilePage = () => {
   return (
     <div className="max-w-4xl mx-auto pb-20">
       {/* Cover Image */}
-      <div className="h-48 md:h-64 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden rounded-b-[3rem]">
+      <div className="h-40 md:h-64 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden rounded-b-[2rem] md:rounded-b-[3rem]">
         {profile.cover_url && (
           <img src={profile.cover_url} alt="Cover" className="w-full h-full object-cover" />
         )}
       </div>
 
       {/* Profile Header */}
-      <div className="px-6 -mt-16 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="flex flex-col md:flex-row items-center md:items-end gap-6 text-center md:text-left">
+      <div className="px-4 md:px-6 -mt-14 md:-mt-16 relative z-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 md:gap-6">
+          <div className="flex flex-col md:flex-row items-center md:items-end gap-5 md:gap-6 text-center md:text-left">
             {/* Avatar */}
             <motion.div 
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] bg-white p-2 shadow-2xl overflow-hidden border border-black/5"
+              className="w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-[2rem] md:rounded-[2.5rem] bg-white p-1.5 md:p-2 shadow-2xl overflow-hidden border border-black/5"
             >
               <img 
                 src={profile.avatar_url || `https://api.dicebear.com/7.x/shapes/svg?seed=${profile.username}`} 
                 alt={profile.display_name} 
-                className="w-full h-full object-cover rounded-[2rem]"
+                className="w-full h-full object-cover rounded-[1.6rem] md:rounded-[2rem]"
               />
             </motion.div>
 
             <div className="mb-2">
-              <h1 className="text-3xl font-black tracking-tighter uppercase leading-none mb-1">
+              <h1 className="text-2xl md:text-3xl font-black tracking-tighter uppercase leading-none mb-1">
                 {profile.display_name}
               </h1>
-              <p className="text-gray-400 font-bold text-sm tracking-widest uppercase mb-4">
+              <p className="text-gray-400 font-bold text-[10px] md:text-sm tracking-widest uppercase mb-4">
                 @{profile.username}
               </p>
               
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-black uppercase tracking-widest text-gray-400">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-4 text-[9px] md:text-xs font-black uppercase tracking-widest text-gray-400">
                 {profile.institution_name && (
                   <div className="flex items-center gap-1">
                     <BookOpen className="w-3 h-3" />
@@ -133,36 +123,50 @@ const ProfilePage = () => {
                 {profile.city && (
                   <div className="flex items-center gap-1">
                     <MapPin className="w-3 h-3" />
-                    <span>{profile.city}, {profile.country}</span>
+                    <span>{profile.city}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1">
                   <Calendar className="w-3 h-3" />
-                  <span>Joined {new Date(profile.created_at).toLocaleDateString()}</span>
+                  <span>Joined {new Date(profile.created_at).toLocaleYear ? new Date(profile.created_at).getFullYear() : '2024'}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-2.5">
             {profile.isMe ? (
               <button 
                 onClick={() => setIsEditModalOpen(true)}
-                className="flex items-center gap-2 px-6 py-4 bg-black text-white rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-gray-800 transition-all active:scale-95 shadow-xl"
+                className="flex items-center gap-2 px-5 md:px-6 py-3.5 md:py-4 bg-black text-white rounded-xl md:rounded-2xl font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:bg-gray-800 transition-all active:scale-95 shadow-xl"
               >
                 <Settings className="w-4 h-4" />
                 Edit Profile
               </button>
             ) : (
               <>
-                <button 
-                  onClick={handleFollow}
-                  className={`px-8 py-4 ${profile.isFollowing ? 'bg-gray-100 text-black' : 'bg-black text-white'} rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all active:scale-95 shadow-xl`}
-                >
-                  {profile.isFollowing ? "Following" : "Follow"}
-                </button>
-                <button className="p-4 bg-white border border-black/5 rounded-2xl hover:bg-gray-50 transition-all active:scale-95 shadow-lg">
+                <div className="flex items-center gap-2">
+                  <ConnectButton targetUserId={profile.user_id} initialStatus={profile.connectionStatus || 'none'} />
+                  
+                  {/* MESSAGE INITIATOR */}
+                  <button 
+                    onClick={async () => {
+                      try {
+                        const { data } = await apiClient.post(`/chats/start/${profile.user_id}`);
+                        navigate("/chats"); // SPA Navigation
+                      } catch (err) {
+                        toast.error("Handshake Fault");
+                      }
+                    }}
+                    className="flex items-center gap-2 px-6 py-3 bg-white border border-black/5 text-black rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-gray-50 transition-all shadow-lg active:scale-95"
+                  >
+                    <Mail size={14} />
+                    Message
+                  </button>
+                </div>
+                
+                <button className="p-3.5 md:p-4 bg-white border border-black/5 rounded-xl md:rounded-2xl hover:bg-gray-50 transition-all active:scale-95 shadow-lg">
                   <MoreHorizontal className="w-5 h-5" />
                 </button>
               </>
@@ -172,18 +176,17 @@ const ProfilePage = () => {
 
         {/* Bio */}
         {profile.bio && (
-          <div className="mt-8 max-w-2xl px-2">
-            <p className="text-gray-600 font-medium leading-relaxed">
+          <div className="mt-8 max-w-2xl px-1">
+            <p className="text-[14px] md:text-base text-gray-600 font-medium leading-relaxed">
               {profile.bio}
             </p>
           </div>
         )}
 
         {/* Stats */}
-        <div className="mt-8 flex items-center gap-8 border-y border-black/5 py-6 overflow-x-auto no-scrollbar">
-          <Stat label="Posts" value={profile.post_count} />
-          <Stat label="Followers" value={profile.follower_count} />
-          <Stat label="Following" value={profile.following_count} />
+        <div className="mt-8 flex items-center gap-6 md:gap-8 border-y border-black/5 py-6 overflow-x-auto no-scrollbar px-1">
+          <Stat label="Academic Posts" value={profile.post_count} />
+          <Stat label="Mutual Connections" value={profile.connection_count || 0} />
           
           <div className="flex items-center gap-2 ml-auto">
             {profile.website_url && <SocialLink icon={<LinkIcon />} href={profile.website_url} />}
@@ -193,8 +196,8 @@ const ProfilePage = () => {
         </div>
 
         {/* Content Tabs */}
-        <div className="mt-8">
-          <div className="flex border-b border-black/5 mb-8">
+        <div className="mt-6 md:mt-8">
+          <div className="flex border-b border-black/5 mb-6 md:mb-8 overflow-x-auto no-scrollbar">
             <Tab label="Posts" active={activeTab === "posts"} onClick={() => setActiveTab("posts")} />
             <Tab label="Media" active={activeTab === "media"} onClick={() => setActiveTab("media")} />
             <Tab label="Interests" active={activeTab === "interests"} onClick={() => setActiveTab("interests")} />

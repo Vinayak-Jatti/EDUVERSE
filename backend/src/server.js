@@ -1,16 +1,26 @@
+import http from "http";
 import app from "./app.js";
 import config from "./config/env.js";
 import pool from "./config/db.js";
 import loadDb from "./loaders/db.loader.js";
+import socketLoader from "./loaders/socket.loader.js";
 
 const startServer = async () => {
   try {
-    // 🚀 Initialize Loaders
+    // 🚀 Initialize Database
     await loadDb();
 
-    // 🌐 Start Server
-    const server = app.listen(config.server.port, () => {
+    // ─── Create HTTP server ───────────────────────────────────────────────
+    const server = http.createServer(app);
+
+    // ─── Initialize Socket.io ─────────────────────────────────────────────
+    const io = socketLoader(server);
+    app.set("io", io); // Attach io to app globally for use in controllers
+
+    // 🌐 Start Listening
+    server.listen(config.server.port, () => {
       console.log(`🚀 Server running on port ${config.server.port} [${config.server.env}]`);
+      console.log(`💬 Socket.io logic initialized [${config.cors.origin}]`);
     });
 
     // ─── Graceful Shutdown ─────────────────────────────────────────────────

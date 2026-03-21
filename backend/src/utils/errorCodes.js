@@ -15,6 +15,8 @@ export const ERROR_CODES = Object.freeze({
   USER_NOT_FOUND:        { statusCode: 404, message: "User not found" },
   EMAIL_ALREADY_IN_USE:  { statusCode: 409, message: "Email already in use" },
   ALREADY_EXISTS:        { statusCode: 409, message: "Resource already exists" },
+  CONNECTION_ALREADY_EXISTS: { statusCode: 409, message: "Connection already exists" },
+  CONNECTION_PENDING:     { statusCode: 400, message: "A connection request is already pending" },
 
   // ─── Validation ───────────────────────────────
   VALIDATION_ERROR:      { statusCode: 422, message: "Validation failed" },

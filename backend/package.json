@@ -29,6 +29,7 @@
     "multer-storage-cloudinary": "^4.0.0",
     "mysql2": "^3.6.5",
     "nodemailer": "^8.0.2",
+    "socket.io": "^4.8.3",
     "uuid": "^9.0.0",
     "xss-clean": "^0.1.4"
   },

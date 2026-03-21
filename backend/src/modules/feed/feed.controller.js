@@ -1,6 +1,6 @@
 import asyncHandler from "../../utils/asyncHandler.js";
 import { sendSuccess, sendCreated } from "../../utils/response.js";
-import * as postService from "./post.service.js";
+import * as feedService from "./feed.service.js";
 import interactionRepository from "./interaction.repository.js";
 
 // ... previous code ...
@@ -37,7 +37,7 @@ export const getHomeFeed = asyncHandler(async (req, res) => {
   const currentUserId = req.user?.id;
   const { limit, offset } = req.query;
   
-  const posts = await postService.getHomeFeed({ 
+  const posts = await feedService.getHomeFeed({ 
     currentUserId, 
     limit: parseInt(limit) || 54, 
     offset: parseInt(offset) || 0 
@@ -54,7 +54,7 @@ export const getUserPosts = asyncHandler(async (req, res) => {
     const currentUserId = req.user?.id;
     const { limit, offset } = req.query;
     
-    const posts = await postService.getUserPosts({ 
+    const posts = await feedService.getUserPosts({ 
       targetUserId: userId, 
       currentUserId, 
       limit: parseInt(limit) || 54, 
@@ -84,7 +84,7 @@ export const createPost = asyncHandler(async (req, res) => {
     });
   }
 
-  const post = await postService.createPost(currentUserId, { body, visibility, media, link_url });
+  const post = await feedService.createPost(currentUserId, { body, visibility, media, link_url });
   
   sendCreated(res, req, { message: "Post created successfully", data: post });
 });
@@ -96,6 +96,6 @@ export const deletePost = asyncHandler(async (req, res) => {
   const currentUserId = req.user.id;
   const { postId } = req.params;
   
-  const result = await postService.deletePost(currentUserId, postId);
+  const result = await feedService.deletePost(currentUserId, postId);
   sendSuccess(res, req, { message: result.message });
 });

@@ -18,7 +18,7 @@ const FeedRibbon = ({ activeFilter, onFilterChange }) => {
   ];
 
   return (
-    <div className="mb-8 overflow-hidden rounded-[2.5rem] border border-black/5 bg-white shadow-sm">
+    <div className="mt-6 mb-10 overflow-hidden rounded-[2.5rem] border border-black/5 bg-white shadow-sm">
       <div className="p-1 flex items-center gap-1 overflow-x-auto no-scrollbar pb-10 -mb-10">
         {filters.map((filter) => {
           const isActive = activeFilter === filter.id;

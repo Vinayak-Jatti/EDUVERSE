@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as postController from "./post.controller.js";
+import * as feedController from "./feed.controller.js";
 import { protect, optional } from "../../middlewares/auth.middleware.js";
 import { uploadImage, uploadVideo } from "../../middlewares/upload.middleware.js";
 
@@ -10,8 +10,8 @@ const router = Router();
  * GET /api/v1/feed
  * Optional auth: see following/likes if logged in, else see public feed
  */
-router.get("/", optional, postController.getHomeFeed);
-router.get("/user/:userId", optional, postController.getUserPosts);
+router.get("/", optional, feedController.getHomeFeed);
+router.get("/user/:userId", optional, feedController.getUserPosts);
 
 // ─── Post Creation ───────────────────────────────────
 /**
@@ -26,7 +26,7 @@ router.post(
     { name: "images", maxCount: 4 },
     { name: "videos", maxCount: 1 }
   ]), 
-  postController.createPost
+  feedController.createPost
 );
 
 // ─── Post Interactions ─────────────────────────────
@@ -34,13 +34,13 @@ router.post(
  * POST /api/v1/feed/:postId/like
  * DELETE /api/v1/feed/:postId/like
  */
-router.post("/:postId/like", protect, postController.likePost);
-router.delete("/:postId/like", protect, postController.unlikePost);
+router.post("/:postId/like", protect, feedController.likePost);
+router.delete("/:postId/like", protect, feedController.unlikePost);
 
 // ─── Post Management ────────────────────────────────
 /**
  * DELETE /api/v1/feed/:postId
  */
-router.delete("/:postId", protect, postController.deletePost);
+router.delete("/:postId", protect, feedController.deletePost);
 
 export default router;

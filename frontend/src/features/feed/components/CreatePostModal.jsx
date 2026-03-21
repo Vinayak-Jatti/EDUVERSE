@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { X, Image as ImageIcon, Video, XCircle, Link as LinkIcon, Trash2 } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { X, Image as ImageIcon, Video, XCircle, Link as LinkIcon, Trash2, ShieldCheck, Sparkles, Globe, Lock, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import apiClient from "../../../services/apiClient";
 import { toast } from "react-toastify";
@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
   const [body, setBody] = useState("");
   const [visibility, setVisibility] = useState("public");
-  const [mediaFiles, setMediaFiles] = useState([]); // { file, preview, type }
+  const [mediaFiles, setMediaFiles] = useState([]); 
   const [assetLink, setAssetLink] = useState("");
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -15,20 +15,21 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
   const imageInputRef = useRef();
   const videoInputRef = useRef();
 
+  const isMastery = mediaFiles.some(m => m.type === "video");
+  const charLimit = 2000;
+
   const handleFileSelect = (e, type) => {
     const files = Array.from(e.target.files);
-    
-    // Cloudinary Free Tier Limit Validation
     const maxSize = type === "video" ? 10 * 1024 * 1024 : 3 * 1024 * 1024;
     const oversized = files.find(f => f.size > maxSize);
     
     if (oversized) {
-      toast.error(`"${oversized.name}" exceeds free-tier limit! Max for ${type === 'video' ? 'Mastery Stream' : 'Image'} is ${maxSize / 1024 / 1024}MB.`);
+      toast.error(`"${oversized.name}" too large! Max ${maxSize / 1024 / 1024}MB.`);
       return;
     }
 
     if (type === "video" && (mediaFiles.some(m => m.type === "video") || files.length > 1)) {
-        toast.warning("Only one Mastery Stream allowed per publication");
+        toast.warning("One Mastery Stream per publication.");
         return;
     }
 
@@ -38,8 +39,8 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
       type
     }));
 
-    setMediaFiles(prev => [...prev, ...newMedia].slice(0, 5)); // max 5 items
-    setAssetLink(""); // Clear link if adding media
+    setMediaFiles(prev => [...prev, ...newMedia].slice(0, 5));
+    setAssetLink(""); 
     setShowLinkInput(false);
   };
 
@@ -54,42 +55,31 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!body.trim() && mediaFiles.length === 0 && !assetLink) {
-        toast.info("Please add some content or an asset!");
-        return;
-    }
+    if (!body.trim() && mediaFiles.length === 0 && !assetLink) return;
 
     setLoading(true);
-
     try {
-      const isMastery = mediaFiles.some(m => m.type === "video");
       const url = isMastery ? "/mastery-streams" : "/feed";
-      
       const formData = new FormData();
       formData.append("body", body);
       formData.append("visibility", visibility);
       
       if (isMastery) {
-         // Dedicated Mastery Stream Protocol
          const masteryMedia = mediaFiles.find(m => m.type === "video");
          formData.append("media", masteryMedia.file);
       } else {
-         // Generic Publication Protocol
          if (assetLink) formData.append("link_url", assetLink);
          mediaFiles.forEach(m => {
            if (m.type === "image") formData.append("images", m.file);
          });
       }
 
-      const { data } = await apiClient.post(url, formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      });
-      
-      toast.success(isMastery ? "Mastery Stream LIVE! 🚀" : "Post live on EduVerse! 🚀");
+      const { data } = await apiClient.post(url, formData);
+      toast.success(isMastery ? "Mastery Stream Live 🚀" : "Intelligence Shared! 🚀");
       onPostCreated(data.data);
       handleClose();
     } catch (err) {
-      toast.error(err.response?.data?.message || "Hub Error: Please try again.");
+      toast.error(err.response?.data?.message || "Sync Error.");
     } finally {
       setLoading(false);
     }
@@ -112,152 +102,168 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            className="absolute inset-0 bg-gray-900/40 backdrop-blur-2xl"
           />
           
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            initial={{ scale: 0.95, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-black/5"
+            exit={{ scale: 0.95, opacity: 0, y: 30 }}
+            className="relative w-full max-w-2xl bg-white/90 backdrop-blur-3xl rounded-[3.5rem] shadow-[0_32px_128px_-12px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col max-h-[90vh] border border-white/40 group"
           >
-            {/* Header */}
-            <div className="px-8 py-6 border-b border-black/5 flex items-center justify-between shrink-0 bg-gray-50/50">
-               <h2 className="text-sm font-black uppercase tracking-[0.2em] text-gray-400">New Publication</h2>
-               <button onClick={handleClose} className="p-3 hover:bg-black hover:text-white rounded-2xl transition-all group">
-                 <X className="w-5 h-5 text-gray-400 group-hover:text-white" />
+            {/* Header Area */}
+            <div className="px-10 py-8 border-b border-black/[0.03] flex items-center justify-between shrink-0 bg-white/50">
+               <div className="flex items-center gap-4">
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${isMastery ? 'bg-indigo-600 text-white rotate-12' : 'bg-black text-white'}`}>
+                    {isMastery ? <ShieldCheck size={22} /> : <Sparkles size={22} />}
+                  </div>
+                  <div>
+                    <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-0.5">Manifest Intel</h2>
+                    <p className="text-xs font-bold text-gray-900 uppercase tracking-tight">
+                        {isMastery ? 'Mastery Mode Active' : 'General Publication'}
+                    </p>
+                  </div>
+               </div>
+               <button onClick={handleClose} className="p-4 hover:bg-black hover:text-white rounded-[1.8rem] transition-all group/close bg-gray-50/50">
+                 <X className="w-5 h-5 text-gray-400 group-hover/close:text-white transition-colors" />
                </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="overflow-y-auto w-full no-scrollbar flex-1 flex flex-col p-8 bg-white">
-               <textarea 
-                 value={body}
-                 onChange={(e) => setBody(e.target.value)}
-                 placeholder="Share your latest learning or achievement..."
-                 className="w-full text-lg font-medium text-gray-900 bg-transparent resize-none focus:outline-none min-h-[140px] placeholder:text-gray-300"
-               />
+            <form onSubmit={handleSubmit} className="overflow-y-auto w-full no-scrollbar flex-1 flex flex-col p-10">
+               <div className="relative mb-8">
+                  <textarea 
+                    value={body}
+                    onChange={(e) => setBody(e.target.value.slice(0, charLimit))}
+                    placeholder="Capture your breakthrough..."
+                    className="w-full text-xl font-semibold text-gray-900 bg-transparent resize-none focus:outline-none min-h-[160px] placeholder:text-gray-300 leading-relaxed"
+                  />
+                  <div className="absolute -bottom-4 right-0 flex items-center gap-2">
+                     <span className={`text-[9px] font-black tracking-widest ${body.length > charLimit * 0.9 ? 'text-rose-500' : 'text-gray-300'}`}>
+                        {body.length} / {charLimit}
+                     </span>
+                  </div>
+               </div>
 
-               {/* Asset Link Input Section */}
+               {/* Asset Link Input */}
                <AnimatePresence>
                  {showLinkInput && (
                    <motion.div 
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="mb-6 overflow-hidden"
+                    initial={{ height: 0, opacity: 0, marginBottom: 0 }}
+                    animate={{ height: 'auto', opacity: 1, marginBottom: 32 }}
+                    exit={{ height: 0, opacity: 0, marginBottom: 0 }}
+                    className="overflow-hidden"
                    >
-                     <div className="p-6 bg-indigo-50/50 rounded-3xl border border-indigo-100/50 flex flex-col gap-3">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-indigo-400">Attach Asset URL (PDF, VDO, IMG)</label>
-                        <div className="flex gap-2">
+                     <div className="p-8 bg-black/[0.02] rounded-[2.5rem] border border-black/[0.05] flex flex-col gap-4 relative group/link">
+                        <div className="absolute top-6 left-6 w-1 h-12 bg-indigo-500 rounded-full opacity-30" />
+                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-indigo-500 pl-4">External Protocol Link</label>
+                        <div className="flex gap-3 pl-4">
                           <input 
                             type="url"
+                            autoFocus
                             value={assetLink}
                             onChange={(e) => setAssetLink(e.target.value)}
-                            placeholder="https://example.com/asset.pdf"
-                            className="bg-white border border-indigo-100 rounded-xl px-4 py-3 text-xs w-full focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                            placeholder="https://cloud.hub/asset.pdf"
+                            className="bg-white/80 border border-black/[0.05] rounded-[1.5rem] px-6 py-4 text-xs w-full focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500/20 transition-all font-medium"
                           />
                           <button 
                             type="button"
                             onClick={() => { setAssetLink(""); setShowLinkInput(false); }}
-                            className="p-3 bg-white border border-indigo-100 text-indigo-400 rounded-xl hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-all"
+                            className="p-4 bg-white border border-black/[0.05] text-gray-400 rounded-[1.5rem] hover:bg-rose-50 hover:text-rose-500 hover:border-rose-100 transition-all"
                           >
-                            <Trash2 size={16} />
+                            <Trash2 size={18} />
                           </button>
                         </div>
-                        <p className="text-[9px] text-indigo-300 font-medium">This will appear as a linked asset in your post.</p>
                      </div>
                    </motion.div>
                  )}
                </AnimatePresence>
 
-               {/* Media & Link Previews */}
+               {/* Modern Media Previews */}
                {(mediaFiles.length > 0 || assetLink) && (
-                 <div className="grid grid-cols-2 gap-4 mt-2">
-                    {/* Raw Uploaded Files */}
+                 <div className={`grid gap-4 mb-8 ${mediaFiles.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                     {mediaFiles.map((m, idx) => (
-                      <div key={idx} className="relative aspect-video rounded-[2rem] overflow-hidden group border border-black/5 shadow-lg">
+                      <motion.div 
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        key={idx} 
+                        className="relative aspect-video rounded-[2.5rem] overflow-hidden group/media border border-black/[0.05] shadow-2xl shadow-black/5"
+                      >
                          {m.type === "image" ? (
-                           <img src={m.preview} className="w-full h-full object-cover" alt="Preview" />
+                           <img src={m.preview} className="w-full h-full object-cover transition-transform duration-700 group-hover/media:scale-110" alt="Preview" />
                          ) : (
                            <video src={m.preview} className="w-full h-full object-cover" />
                          )}
+                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover/media:opacity-100 transition-opacity" />
                          <button 
                            type="button"
                            onClick={() => removeMedia(idx)}
-                           className="absolute top-3 right-3 p-2 bg-black/70 backdrop-blur-md text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-xl"
+                           className="absolute top-4 right-4 p-3 bg-white/90 backdrop-blur-md text-gray-900 rounded-2xl opacity-0 group-hover/media:opacity-100 transition-all hover:bg-rose-500 hover:text-white shadow-xl translate-y-2 group-hover/media:translate-y-0"
                          >
-                           <XCircle size={20} />
+                           <X size={18} strokeWidth={3} />
                          </button>
-                      </div>
-                    ))}
-
-                    {/* External Link Preview */}
-                    {assetLink && (
-                      <div className="relative aspect-video rounded-[2rem] overflow-hidden group border border-indigo-100 shadow-lg bg-indigo-50/20">
-                         {assetLink.match(/\.(jpeg|jpg|gif|png|webp)$/i) ? (
-                            <img src={assetLink} className="w-full h-full object-cover" alt="Remote Preview" />
-                         ) : assetLink.match(/\.(pdf)$/i) ? (
-                            <div className="w-full h-full flex flex-col items-center justify-center p-4">
-                               <FileText size={32} className="text-indigo-500 mb-2" />
-                               <span className="text-[9px] font-black uppercase text-indigo-400">PDF Document</span>
-                            </div>
-                         ) : (
-                            <div className="w-full h-full flex flex-col items-center justify-center p-4">
-                               <LinkIcon size={32} className="text-indigo-500 mb-2" />
-                               <span className="text-[9px] font-black uppercase text-indigo-400">External Asset</span>
+                         {m.type === 'video' && (
+                            <div className="absolute bottom-6 left-6 px-4 py-2 bg-indigo-600/90 backdrop-blur-md text-white rounded-xl flex items-center gap-2">
+                                <ShieldCheck size={14} />
+                                <span className="text-[10px] font-black uppercase tracking-widest">Mastery Stream</span>
                             </div>
                          )}
-                         <button 
-                           type="button"
-                           onClick={() => setAssetLink("")}
-                           className="absolute top-3 right-3 p-2 bg-black/70 backdrop-blur-md text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-xl"
-                         >
-                           <XCircle size={20} />
-                         </button>
-                      </div>
-                    )}
+                      </motion.div>
+                    ))}
                  </div>
                )}
 
-               <div className="mt-8 pt-6 border-t border-black/5 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+               {/* Bottom Controls */}
+               <div className="mt-auto pt-10 border-t border-black/[0.03] flex items-center justify-between gap-6">
+                  <div className="flex items-center gap-4 bg-gray-50/50 p-2 rounded-[2rem] border border-black/[0.03]">
                      <input type="file" hidden ref={imageInputRef} multiple accept="image/*" onChange={(e) => handleFileSelect(e, "image")} />
                      <input type="file" hidden ref={videoInputRef} accept="video/*" onChange={(e) => handleFileSelect(e, "video")} />
                      
-                     <ToolButton onClick={() => imageInputRef.current.click()} icon={<ImageIcon size={18} />} label="IMAGE" color="text-indigo-500" />
-                     <ToolButton onClick={() => videoInputRef.current.click()} icon={<Video size={18} />} label="VIDEO" color="text-pink-500" />
-                     <ToolButton 
+                     <ToolAction onClick={() => imageInputRef.current.click()} active={mediaFiles.some(m => m.type === 'image')} icon={<ImageIcon size={20} />} activeColor="bg-indigo-600" />
+                     <ToolAction onClick={() => videoInputRef.current.click()} active={isMastery} icon={<Video size={20} />} activeColor="bg-fuchsia-600" />
+                     <ToolAction 
                        onClick={() => {
                         if (mediaFiles.length > 0) {
-                          toast.info("Cannot add link while media is attached!");
+                          toast.info("Media detected: Protocol asset links restricted.");
                           return;
                         }
                         setShowLinkInput(!showLinkInput);
                        }} 
-                       icon={<LinkIcon size={18} />} 
-                       label="LINK" 
-                       color={showLinkInput ? "text-white bg-black" : "text-emerald-500"} 
+                       active={showLinkInput}
+                       icon={<LinkIcon size={20} />} 
+                       activeColor="bg-emerald-600"
                      />
                   </div>
 
-                  <div className="flex items-center gap-4">
-                     <select 
-                       value={visibility}
-                       onChange={(e) => setVisibility(e.target.value)}
-                       className="bg-gray-50 border border-black/5 rounded-2xl px-5 py-3 text-[10px] font-black uppercase tracking-[0.15em] focus:outline-none focus:ring-2 focus:ring-black/5"
-                     >
-                       <option value="public">🌐 Public</option>
-                       <option value="connections_only">👥 Connections</option>
-                       <option value="private">🔒 Private</option>
-                     </select>
+                  <div className="flex items-center gap-4 flex-1 justify-end">
+                     <div className="relative group/visibility">
+                        <select 
+                          value={visibility}
+                          onChange={(e) => setVisibility(e.target.value)}
+                          className="appearance-none bg-white border border-black/[0.05] rounded-[1.8rem] pl-12 pr-10 py-4 text-[10px] font-black uppercase tracking-[0.2em] focus:outline-none hover:border-black/20 hover:shadow-xl hover:shadow-black/5 transition-all text-gray-500 cursor-pointer"
+                        >
+                          <option value="public">Global Intelligence</option>
+                          <option value="connections_only">Inner Circle</option>
+                          <option value="private">Personal Archive</option>
+                        </select>
+                        <div className="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                           {visibility === 'public' ? <Globe size={16} /> : visibility === 'private' ? <Lock size={16} /> : <Users size={16} />}
+                        </div>
+                     </div>
 
                      <button 
                        type="submit"
                        disabled={loading || (!body.trim() && mediaFiles.length === 0 && !assetLink)}
-                       className={`px-10 py-4 bg-black text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] hover:bg-gray-800 transition-all active:scale-95 shadow-2xl flex items-center gap-3 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                       className={`px-12 py-5 bg-black text-white rounded-[1.8rem] font-black uppercase tracking-[0.25em] text-[10px] hover:bg-gray-900 transition-all active:scale-95 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.2)] flex items-center gap-4 group/submit relative overflow-hidden`}
                      >
-                       {loading && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />}
-                       Publish
+                        <div className="relative z-10 flex items-center gap-4">
+                            {loading ? (
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            ) : (
+                                <Sparkles size={16} className="group-hover/submit:rotate-12 transition-transform" />
+                            )}
+                            {loading ? 'Transmitting' : 'Publish'}
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/submit:translate-x-full transition-transform duration-1000" />
                      </button>
                   </div>
                </div>
@@ -269,11 +275,11 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
   );
 };
 
-const ToolButton = ({ icon, label, color, onClick }) => (
+const ToolAction = ({ icon, active, activeColor, onClick }) => (
   <button 
     type="button"
     onClick={onClick}
-    className={`p-4 rounded-2xl bg-gray-50 border border-black/5 ${color} hover:bg-black hover:text-white transition-all hover:shadow-lg active:scale-90`}
+    className={`p-5 rounded-[1.5rem] transition-all duration-500 hover:scale-110 active:scale-90 flex items-center justify-center ${active ? `${activeColor} text-white shadow-xl` : 'bg-transparent text-gray-400 hover:text-black hover:bg-white'}`}
   >
     {icon}
   </button>

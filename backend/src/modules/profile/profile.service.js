@@ -1,4 +1,5 @@
 import profileRepository from "./profile.repository.js";
+import connectionsRepository from "../connections/connections.repository.js";
 import createError from "../../utils/ApiError.js";
 
 /**
@@ -19,14 +20,30 @@ export const getProfile = async (identifier, currentUserId = null) => {
   const interests = await profileRepository.getInterests(profile.user_id);
   
   let isFollowing = false;
+  let connectionStatus = 'none';
+
   if (currentUserId && currentUserId !== profile.user_id) {
+    // Check Following (Old logic if still used)
     isFollowing = await profileRepository.isFollowing(currentUserId, profile.user_id);
+
+    // Check Connections (New logic for ConnectButton)
+    const conn = await connectionsRepository.findConnection(currentUserId, profile.user_id);
+    if (conn) {
+      if (conn.status === 'accepted') {
+        connectionStatus = 'accepted';
+      } else if (conn.status === 'pending') {
+        connectionStatus = conn.requester_id === currentUserId ? 'pending_sent' : 'pending_received';
+      } else if (conn.status === 'blocked') {
+        connectionStatus = 'blocked';
+      }
+    }
   }
 
   return { 
     ...profile, 
     interests,
     isFollowing,
+    connectionStatus,
     isMe: currentUserId === profile.user_id
   };
 };

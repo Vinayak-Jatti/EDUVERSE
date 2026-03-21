@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, Users, Trophy, Settings, User } from "lucide-react";
+import { Home, BookOpen, Users, Trophy, Settings, User, MessageSquare } from "lucide-react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 const SidebarItem = ({ icon: Icon, label, href, active }) => (
@@ -39,6 +39,18 @@ const AppSidebar = () => {
           />
         )}
         <SidebarItem 
+          icon={MessageSquare} 
+          label="Messages" 
+          href="/chats" 
+          active={location.pathname === "/chats"} 
+        />
+        <SidebarItem 
+          icon={Users} 
+          label="My Network" 
+          href="/connections" 
+          active={location.pathname === "/connections"} 
+        />
+        <SidebarItem 
           icon={BookOpen} 
           label="Resources" 
           href="/resources" 
@@ -49,11 +61,7 @@ const AppSidebar = () => {
           href="/squads" 
           active={location.pathname === "/squads"} 
         />
-        <SidebarItem 
-          icon={Trophy} 
-          label="Achievements" 
-          href="/achievements" 
-        />
+
         
         <div className="mt-auto pb-32">
           <SidebarItem 

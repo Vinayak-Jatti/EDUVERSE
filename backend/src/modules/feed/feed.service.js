@@ -1,18 +1,18 @@
 import { v4 as uuidv4 } from "uuid";
-import postRepository from "./post.repository.js";
+import feedRepository from "./feed.repository.js";
 import createError from "../../utils/ApiError.js";
 
 /**
  * Logic to get the home feed
  */
 export const getHomeFeed = async ({ currentUserId, limit = 54, offset = 0 }) => {
-  const posts = await postRepository.getFeed({ currentUserId, limit, offset });
+  const posts = await feedRepository.getFeed({ currentUserId, limit, offset });
   
   if (posts.length === 0) return [];
 
   // Fetch media for all these posts efficiently
   const postIds = posts.map(p => p.id);
-  const allMedia = await postRepository.getMediaForPosts(postIds);
+  const allMedia = await feedRepository.getMediaForPosts(postIds);
 
   // Group media by post_id
   const mediaMap = allMedia.reduce((acc, current) => {
@@ -33,12 +33,12 @@ export const getHomeFeed = async ({ currentUserId, limit = 54, offset = 0 }) => 
  * Logic to get a specific user's posts (profile)
  */
 export const getUserPosts = async ({ targetUserId, currentUserId, limit = 54, offset = 0 }) => {
-    const posts = await postRepository.getUserPosts({ targetUserId, currentUserId, limit, offset });
+    const posts = await feedRepository.getUserPosts({ targetUserId, currentUserId, limit, offset });
     if (posts.length === 0) return [];
   
     // Fetch media for all these posts efficiently
     const postIds = posts.map(p => p.id);
-    const allMedia = await postRepository.getMediaForPosts(postIds);
+    const allMedia = await feedRepository.getMediaForPosts(postIds);
   
     // Group media by post_id
     const mediaMap = allMedia.reduce((acc, current) => {
@@ -78,7 +78,7 @@ export const createPost = async (userId, { body, visibility, media = [], link_ur
   }
 
   // 3. Save core post record
-  await postRepository.create({
+  await feedRepository.create({
     id: postId,
     user_id: userId,
     post_type: postType,
@@ -90,7 +90,7 @@ export const createPost = async (userId, { body, visibility, media = [], link_ur
   // 4. Save unified media child records
   if (media.length > 0) {
     for (let i = 0; i < media.length; i++) {
-        await postRepository.addMedia({
+        await feedRepository.addMedia({
             post_id: postId,
             media_type: media[i].media_type,
             url: media[i].url,
@@ -101,14 +101,14 @@ export const createPost = async (userId, { body, visibility, media = [], link_ur
   }
 
   // 3. Re-fetch full post object to return
-  return await postRepository.findById(postId, userId);
+  return await feedRepository.findById(postId, userId);
 };
 
 /**
  * Delete post logic
  */
 export const deletePost = async (userId, postId) => {
-  const result = await postRepository.delete(postId, userId);
+  const result = await feedRepository.delete(postId, userId);
   if (result.affectedRows === 0) {
     throw createError("NOT_FOUND", "Post not found or unauthorized to delete");
   }
