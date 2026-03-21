@@ -92,3 +92,7 @@ export const getFollowers = async (userId) => {
 export const getFollowing = async (userId) => {
   return await profileRepository.getFollowing(userId);
 };
+
+export const getConnections = async (userId) => {
+  return await connectionsRepository.getConnections(userId);
+};

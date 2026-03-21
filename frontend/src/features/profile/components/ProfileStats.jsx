@@ -19,10 +19,15 @@ export const SocialLink = ({ icon, href }) => (
   </a>
 );
 
-const ProfileStats = ({ profile }) => (
+const ProfileStats = ({ profile, onConnectionsClick }) => (
   <div className="mt-8 flex items-center gap-6 md:gap-8 border-y border-black/5 py-6 overflow-x-auto no-scrollbar px-1">
     <Stat label="post" value={profile.post_count} />
-    <Stat label="connections" value={profile.connection_count || 0} />
+    <div 
+      onClick={onConnectionsClick}
+      className="cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-xl transition-colors"
+    >
+      <Stat label="connections" value={profile.connection_count || 0} />
+    </div>
     
     <div className="flex items-center gap-2 ml-auto">
       {profile.website_url && <SocialLink icon={<LinkIcon />} href={profile.website_url} />}

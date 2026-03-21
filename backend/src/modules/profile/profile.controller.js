@@ -53,3 +53,9 @@ export const getFollowing = asyncHandler(async (req, res) => {
   const following = await profileService.getFollowing(userId);
   return sendSuccess(res, req, { data: following });
 });
+
+export const getConnections = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  const connections = await profileService.getConnections(userId);
+  return sendSuccess(res, req, { data: connections });
+});

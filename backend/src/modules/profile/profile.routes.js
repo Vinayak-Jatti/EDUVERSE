@@ -9,6 +9,7 @@ const router = Router();
 router.get("/:identifier", optional, profileController.getProfile);
 router.get("/:userId/followers", profileController.getFollowers);
 router.get("/:userId/following", profileController.getFollowing);
+router.get("/:userId/connections", profileController.getConnections);
 
 // ─── Actions (Protected) ───────────────────────────
 router.patch("/me", protect, uploadProfile.fields([{ name: "avatar", maxCount: 1 }, { name: "cover", maxCount: 1 }]), profileController.updateProfile);

@@ -26,6 +26,7 @@ import ConnectButton from "../../connections/components/ConnectButton";
 import AvatarViewerModal from "../components/AvatarViewerModal";
 import ProfileBio from "../components/ProfileBio";
 import ProfileStats from "../components/ProfileStats";
+import ConnectionsModal from "../components/ConnectionsModal";
 
 const ProfilePage = () => {
   const { identifier } = useParams();
@@ -39,6 +40,7 @@ const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("posts");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAvatarViewerOpen, setIsAvatarViewerOpen] = useState(false);
+  const [isConnectionsModalOpen, setIsConnectionsModalOpen] = useState(false);
   
   useEffect(() => {
     fetchProfile();
@@ -175,7 +177,10 @@ const ProfilePage = () => {
         {/* Profile Bio & Interests (Modularized) */}
         <ProfileBio profile={profile} />
 
-        <ProfileStats profile={profile} />
+        <ProfileStats 
+          profile={profile} 
+          onConnectionsClick={() => setIsConnectionsModalOpen(true)}
+        />
 
         {/* Content Tabs */}
         <div className="mt-6 md:mt-8">
@@ -270,6 +275,13 @@ const ProfilePage = () => {
         isOpen={isAvatarViewerOpen} 
         onClose={() => setIsAvatarViewerOpen(false)} 
         profile={profile} 
+      />
+
+      <ConnectionsModal 
+        isOpen={isConnectionsModalOpen} 
+        onClose={() => setIsConnectionsModalOpen(false)} 
+        userId={profile.user_id}
+        isMe={profile.isMe}
       />
     </div>
   );
