@@ -4,6 +4,7 @@ import AppLayout from "../layouts/AppLayout.jsx";
 import LandingPage from "../pages/LandingPage.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import PlaceholderPage from "../pages/PlaceholderPage.jsx";
+import SearchPage from "../pages/SearchPage.jsx";
 
 // Feature Routes
 import Login from "../features/auth/pages/Login.jsx";
@@ -43,6 +44,7 @@ const AppRoutes = () => {
           <Route path="/resources" element={<PlaceholderPage title="Resources" />} />
           <Route path="/achievements" element={<PlaceholderPage title="Achievements" />} />
           <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
+          <Route path="/search" element={<SearchPage />} />
         </Route>
       </Route>
 

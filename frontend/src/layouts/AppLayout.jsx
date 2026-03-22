@@ -1,14 +1,25 @@
 import { useState } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import AppSidebar from "../components/layout/AppSidebar.jsx";
-import { Bell, MessageSquare, Plus, Search, Users, Menu, X, LogOut } from "lucide-react";
+import { Bell, MessageSquare, Plus, Search, Users, Menu, X, LogOut, GraduationCap } from "lucide-react";
 import Noise from "../components/common/Noise.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const AppLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+      setIsMobileMenuOpen(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A]">
@@ -18,23 +29,25 @@ const AppLayout = () => {
       <nav className="fixed top-0 left-0 w-full h-20 md:h-24 bg-white/80 backdrop-blur-xl border-b border-black/5 flex items-center justify-center p-3 md:p-6 lg:px-12 z-[50]">
         <div className="w-full max-w-[1600px] flex items-center justify-between mx-auto">
           {/* LOGO */}
-          <Link to="/feed" className="flex items-center gap-2 md:gap-3 group shrink-0">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-black rounded-lg md:rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform shadow-xl">
-              <div className="w-4 h-4 md:w-5 md:h-5 bg-white rounded-sm" />
+          <Link to="/feed" className="flex items-center gap-3 text-lg md:text-xl font-black tracking-tighter text-black group shrink-0">
+            <div className="skeuo-node w-10 h-10 bg-white flex items-center justify-center border-2 border-white transition-all duration-500 shadow-md">
+              <GraduationCap size={20} strokeWidth={2.5} />
             </div>
-            <span className="text-lg md:text-xl font-black uppercase tracking-tighter block">EduVerse</span>
+            <span className="hidden sm:inline uppercase">EDUVERSE</span>
           </Link>
 
           {/* SEARCH (Hidden on mobile) */}
           <div className="max-w-md w-full mx-4 lg:mx-10 hidden md:block">
-            <div className="relative group">
+            <form onSubmit={handleSearch} className="relative group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-black transition-colors" />
               <input 
                 type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="SEARCH..." 
                 className="w-full bg-gray-50 border border-black/5 rounded-full py-2.5 pl-11 pr-6 text-[9px] font-black uppercase tracking-widest focus:outline-none focus:border-black transition-all"
               />
-            </div>
+            </form>
           </div>
 
           {/* NAV ACTIONS */}
@@ -54,7 +67,7 @@ const AppLayout = () => {
               {/* CREATE BUTTON */}
               <button className="hidden sm:flex items-center gap-2 bg-black text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl font-black uppercase tracking-widest text-[9px] hover:bg-gray-800 shadow-lg shadow-black/10 active:scale-95 transition-all">
                 <Plus className="w-4 h-4" />
-                <span className="hidden lg:block">Broadcast</span>
+                <span className="hidden lg:block">Create</span>
               </button>
               
               <Link to={`/profile/${user?.username}`} className="w-9 h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-gray-100 border border-black/5 overflow-hidden cursor-pointer hover:border-black transition-colors shrink-0 block">
@@ -64,6 +77,15 @@ const AppLayout = () => {
                    className="w-full h-full object-cover"
                  />
               </Link>
+
+              {/* LOGOUT BUTTON */}
+              <button 
+                onClick={logout}
+                className="hidden sm:flex p-2.5 rounded-lg md:rounded-xl hover:bg-gray-100 transition-colors text-gray-400 hover:text-rose-500"
+                title="Sign Out"
+              >
+                <LogOut className="w-4 h-4 md:w-5 md:h-5" />
+              </button>
 
               {/* MOBILE MENU TOGGLE */}
               <button 
@@ -88,6 +110,20 @@ const AppLayout = () => {
           >
             <div className="p-6 overflow-y-auto h-full">
               <div className="space-y-4 mb-8">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 ml-4 mb-4">Search</h3>
+                <form onSubmit={handleSearch} className="relative px-4">
+                  <Search className="absolute left-8 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input 
+                    type="text" 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search Profiles or Feed..." 
+                    className="w-full bg-gray-50 border border-black/5 rounded-2xl py-4 pl-12 pr-6 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:border-black transition-all"
+                  />
+                </form>
+              </div>
+
+              <div className="space-y-4 mb-8">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 ml-4 mb-4">Navigation</h3>
                 <MobileLink to="/feed" onClick={() => setIsMobileMenuOpen(false)}>Home Feed</MobileLink>
                 <MobileLink to="/groups" onClick={() => setIsMobileMenuOpen(false)}>Study Groups</MobileLink>
@@ -97,6 +133,16 @@ const AppLayout = () => {
                 <button className="w-full flex items-center justify-between p-4 bg-indigo-50 rounded-2xl text-indigo-600 font-black uppercase tracking-widest text-[10px]">
                   <span>Create New Post</span>
                   <Plus size={16} />
+                </button>
+              </div>
+
+              <div className="space-y-4 pt-8 border-t border-black/5 mt-10">
+                <button 
+                  onClick={logout}
+                  className="w-full flex items-center justify-between p-4 bg-rose-50 rounded-2xl text-rose-600 font-black uppercase tracking-widest text-[10px]"
+                >
+                  <span>Sign Out</span>
+                  <LogOut size={16} />
                 </button>
               </div>
             </div>
