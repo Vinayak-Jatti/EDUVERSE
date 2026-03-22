@@ -1,63 +1,26 @@
 import chatsService from "./chats.service.js";
 import asyncHandler from "../../utils/asyncHandler.js";
-import { sendSuccess } from "../../utils/response.js";
+import { sendSuccess } from "../../utils/response.js"; // 14. Format all responses using existing response formatter utility
 
-/**
- * List all conversations (My Chats)
- */
-export const getMyChats = asyncHandler(async (req, res) => {
-  const conversations = await chatsService.getMyChats(req.user.id);
-  return sendSuccess(res, req, { data: conversations });
+// 5. Build REST API: POST /chat/rooms — create or fetch a chat room
+export const createOrFetchRoom = asyncHandler(async (req, res) => {
+  const { targetUserId, type, communityId } = req.body;
+  const roomId = await chatsService.createOrFetchRoom(req.user.id, targetUserId, type, communityId);
+  return sendSuccess(res, req, { message: "Room synced.", data: { roomId } });
 });
 
-/**
- * Get messages for a conversation
- */
-export const getMessages = asyncHandler(async (req, res) => {
-  const { conversationId } = req.params;
-  const { limit, offset } = req.query;
-  const messages = await chatsService.getMessages(req.user.id, conversationId, limit, offset);
+// 7. Build REST API: GET /chat/rooms — list all rooms for logged-in user
+export const getMyRooms = asyncHandler(async (req, res) => {
+  const rooms = await chatsService.getMyRooms(req.user.id);
+  return sendSuccess(res, req, { data: rooms });
+});
+
+// 6. Build REST API: GET /chat/rooms/:roomId/messages — fetch paginated message history
+export const getRoomMessages = asyncHandler(async (req, res) => {
+  const { roomId } = req.params;
+  const limit = parseInt(req.query.limit) || 50;
+  const offset = parseInt(req.query.offset) || 0;
+  
+  const messages = await chatsService.getRoomMessages(req.user.id, roomId, limit, offset);
   return sendSuccess(res, req, { data: messages });
-});
-
-/**
- * Send a message
- */
-export const sendMessage = asyncHandler(async (req, res) => {
-  const { conversationId } = req.params;
-  const { content, type, mediaUrl, receiverId } = req.body;
-  
-  const messageId = await chatsService.sendMessage(req.user.id, conversationId, content, type, mediaUrl);
-  
-  // ─── Real-time Trigger (Socket) ─────────────────────────────────────────
-  const io = req.app.get("io");
-  if (io) {
-    const messagePayload = {
-      id: messageId,
-      conversation_id: conversationId,
-      sender_id: req.user.id,
-      content,
-      message_type: type || 'text',
-      created_at: new Date().toISOString()
-    };
-
-    // Emit to conversation room (Other user)
-    io.to(conversationId).emit("receive_message", messagePayload);
-    
-    // Notify receiver's main chat list for unread count
-    if (receiverId) {
-      io.to(receiverId).emit("refresh_chats");
-    }
-  }
-
-  return sendSuccess(res, req, { message: "Message Dispatched", data: { messageId } });
-});
-
-/**
- * Initialise a direct chat with a peer
- */
-export const initialiseChat = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
-  const conversationId = await chatsService.startConversation(req.user.id, userId);
-  return sendSuccess(res, req, { message: "Chat Sync Ready", data: { conversationId } });
 });

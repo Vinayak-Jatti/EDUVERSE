@@ -25,7 +25,7 @@ export default (app) => {
   app.use("/api/v1/news", newsRoutes);
   app.use("/api/v1/mastery-streams", masteryRoutes);
   app.use("/api/v1/connections", connectionsRoutes);
-  app.use("/api/v1/chats", chatRoutes);
+  app.use("/api/v1/chat", chatRoutes);
   app.use("/api/v1/contact", contactRoutes);
   app.use("/api/v1/search", searchRoutes);
 };

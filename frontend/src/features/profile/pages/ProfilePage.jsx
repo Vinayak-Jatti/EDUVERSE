@@ -153,7 +153,10 @@ const ProfilePage = () => {
                   <button 
                     onClick={async () => {
                       try {
-                        const { data } = await apiClient.post(`/chats/start/${profile.user_id}`);
+                        const { data } = await apiClient.post(`/chat/rooms`, { 
+                          targetUserId: profile.user_id, 
+                          type: 'direct' 
+                        });
                         navigate("/chats"); // SPA Navigation
                       } catch (err) {
                         toast.error("Handshake Fault");
