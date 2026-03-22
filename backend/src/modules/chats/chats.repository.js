@@ -96,10 +96,9 @@ const chatsRepository = {
       JOIN user_profiles up ON m.sender_id = up.user_id
       WHERE m.room_id = ? AND m.is_deleted = 0
       ORDER BY m.created_at DESC
-      LIMIT ? OFFSET ?
+      LIMIT ${Number(limit)} OFFSET ${Number(offset)}
     `;
-    // Typecast to handle MySQL strict offset sizing
-    const [rows] = await pool.execute(query, [roomId, Number(limit), Number(offset)]);
+    const [rows] = await pool.execute(query, [roomId]);
     return rows.reverse();
   },
 

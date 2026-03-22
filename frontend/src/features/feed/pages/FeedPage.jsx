@@ -23,6 +23,7 @@ const FeedPage = () => {
   const [newsLoading, setNewsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [creationMode, setCreationMode] = useState("post");
 
   useEffect(() => {
     fetchPosts();
@@ -105,11 +106,12 @@ const FeedPage = () => {
       {!showNewsFeed && (
         <>
           <CreateInsightBox 
-            onModalOpen={() => setIsModalOpen(true)} 
+            onModalOpen={(mode) => { setCreationMode(mode); setIsModalOpen(true); }} 
             onInsightCreated={handlePostCreated} 
           />
           <CreatePostModal 
             isOpen={isModalOpen} 
+            creationMode={creationMode}
             onClose={() => setIsModalOpen(false)} 
             onPostCreated={handlePostCreated} 
           />
