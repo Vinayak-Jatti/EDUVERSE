@@ -1,6 +1,8 @@
 import asyncHandler from "../../utils/asyncHandler.js";
 import { sendSuccess, sendCreated } from "../../utils/response.js";
 import * as feedService from "./feed.service.js";
+import * as interactionService from "./interaction.service.js";
+import * as reportService from "./report.service.js";
 import interactionRepository from "./interaction.repository.js";
 
 // ... previous code ...
@@ -11,11 +13,11 @@ import interactionRepository from "./interaction.repository.js";
 export const likePost = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { postId } = req.params;
+  const { targetType } = req.body;
   
-  await interactionRepository.addLike(userId, "post", postId);
+  await interactionRepository.addLike(userId, targetType || "post", postId);
   
-  // Triggers in MySQL will auto-update the like_count
-  sendSuccess(res, req, { message: "Post liked" });
+  sendSuccess(res, req, { message: "Content liked" });
 });
 
 /**
@@ -24,11 +26,74 @@ export const likePost = asyncHandler(async (req, res) => {
 export const unlikePost = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { postId } = req.params;
+  const { targetType } = req.body;
   
-  await interactionRepository.removeLike(userId, "post", postId);
+  await interactionRepository.removeLike(userId, targetType || "post", postId);
   
-  sendSuccess(res, req, { message: "Post unliked" });
+  sendSuccess(res, req, { message: "Content unliked" });
 });
+
+/**
+ * Handle adding a comment to a post
+ */
+export const addComment = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { postId } = req.params;
+  const { body, parentId, targetType } = req.body;
+
+  const result = await interactionService.addComment({ postId, targetType, userId, body, parentId });
+  sendCreated(res, req, { message: result.message, data: result });
+});
+
+/**
+ * Handle fetching comments for a post
+ */
+export const getPostComments = asyncHandler(async (req, res) => {
+  const { postId } = req.params;
+  const comments = await interactionService.getPostComments(postId);
+  sendSuccess(res, req, { message: "Comments fetched", data: comments });
+});
+
+/**
+ * Handle deleting a comment
+ */
+export const deleteComment = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { commentId } = req.params;
+
+  await interactionService.deleteComment(commentId, userId);
+  sendSuccess(res, req, { message: "Comment deleted" });
+});
+
+/**
+ * Handle toggling save for a post
+ */
+export const toggleSave = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { postId } = req.params;
+
+  const result = await interactionService.toggleSave(userId, postId);
+  sendSuccess(res, req, { message: `Post ${result.action}` });
+});
+
+/**
+ * Handle content reporting
+ */
+export const reportContent = asyncHandler(async (req, res) => {
+    const reporterId = req.user.id;
+    const { targetId } = req.params;
+    const { targetType, reason, description } = req.body;
+  
+    const result = await reportService.submitReport({ 
+      reporterId, 
+      targetType, 
+      targetId, 
+      reason, 
+      description 
+    });
+  
+    sendSuccess(res, req, { message: result.message });
+  });
 
 /**
  * Handle fetching home feed

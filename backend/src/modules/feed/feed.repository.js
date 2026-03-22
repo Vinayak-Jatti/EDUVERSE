@@ -36,11 +36,14 @@ const feedRepository = {
    */
   getFeed: async ({ currentUserId, limit = 10, offset = 0 }) => {
     const [rows] = await pool.execute(GET_FEED_QUERY(limit, offset), [
-      currentUserId || null,
-      currentUserId || null,
-      currentUserId || null,
-      currentUserId || null
+      currentUserId || null, // has_liked
+      currentUserId || null, // has_saved
+      currentUserId || null, // visibility
+      currentUserId || null, // has_liked (insight)
+      currentUserId || null  // visibility (insight)
     ]);
+    // NOTE: Insight branch in GET_FEED_QUERY currently has 0 as has_saved and doesn't use a parameter for it.
+    // Let's re-check the query I just wrote.
     return rows;
   },
 
@@ -49,10 +52,11 @@ const feedRepository = {
    */
   getUserPosts: async ({ targetUserId, currentUserId, limit = 54, offset = 0 }) => {
     const [rows] = await pool.execute(GET_USER_FEED_QUERY(limit, offset), [
-      currentUserId || null,
-      targetUserId,
-      currentUserId || null,
-      targetUserId
+      currentUserId || null, // has_liked
+      currentUserId || null, // has_saved
+      targetUserId,          // user_id check
+      currentUserId || null, // has_liked (insight)
+      targetUserId           // user_id check (insight)
     ]);
     return rows;
   },
@@ -77,7 +81,8 @@ const feedRepository = {
    */
   findById: async (id, currentUserId) => {
     const [rows] = await pool.execute(GET_SINGLE_FEED_ITEM_QUERY, [
-      currentUserId || null,
+      currentUserId || null, // has_liked
+      currentUserId || null, // has_saved
       id
     ]);
     return rows[0] || null;

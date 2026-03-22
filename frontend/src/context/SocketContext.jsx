@@ -13,14 +13,21 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       // Connect to socket server
-      const newSocket = io(import.meta.env.VITE_API_BASE_URL.replace('/api/v1', '') || "http://localhost:3000", {
+      const serverUrl = import.meta.env.VITE_API_BASE_URL 
+        ? import.meta.env.VITE_API_BASE_URL.replace('/api/v1', '') 
+        : "http://localhost:3000";
+
+      const newSocket = io(serverUrl, {
         withCredentials: true,
+        transports: ['websocket', 'polling'], // Prevent connection errors during hot reload
       });
 
       setSocket(newSocket);
 
-      // Identify this socket as the user
-      newSocket.emit("join_user", user.id);
+      newSocket.on("connect", () => {
+         // Identify this socket as the user
+         newSocket.emit("join_user", user.id);
+      });
 
       return () => {
         newSocket.close();

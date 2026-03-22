@@ -37,6 +37,28 @@ router.post(
 router.post("/:postId/like", protect, feedController.likePost);
 router.delete("/:postId/like", protect, feedController.unlikePost);
 
+/**
+ * POST /api/v1/feed/:postId/comments
+ * GET /api/v1/feed/:postId/comments
+ */
+router.post("/:postId/comments", protect, feedController.addComment);
+router.get("/:postId/comments", optional, feedController.getPostComments);
+
+/**
+ * DELETE /api/v1/feed/comments/:commentId
+ */
+router.delete("/comments/:commentId", protect, feedController.deleteComment);
+
+/**
+ * POST /api/v1/feed/:postId/save
+ */
+router.post("/:postId/save", protect, feedController.toggleSave);
+
+/**
+ * POST /api/v1/feed/:targetId/report
+ */
+router.post("/:targetId/report", protect, feedController.reportContent);
+
 // ─── Post Management ────────────────────────────────
 /**
  * DELETE /api/v1/feed/:postId

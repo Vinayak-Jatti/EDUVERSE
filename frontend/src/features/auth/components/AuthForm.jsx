@@ -96,7 +96,7 @@ export const AuthInput = ({ label, type = "text", ...props }) => {
         <input 
           type={isPassword ? (showPassword ? "text" : "password") : type}
           {...props} 
-          className="skeuo-node w-full p-4 md:p-5 bg-white border-2 border-transparent focus:border-indigo-600 transition-all text-[9px] md:text-[10px] font-black uppercase tracking-widest placeholder:text-gray-200 focus:outline-none shadow-inner" 
+          className="skeuo-node w-full p-4 md:p-5 bg-white border-2 border-black/10 focus:border-indigo-600 transition-all text-[9px] md:text-[10px] font-black uppercase tracking-widest placeholder:text-gray-200 focus:outline-none shadow-inner" 
         />
         {isPassword && (
           <button
@@ -117,7 +117,7 @@ export const AuthButton = ({ children, loading, ...props }) => (
     {...props}
     disabled={loading}
     className={`skeuo-node w-full py-5 md:py-6 text-white font-black uppercase tracking-widest text-[9px] md:text-[10px] hover:scale-[1.02] active:scale-[0.95] transition-all flex items-center justify-center gap-3 md:gap-4 border-none shadow-xl ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-    style={{ background: '#000000', color: '#FFFFFF', boxShadow: '0 10px 20px -5px rgba(79, 70, 229, 0.4)' }}
+    style={{ background: '#000000d6', color: '#FFFFFF', boxShadow: '0 10px 20px -5px rgba(79, 70, 229, 0.4)' }}
   >
     {loading ? (
       <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-white/10 border-t-white rounded-full animate-spin" />
