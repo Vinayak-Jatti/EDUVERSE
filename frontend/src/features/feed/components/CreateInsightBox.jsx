@@ -53,7 +53,7 @@ const CreateInsightBox = ({ onModalOpen, onInsightCreated }) => {
             ref={textareaRef}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Document a breakthrough..."
+            placeholder="Share your Thoughts..."
             className="w-full bg-transparent resize-none outline-none text-[13px] md:text-sm font-medium text-gray-900 placeholder:text-gray-400 no-scrollbar max-h-32"
             rows={1}
             disabled={isSubmitting}
@@ -82,14 +82,14 @@ const CreateInsightBox = ({ onModalOpen, onInsightCreated }) => {
 
       <div className="flex items-center justify-between border-t border-gray-50 pt-3 md:pt-4 px-1">
           <div className="flex items-center gap-1 md:gap-2">
-            <MinimalTool onClick={onModalOpen} icon={<ImageIcon size={13} />} color="text-indigo-500" label="Image" />
-            <MinimalTool onClick={onModalOpen} icon={<Video size={13} />} color="text-rose-500" label="Video" />
-            <MinimalTool onClick={onModalOpen} icon={<Zap size={13} />} color="text-emerald-500" label="Flash" />
+            <MinimalTool onClick={onModalOpen} icon={<ImageIcon size={13} />} color="text-indigo-500" label="share Knowledge" />
+            <MinimalTool onClick={onModalOpen} icon={<Video size={13} />} color="text-rose-500" label="share your solution" />
+            <MinimalTool onClick={onModalOpen} icon={<Zap size={13} />} color="text-emerald-500" label="insights" />
           </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 rounded-full border border-gray-100">
+          {/* <div className="flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 rounded-full border border-gray-100">
             <Sparkles size={8} className="text-amber-500" />
             <span className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-gray-400">Elite</span>
-          </div>
+          </div> */}
       </div>
     </motion.div>
   );
