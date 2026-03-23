@@ -138,16 +138,12 @@ export const createPost = asyncHandler(async (req, res) => {
   
   // Prepare media files if uploaded
   const media = [];
-  if (req.files?.images) {
-    req.files.images.forEach(file => {
-      media.push({ url: file.path, media_type: "image", mime_type: file.mimetype });
-    });
-  }
-  if (req.files?.videos) {
-    req.files.videos.forEach(file => {
-      media.push({ url: file.path, media_type: "video", mime_type: file.mimetype });
-    });
-  }
+  req.files?.images?.forEach(file => {
+    media.push({ url: file.path, media_type: "image", mime_type: file.mimetype });
+  });
+  req.files?.videos?.forEach(file => {
+    media.push({ url: file.path, media_type: "video", mime_type: file.mimetype });
+  });
 
   const post = await feedService.createPost(currentUserId, { body, visibility, media, link_url });
   

@@ -93,10 +93,14 @@ const profileRepository = {
   },
 
   follow: async (followerId, followingId) => {
-    await pool.execute(
-      `INSERT IGNORE INTO follows (follower_id, following_id) VALUES (?, ?)`,
-      [followerId, followingId]
-    );
+    try {
+      await pool.execute(
+        `INSERT IGNORE INTO follows (follower_id, following_id) VALUES (?, ?)`,
+        [followerId, followingId]
+      );
+    } catch (err) {
+      throw err;
+    }
   },
 
   unfollow: async (followerId, followingId) => {

@@ -53,7 +53,9 @@ export default (app) => {
   app.use(express.static("public"));
 
   // 🚦 Rate Limiting
-  app.use("/api", apiLimiter);
+  if (config.server.env !== 'test') {
+    app.use("/api", apiLimiter);
+  }
 
   // JSON Error Handling for malformed body
   app.use((err, req, res, next) => {

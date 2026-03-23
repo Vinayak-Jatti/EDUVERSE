@@ -1,0 +1,261 @@
+﻿
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90mD:/EDUVERSE/backend[39m
+
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration
+[22m[39m[DEMO] OTP for profa_14548914@example.com: 450929
+
+[0mPOST /api/v1/auth/register [32m201[0m 430.293 ms - 346[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration
+[22m[39m[DEMO] OTP for profb_65c15cbe@example.com: 524430
+
+[0mPOST /api/v1/auth/register [32m201[0m 331.310 ms - 346[0m
+[0mPOST /api/v1/auth/login [32m200[0m 160.568 ms - 539[0m
+[0mPOST /api/v1/auth/login [32m200[0m 164.743 ms - 539[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mGET /api/v1/profile/:username[2m > [22m[2mshould return 404 for non-existent profile
+[22m[39m[DEBUG] getProfile: Searching by username doesnotexist
+
+node.exe : [90mstderr[2m | 
+src/tests/integration/profile
+.integration.test.js[2m > 
+[22m[2mProfile Module ΓÇö 
+Integration[2m > 
+[22m[2mGET /api/v1/profile/
+:username[2m > 
+[22m[2mshould return 404 
+for non-existent profile
+At C:\Program 
+Files\nodejs\npx.ps1:29 
+char:3
++   & $NODE_EXE $NPX_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: ([90mst  
+  derr[2m...xistent profi   
+ le:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+[22m[39m[ERROR] [f41bced6-9
+fa8-44ad-9498-ce068750b9ff] 
+Profile not found {
+  errorCode: 
+[32m'USER_NOT_FOUND'[39m,
+  path: [32m'/api/v1/profile
+/doesnotexist'[39m,
+  method: [32m'GET'[39m,
+  stack: [32m'Error: 
+Profile not found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.getProfile (D:/EDUVERS
+E/backend/src/modules/profile
+/profile.service.js:19:22)\n'
+[39m +
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/profile/p
+rofile.controller.js:11:19'[
+39m
+}
+
+[0mGET /api/v1/profile/doesnotexist [33m404[0m 10.159 ms - 236[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mGET /api/v1/profile/:username[2m > [22m[2mshould return profile for valid username (userB profile fetched by userA)
+[22m[39m[DEBUG] getProfile: Searching by username profb_65c15cbe_8607
+
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mGET /api/v1/profile/:username[2m > [22m[2mshould return profile for valid username (userB profile fetched by userA)
+[22m[39m[DEBUG] isFollowing check: 82012d54-f936-4bcb-9282-6d47ce51b56d -> d0d1a67e-4f3c-49c1-aea8-df4ead7a6785
+
+[0mGET /api/v1/profile/profb_65c15cbe_8607 [32m200[0m 19.875 ms - 857[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mGET /api/v1/profile/:username[2m > [22m[2mshould show isMe=true when fetching own profile
+[22m[39m[DEBUG] getProfile: Searching by username profa_14548914_1297
+
+[0mGET /api/v1/profile/profa_14548914_1297 [32m200[0m 8.464 ms - 859[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mPATCH /api/v1/profile/me[2m > [22m[2mshould update profile fields and return 200
+[22m[39m[DEBUG] updateProfile: User 82012d54-f936-4bcb-9282-6d47ce51b56d { display_name: [32m'Updated Alphas'[39m, bio: [32m'Integration Testing is Fun'[39m }
+
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mPATCH /api/v1/profile/me[2m > [22m[2mshould update profile fields and return 200
+[22m[39m[DEBUG] getProfile: Searching by UUID 82012d54-f936-4bcb-9282-6d47ce51b56d
+
+[0mPATCH /api/v1/profile/me [32m200[0m 15.072 ms - 892[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mPATCH /api/v1/profile/me[2m > [22m[2mshould throw Error when attempting to update protected fields like user_id
+[22m[39m[DEBUG] updateProfile: User 82012d54-f936-4bcb-9282-6d47ce51b56d { user_id: [32m'HACKED-ID'[39m }
+
+[90mstderr[2m | src/tests/i
+ntegration/profile.integratio
+n.test.js[2m > 
+[22m[2mProfile Module ΓÇö 
+Integration[2m > 
+[22m[2mPATCH 
+/api/v1/profile/me[2m > 
+[22m[2mshould throw Error 
+when attempting to update 
+protected fields like user_id
+[22m[39m[ERROR] [8bb549aa-7
+def-4bb1-b1e3-0e52a8c6b3a4] 
+You have an error in your 
+SQL syntax; check the manual 
+that corresponds to your 
+MySQL server version for the 
+right syntax to use near 
+'WHERE user_id = ?' at line 
+1 {
+  errorCode: 
+[90mundefined[39m,
+  path: [32m'/api/v1/profile
+/me'[39m,
+  method: [32m'PATCH'[39m,
+  stack: [32m"Error: You 
+have an error in your SQL 
+syntax; check the manual 
+that corresponds to your 
+MySQL server version for the 
+right syntax to use near 
+'WHERE user_id = ?' at line 
+1\n"[39m +
+    [32m'    at 
+PromisePool.execute (D:\\EDUV
+ERSE\\backend\\node_modules\\
+mysql2\\lib\\promise\\pool.js
+:54:22)\n'[39m +
+    [32m'    at 
+Object.update (D:/EDUVERSE/ba
+ckend/src/modules/profile/pro
+file.repository.js:50:33)\n'
+[39m +
+    [32m'    at 
+Module.updateProfile (D:/EDUV
+ERSE/backend/src/modules/prof
+ile/profile.service.js:70:27)
+\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/profile/p
+rofile.controller.js:27:47\n'
+[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/utils/asyncHandle
+r.js:14:19\n'[39m +
+    [32m'    at 
+Layer.handle [as 
+handle_request] (D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\layer.js:95
+:5)\n'[39m +
+    [32m'    at next (D:\\ED
+UVERSE\\backend\\node_modules
+\\express\\lib\\router\\route
+.js:149:13)\n'[39m +
+    [32m'    at 
+multerMiddleware (D:\\EDUVERS
+E\\backend\\node_modules\\mul
+ter\\lib\\make-middleware.js:
+18:41)\n'[39m +
+    [32m'    at 
+Layer.handle [as 
+handle_request] (D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\layer.js:95
+:5)\n'[39m +
+    [32m'    at next (D:\\ED
+UVERSE\\backend\\node_modules
+\\express\\lib\\router\\route
+.js:149:13)'[39m
+}
+
+[0mPATCH /api/v1/profile/me [31m500[0m 10.311 ms - 239[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mFollowing Actions[2m > [22m[2mshould follow userB and return 200
+[22m[39m[DEBUG] Attempting follow: 82012d54-f936-4bcb-9282-6d47ce51b56d -> d0d1a67e-4f3c-49c1-aea8-df4ead7a6785
+
+[0mPOST /api/v1/profile/follow/d0d1a67e-4f3c-49c1-aea8-df4ead7a6785 [32m200[0m 13.851 ms - 242[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mFollowing Actions[2m > [22m[2mshould follow userB and return 200
+[22m[39m[DEBUG] getProfile: Searching by username profb_65c15cbe_8607
+
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mFollowing Actions[2m > [22m[2mshould follow userB and return 200
+[22m[39m[DEBUG] isFollowing check: 82012d54-f936-4bcb-9282-6d47ce51b56d -> d0d1a67e-4f3c-49c1-aea8-df4ead7a6785
+
+[0mGET /api/v1/profile/profb_65c15cbe_8607 [32m200[0m 11.982 ms - 856[0m
+[0mDELETE /api/v1/profile/follow/d0d1a67e-4f3c-49c1-aea8-df4ead7a6785 [32m200[0m 9.361 ms - 246[0m
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mFollowing Actions[2m > [22m[2mshould unfollow userB and updated follower count
+[22m[39m[DEBUG] getProfile: Searching by username profb_65c15cbe_8607
+
+[90mstdout[2m | src/tests/integration/profile.integration.test.js[2m > [22m[2mProfile Module ΓÇö Integration[2m > [22m[2mFollowing Actions[2m > [22m[2mshould unfollow userB and updated follower count
+[22m[39m[DEBUG] isFollowing check: 82012d54-f936-4bcb-9282-6d47ce51b56d -> d0d1a67e-4f3c-49c1-aea8-df4ead7a6785
+
+[0mGET /api/v1/profile/profb_65c15cbe_8607 [32m200[0m 10.343 ms - 857[0m
+ [31mΓ¥»[39m src/tests/integration/profile.integration.test.js [2m([22m[2m7 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1496[2mms[22m[39m
+       [32mΓ£ô[39m should return 404 for non-existent profile[32m 24[2mms[22m[39m
+       [32mΓ£ô[39m should return profile for valid username (userB profile fetched by userA)[32m 29[2mms[22m[39m
+       [32mΓ£ô[39m should show isMe=true when fetching own profile[32m 17[2mms[22m[39m
+       [32mΓ£ô[39m should update profile fields and return 200[32m 23[2mms[22m[39m
+[31m       [31m├ù[31m should throw Error when attempting to update protected fields like user_id[39m[32m 34[2mms[22m[39m
+       [32mΓ£ô[39m should follow userB and return 200[32m 43[2mms[22m[39m
+       [32mΓ£ô[39m should unfollow userB and updated follower count[32m 33[2mms[22m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3
+9m[1m[41m Failed Tests 1 [
+49m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/profile.in
+tegration.test.js[2m > 
+[22mProfile Module ΓÇö 
+Integration[2m > [22mPATCH 
+/api/v1/profile/me[2m > 
+[22mshould throw Error when 
+attempting to update 
+protected fields like user_id
+[31m[1mAssertionError[22m:
+ expected 500 to be 200 // 
+Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 500[39m
+
+[36m [2mΓ¥»[22m src/tests/
+integration/profile.integrati
+on.test.js:[2m126:26[22m[3
+9m
+
+    [90m124|[39m         
+[33m.[39m[34msend[39m({ 
+user_id[33m:[39m 
+[32m'HACKED-ID'[39m 
+})[33m;[39m
+    [90m125|[39m
+    [90m126|[39m       [34
+mexpect[39m(res[33m.[39mst
+atus)[33m.[39m[34mtoBe[39
+m([34m200[39m)[33m;[39m
+    [90m   |[39m           
+               [31m^[39m
+    [90m127|[39m       [34
+mexpect[39m(res[33m.[39mbo
+dy[33m.[39mdata[33m.[39mu
+ser_id)[33m.[39mnot[33m.[
+39m[34mtoBe[39m([32m'HACKE
+D-ID'[39m)[33m;[39m
+    [90m128|[39m     
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]Γ
+Ä»[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m6 passed[39m[22m[90m (7)[39m
+[2m   Start at [22m 11:06:01
+[2m   Duration [22m 4.86s[2m (transform 828ms, setup 0ms, import 2.88s, tests 1.50s, environment 0ms)[22m
+

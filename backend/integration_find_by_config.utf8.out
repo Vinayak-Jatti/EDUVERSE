@@ -1,0 +1,146 @@
+﻿
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90mD:/EDUVERSE/backend[39m
+
+ [31mΓ¥»[39m src/tests/integration/auth.integration.test.js [2m([22m[2m21 tests[22m[2m | [22m[33m21 skipped[39m[2m)[22m[32m 49[2mms[22m[39m
+     [2m[90mΓåô[39m[22m GET / should return 200 with running status
+     [2m[90mΓåô[39m[22m should return 422 when required fields are missing
+     [2m[90mΓåô[39m[22m should register a new user and return 201 with userId and email
+     [2m[90mΓåô[39m[22m should return 409 when attempting to register with the same email
+     [2m[90mΓåô[39m[22m should return 403 when trying to login before email is verified
+     [2m[90mΓåô[39m[22m should return 400 for an invalid/wrong OTP
+     [2m[90mΓåô[39m[22m should verify OTP from DB and return tokens
+     [2m[90mΓåô[39m[22m should return 404 for unknown email
+     [2m[90mΓåô[39m[22m should return 401 for wrong password
+     [2m[90mΓåô[39m[22m should return 422 when email or password is missing
+     [2m[90mΓåô[39m[22m should login successfully and return user object with correct fields
+     [2m[90mΓåô[39m[22m should return 401 when no token is provided
+     [2m[90mΓåô[39m[22m should return 401 for an invalid/tampered token
+     [2m[90mΓåô[39m[22m should return 200 with current user data for a valid token
+     [2m[90mΓåô[39m[22m should return 401 when no refresh token is provided
+     [2m[90mΓåô[39m[22m should return 401 for an invalid refresh token
+     [2m[90mΓåô[39m[22m should issue a new access token with a valid refresh token
+     [2m[90mΓåô[39m[22m should return 200 and clear auth state
+     [2m[90mΓåô[39m[22m should return safe anti-enumeration message even for unknown email
+     [2m[90mΓåô[39m[22m should return 200 with safe message for valid registered email
+     [2m[90mΓåô[39m[22m should return 404 for an unregistered route
+node.exe : 
+At C:\Program 
+Files\nodejs\npx.ps1:29 
+char:3
++   & $NODE_EXE $NPX_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (:String  
+  ) [], RemoteException
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+[1m[41m Failed Suites 1 [49
+m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/auth.integ
+ration.test.js[2m [ src/test
+s/integration/auth.integratio
+n.test.js ][22m
+[31m[1mError[22m: Table 
+'eduverse.auth_otps' doesn't 
+exist[39m
+[90m [2mΓ¥»[22m PromisePoo
+lConnection.execute node_modu
+les/mysql2/lib/promise/connec
+tion.js:[2m47:22[22m[39m
+[36m [2mΓ¥»[22m dbCleanup 
+src/tests/integration/helpers
+/db.helper.js:[2m26:18[22m
+[39m
+    [90m 24|[39m     
+[35mawait[39m conn[33m.[3
+9m[34mexecute[39m([32m'SET
+ FOREIGN_KEY_CHECKS = 
+0'[39m)[33m;[39m
+    [90m 25|[39m     
+[35mfor[39m 
+([35mconst[39m table 
+[35mof[39m tables) {
+    [90m 26|[39m       
+[35mawait[39m conn[33m.[3
+9m[34mexecute[39m([32m`DEL
+ETE FROM \`[39m[36m${[39mt
+able[36m}[39m[32m\` WHERE 
+1`[39m)[33m;[39m
+    [90m   |[39m           
+       [31m^[39m
+    [90m 27|[39m     }
+    [90m 28|[39m     
+[35mawait[39m conn[33m.[3
+9m[34mexecute[39m([32m'SET
+ FOREIGN_KEY_CHECKS = 
+1'[39m)[33m;[39m
+[90m [2mΓ¥»[22m src/tests/
+integration/auth.integration.
+test.js:[2m38:3[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/2]Γ
+Ä»[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/auth.integ
+ration.test.js[2m [ src/test
+s/integration/auth.integratio
+n.test.js ][22m
+[31m[1mError[22m: Table 
+'eduverse.auth_otps' doesn't 
+exist[39m
+[90m [2mΓ¥»[22m PromisePoo
+lConnection.execute node_modu
+les/mysql2/lib/promise/connec
+tion.js:[2m47:22[22m[39m
+[36m [2mΓ¥»[22m dbCleanup 
+src/tests/integration/helpers
+/db.helper.js:[2m26:18[22m
+[39m
+    [90m 24|[39m     
+[35mawait[39m conn[33m.[3
+9m[34mexecute[39m([32m'SET
+ FOREIGN_KEY_CHECKS = 
+0'[39m)[33m;[39m
+    [90m 25|[39m     
+[35mfor[39m 
+([35mconst[39m table 
+[35mof[39m tables) {
+    [90m 26|[39m       
+[35mawait[39m conn[33m.[3
+9m[34mexecute[39m([32m`DEL
+ETE FROM \`[39m[36m${[39mt
+able[36m}[39m[32m\` WHERE 
+1`[39m)[33m;[39m
+    [90m   |[39m           
+       [31m^[39m
+    [90m 27|[39m     }
+    [90m 28|[39m     
+[35mawait[39m conn[33m.[3
+9m[34mexecute[39m([32m'SET
+ FOREIGN_KEY_CHECKS = 
+1'[39m)[33m;[39m
+[90m [2mΓ¥»[22m src/tests/
+integration/auth.integration.
+test.js:[2m42:3[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/2]Γ
+Ä»[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [33m21 skipped[39m[90m (21)[39m
+[2m   Start at [22m 10:05:52
+[2m   Duration [22m 1.81s[2m (transform 503ms, setup 0ms, import 1.54s, tests 49ms, environment 0ms)[22m
+

@@ -7,11 +7,9 @@ import createError from "../../utils/ApiError.js";
  */
 export const getProfile = async (identifier, currentUserId = null) => {
   let profile;
-  if (identifier.length === 36) { // Assume UUID
-    profile = await profileRepository.findByUserId(identifier);
-  } else {
-    profile = await profileRepository.findByUsername(identifier);
-  }
+  profile = identifier.length === 36 // Assume UUID if length is 36 (UUID)
+    ? await profileRepository.findByUserId(identifier)
+    : await profileRepository.findByUsername(identifier);
 
   if (!profile) {
     throw createError("USER_NOT_FOUND", "Profile not found");

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import insightRepository from "./insight.repository.js";
 import createError from "../../utils/ApiError.js";
 
-export const createInsight = async (userId, content, visibility) => {
+export const createInsight = async ({ userId, content, visibility }) => {
     if (!content || content.trim().length === 0) {
         throw createError("MISSING_FIELDS", "Insight content cannot be empty.");
     }

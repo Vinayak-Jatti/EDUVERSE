@@ -1,30 +1,25 @@
-import SearchService from "./search.service.js";
+import asyncHandler from "../../utils/asyncHandler.js";
+import { sendSuccess } from "../../utils/response.js";
+import * as searchService from "./search.service.js";
 
-class SearchController {
-  async globalSearch(req, res, next) {
-    try {
-      const { q: query, limit, offset } = req.query;
-      const userId = req.user.id;
+/**
+ * Global Search Controller
+ */
+const SearchController = {
+    /**
+     * Perform cross-entity global search (Users, Posts, Squads)
+     */
+    async globalSearch(req, res) {
+        const query = req.query.q || "";
+        const userId = req.user.id; // Currently used to filter results (block logic etc)
 
-      if (!query) {
-        return res.status(400).json({ success: false, message: "Search query is required" });
-      }
-
-      const results = await SearchService.searchAcrossAll({
-        query,
-        userId,
-        limit,
-        offset
-      });
-
-      res.status(200).json({
-        success: true,
-        data: results
-      });
-    } catch (error) {
-      next(error);
+        const results = await searchService.performGlobalSearch(query, userId);
+        
+        return sendSuccess(res, req, {
+            message: "Global search results retrieved.",
+            data: results
+        });
     }
-  }
-}
+};
 
-export default new SearchController();
+export default SearchController;

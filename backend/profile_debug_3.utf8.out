@@ -1,0 +1,70 @@
+﻿
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90mD:/EDUVERSE/backend[39m
+
+ [31mΓ¥»[39m src/tests/integration/profile.integration.test.js [2m([22m[2m0 test[22m[2m)[22m
+node.exe : 
+At C:\Program 
+Files\nodejs\npx.ps1:29 
+char:3
++   & $NODE_EXE $NPX_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (:String  
+  ) [], RemoteException
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+[1m[41m Failed Suites 1 [49
+m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/profile.in
+tegration.test.js[2m [ src/t
+ests/integration/profile.inte
+gration.test.js ][22m
+[31m[1mError[22m: Cannot 
+find package 'bcrypt' 
+imported from D:/EDUVERSE/bac
+kend/src/modules/auth/auth.se
+rvice.js[39m
+[36m [2mΓ¥»[22m src/module
+s/auth/auth.service.js:[2m2:
+1[22m[39m
+    [90m  1|[39m 
+[35mimport[39m { v4 
+[35mas[39m uuidv4 } 
+[35mfrom[39m 
+[32m"uuid"[39m[33m;[39m
+    [90m  2|[39m 
+[35mimport[39m bcrypt 
+[35mfrom[39m 
+[32m"bcrypt"[39m[33m;[39m
+    [90m   |[39m 
+[31m^[39m
+    [90m  3|[39m 
+[35mimport[39m jwt 
+[35mfrom[39m [32m"jsonwebt
+oken"[39m[33m;[39m
+    [90m  4|[39m 
+[35mimport[39m config 
+[35mfrom[39m [32m"../../co
+nfig/env.js"[39m[33m;[39m
+[90m [2mΓ¥»[22m src/module
+s/auth/auth.controller.js:[2
+m2:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]Γ
+Ä»[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [2mno tests[22m
+[2m   Start at [22m 10:45:00
+[2m   Duration [22m 1.90s[2m (transform 355ms, setup 0ms, import 0ms, tests 0ms, environment 0ms)[22m
+
