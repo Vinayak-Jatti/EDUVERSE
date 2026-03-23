@@ -2,12 +2,12 @@ import dotenv from "dotenv";
 
 dotenv.config({
   path: [
-    "./.env",
-    "./.env.dev",
     "./.env.test",
-    "./.env.staging",
-    "./.env.production",
+    "./.env.dev",
+    "./.env.local",
+    "./.env",
     "./.env.example",
+
   ],
 });
 

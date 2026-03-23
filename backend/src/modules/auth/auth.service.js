@@ -9,14 +9,14 @@ import profileRepository from "../profile/profile.repository.js";
 import { USER_STATUS, AUTH_PROVIDERS, OTP_PURPOSE } from "./auth.constants.js";
 import createError from "../../utils/ApiError.js";
 
-// Helper for demo purposes
-const generateOTP = (email) => {
-  if (email === "vnkjatti@gmail.com") return "123456";
+// Helper for generating six-digit secure OTPs
+const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 const sendOTPEmail = async (email, otp) => {
-  console.log(`[DEMO] OTP for ${email}: ${otp}`);
+  // Production Note: actual delivery handled by mailService.sendOTPEmail
+  // Demo logs removed for security compliance
 };
 
 /**
@@ -49,7 +49,7 @@ export const registerUser = async ({ firstName, lastName, email, campus, passwor
     password_hash: passwordHash,
   });
 
-  const otp = generateOTP(email);
+  const otp = generateOTP();
   const saltOtp = await bcrypt.genSalt(10);
   const otpHash = await bcrypt.hash(otp, saltOtp);
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
@@ -176,7 +176,7 @@ export const forgotPassword = async (email) => {
   const user = await userRepository.findByEmail(email);
   if (!user) return { message: "If an account exists, a reset code was sent." };
 
-  const otp = generateOTP(email);
+  const otp = generateOTP();
   const salt = await bcrypt.genSalt(10);
   const otpHash = await bcrypt.hash(otp, salt);
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000);

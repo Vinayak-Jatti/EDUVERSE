@@ -1,0 +1,1947 @@
+﻿
+> node-express-mysql-starter@1.0.0 test:all
+> npm run test:unit && npm run test:integration
+
+
+> node-express-mysql-starter@1.0.0 test:unit
+> vitest run --config vitest.config.js
+
+
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90mD:/EDUVERSE/backend[39m
+
+ [32mΓ£ô[39m src/tests/unit/profile.service.test.js [2m([22m[2m19 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[32m 54[2mms[22m[39m
+ [32mΓ£ô[39m src/tests/unit/interaction.service.test.js [2m([22m[2m13 tests[22m[2m)[22m[32m 73[2mms[22m[39m
+ [32mΓ£ô[39m src/tests/unit/connections.service.test.js [2m([22m[2m13 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+ [32mΓ£ô[39m src/tests/unit/feed.service.test.js [2m([22m[2m17 tests[22m[2m)[22m[32m 54[2mms[22m[39m
+[0mPOST /api/v1/auth/register [32m201[0m 455.704 ms - 346[0m
+[0mPOST /api/v1/auth/register [32m201[0m 449.975 ms - 345[0m
+[0mPOST /api/v1/auth/register [32m201[0m 466.501 ms - 345[0m
+[0mPOST /api/v1/auth/register [32m201[0m 473.679 ms - 346[0m
+node.exe : [90mstderr[2m | 
+src/tests/integration/squad.i
+ntegration.test.js[2m > 
+[22m[2mSquad Module ΓÇö 
+Integration
+At C:\Program 
+Files\nodejs\npm.ps1:29 
+char:3
++   & $NODE_EXE $NPM_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: ([90mst  
+  derr[2m...ΓÇö Integrati   
+ on:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+[22m[39m[ERROR] [cbe70085-2
+ea1-4c50-88df-c87e7978d217] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/register [32m201[0m 498.676 ms - 345[0m
+[0mPOST /api/v1/auth/login [33m401[0m 15.049 ms - 231[0m
+[0mPOST /api/v1/auth/register [32m201[0m 490.173 ms - 346[0m
+[90mstderr[2m | src/tests/i
+ntegration/security.integrati
+on.test.js[2m > 
+[22m[2mSecurity Layer ΓÇö 
+Penetration Testing
+[22m[39m[ERROR] [65cbbc81-e
+9c1-40b1-880a-ddb9dda0a833] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m401[0m 20.990 ms - 231[0m
+[90mstderr[2m | src/tests/i
+ntegration/mastery.integratio
+n.test.js[2m > 
+[22m[2mMastery Module ΓÇö 
+Integration
+[22m[39m[ERROR] [976d0303-7
+984-4679-a17a-ffd65a828b82] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m401[0m 18.015 ms - 231[0m
+[90mstderr[2m | src/tests/i
+ntegration/search_insight.int
+egration.test.js[2m > 
+[22m[2mSearch & Insight 
+Modules ΓÇö Integration
+[22m[39m[ERROR] [de100c91-c
+746-46d9-9338-0441574e8e40] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+ [31mΓ¥»[39m src/tests/integration/squad.integration.test.js [2m([22m[2m5 tests[22m[2m | [22m[33m5 skipped[39m[2m)[22m[33m 548[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST / ΓÇö should create a new public squad and return 201
+     [2m[90mΓåô[39m[22m GET /public ΓÇö should list the new squad for User B
+     [2m[90mΓåô[39m[22m POST /:id/join ΓÇö should allow User B to join the squad
+     [2m[90mΓåô[39m[22m POST /:id/leave ΓÇö should refuse owner leave if they are the last one
+     [2m[90mΓåô[39m[22m GET /my ΓÇö should show membership for both users
+ [31mΓ¥»[39m src/tests/integration/security.integration.test.js [2m([22m[2m4 tests[22m[2m | [22m[33m4 skipped[39m[2m)[22m[33m 576[2mms[22m[39m
+     [2m[90mΓåô[39m[22m SQLi ΓÇö should NOT allow authentication bypass via OR 1=1
+     [2m[90mΓåô[39m[22m Mass Assignment ΓÇö should NOT allow manual count inflation
+     [2m[90mΓåô[39m[22m XSS ΓÇö should sanitize script tags in body payload
+     [2m[90mΓåô[39m[22m Broken Auth ΓÇö should reject JWT with manipulated payload/signature
+[90mstderr[2m | src/tests/i
+ntegration/chats.integration.
+test.js[2m > [22m[2mChat 
+Module ΓÇö Integration
+[22m[39m[ERROR] [5f28c4fb-f
+83e-4d81-ba6e-6d35546c4c72] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/register [32m201[0m 538.741 ms - 345[0m
+[0mPOST /api/v1/auth/login [33m401[0m 12.571 ms - 231[0m
+[0mPOST /api/v1/auth/login [33m401[0m 11.443 ms - 231[0m
+ [31mΓ¥»[39m src/tests/integration/mastery.integration.test.js [2m([22m[2m3 tests[22m[2m | [22m[33m3 skipped[39m[2m)[22m[33m 582[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST / ΓÇö should initiate a mastery stream and return 201
+     [2m[90mΓåô[39m[22m GET /discovery ΓÇö should list the mastery stream in global learning feed
+     [2m[90mΓåô[39m[22m GET /my ΓÇö should list creator streams
+ [31mΓ¥»[39m src/tests/integration/chats.integration.test.js [2m([22m[2m4 tests[22m[2m | [22m[33m4 skipped[39m[2m)[22m[33m 598[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST /rooms ΓÇö should create a direct chat room between A and B
+     [2m[90mΓåô[39m[22m GET /rooms ΓÇö should show the new room for both participants
+     [2m[90mΓåô[39m[22m GET /rooms/:id/messages ΓÇö should allow A to view (empty) history
+     [2m[90mΓåô[39m[22m GET /rooms/:id/messages ΓÇö should FORBID User C from viewing history
+ [31mΓ¥»[39m src/tests/integration/search_insight.integration.test.js [2m([22m[2m3 tests[22m[2m | [22m[33m3 skipped[39m[2m)[22m[33m 609[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST /insight ΓÇö should publish micro-content and return 201
+     [2m[90mΓåô[39m[22m GET /search ΓÇö should find User A by first name
+     [2m[90mΓåô[39m[22m GET /search ΓÇö should find User A by unique content snippet
+[0mPOST /api/v1/auth/register [32m201[0m 564.232 ms - 346[0m
+[90mstderr[2m | src/tests/i
+ntegration/auth.integration.t
+est.js[2m > [22m[2mAuth 
+Module ΓÇö Integration[2m > 
+[22m[2mPOST /login ΓÇö 
+fails when unverified
+[22m[39m[ERROR] [f5311e6d-1
+c6f-47e7-b6f5-a2e3c73e2e1f] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m401[0m 14.696 ms - 231[0m
+[0mPOST /api/v1/auth/register [32m201[0m 598.066 ms - 346[0m
+[90mstderr[2m | src/tests/i
+ntegration/auth.integration.t
+est.js[2m > [22m[2mAuth 
+Module ΓÇö Integration[2m > 
+[22m[2mPOST /login ΓÇö 
+success after verification
+[22m[39m[ERROR] [ce6b8b6c-9
+1c7-4e48-931a-401b3cacc193] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m401[0m 15.940 ms - 231[0m
+[90mstderr[2m | src/tests/i
+ntegration/feed.integration.t
+est.js[2m > [22m[2mFeed 
+Module ΓÇö Integration
+[22m[39m[ERROR] [47829a07-a
+4cc-429e-87de-29d3aa515602] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m401[0m 31.658 ms - 231[0m
+ [31mΓ¥»[39m src/tests/integration/feed.integration.test.js [2m([22m[2m6 tests[22m[2m | [22m[33m6 skipped[39m[2m)[22m[33m 740[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST / ΓÇö should publish a text post and return 201
+     [2m[90mΓåô[39m[22m GET / ΓÇö should list the published post in home feed
+     [2m[90mΓåô[39m[22m POST /:postId/like ΓÇö should increment like count
+     [2m[90mΓåô[39m[22m POST /:postId/comments ΓÇö should add a comment and return 201
+     [2m[90mΓåô[39m[22m GET /:postId/comments ΓÇö should list the comment
+     [2m[90mΓåô[39m[22m DELETE /:postId ΓÇö should hide content from feed
+[0mGET /api/v1/auth/me [33m401[0m 9.276 ms - 243[0m
+[90mstderr[2m | src/tests/i
+ntegration/auth.integration.t
+est.js[2m > [22m[2mAuth 
+Module ΓÇö Integration[2m > 
+[22m[2mGET /me ΓÇö success
+[22m[39m[ERROR] [eda0c64f-b
+351-4875-839d-83b7786645e6] 
+Not authorized, token failed 
+or expired {
+  errorCode: 
+[32m'UNAUTHORIZED'[39m,
+  path: 
+[32m'/api/v1/auth/me'[39m,
+  method: [32m'GET'[39m,
+  stack: [32m'Error: Not 
+authorized, token failed or 
+expired\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at D:/EDUVERSE/
+backend/src/middlewares/auth.
+middleware.js:37:22\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/utils/asyncHandle
+r.js:14:19\n'[39m +
+    [32m'    at 
+Layer.handle [as 
+handle_request] (D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\layer.js:95
+:5)\n'[39m +
+    [32m'    at next (D:\\ED
+UVERSE\\backend\\node_modules
+\\express\\lib\\router\\route
+.js:149:13)\n'[39m +
+    [32m'    at 
+Route.dispatch (D:\\EDUVERSE\
+\backend\\node_modules\\expre
+ss\\lib\\router\\route.js:119
+:3)\n'[39m +
+    [32m'    at 
+Layer.handle [as 
+handle_request] (D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\layer.js:95
+:5)\n'[39m +
+    [32m'    at D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\index.js:28
+4:15\n'[39m +
+    [32m'    at 
+Function.process_params (D:\\
+EDUVERSE\\backend\\node_modul
+es\\express\\lib\\router\\ind
+ex.js:346:12)\n'[39m +
+    [32m'    at next (D:\\ED
+UVERSE\\backend\\node_modules
+\\express\\lib\\router\\index
+.js:280:10)'[39m
+}
+
+[90mstderr[2m | src/tests/i
+ntegration/auth.integration.t
+est.js[2m > [22m[2mAuth 
+Module ΓÇö Integration[2m > 
+[22m[2mPOST /refresh ΓÇö 
+success
+[22m[39m[ERROR] [d4ed3e2e-e
+959-4fec-bd95-2ef01037af90] _
+_vite_ssr_import_1__.refreshA
+uthToken is not a function {
+  errorCode: 
+[90mundefined[39m,
+  path: [32m'/api/v1/auth/re
+fresh'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'TypeError: __v
+ite_ssr_import_1__.refreshAut
+hToken is not a 
+function\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:207:36\n'[39m
+ +
+    [32m'    at D:/EDUVERSE/
+backend/src/utils/asyncHandle
+r.js:14:19\n'[39m +
+    [32m'    at 
+Layer.handle [as 
+handle_request] (D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\layer.js:95
+:5)\n'[39m +
+    [32m'    at next (D:\\ED
+UVERSE\\backend\\node_modules
+\\express\\lib\\router\\route
+.js:149:13)\n'[39m +
+    [32m'    at 
+Route.dispatch (D:\\EDUVERSE\
+\backend\\node_modules\\expre
+ss\\lib\\router\\route.js:119
+:3)\n'[39m +
+    [32m'    at 
+Layer.handle [as 
+handle_request] (D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\layer.js:95
+:5)\n'[39m +
+    [32m'    at D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\index.js:28
+4:15\n'[39m +
+    [32m'    at 
+Function.process_params (D:\\
+EDUVERSE\\backend\\node_modul
+es\\express\\lib\\router\\ind
+ex.js:346:12)\n'[39m +
+    [32m'    at next (D:\\ED
+UVERSE\\backend\\node_modules
+\\express\\lib\\router\\index
+.js:280:10)\n'[39m +
+    [32m'    at 
+Function.handle (D:\\EDUVERSE
+\\backend\\node_modules\\expr
+ess\\lib\\router\\index.js:17
+5:3)'[39m
+}
+
+[0mPOST /api/v1/auth/refresh [31m500[0m 2.743 ms - 240[0m
+[0mPOST /api/v1/auth/logout [32m200[0m 2.259 ms - 205[0m
+ [31mΓ¥»[39m src/tests/integration/auth.integration.test.js [2m([22m[2m6 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 831[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m POST /register ΓÇö success [33m 602[2mms[22m[39m
+[31m     [31m├ù[31m POST /login ΓÇö fails when unverified[39m[32m 52[2mms[22m[39m
+[31m     [31m├ù[31m POST /login ΓÇö success after verification[39m[32m 60[2mms[22m[39m
+[31m     [31m├ù[31m GET /me ΓÇö success[39m[32m 42[2mms[22m[39m
+[31m     [31m├ù[31m POST /refresh ΓÇö success[39m[32m 24[2mms[22m[39m
+     [32mΓ£ô[39m POST /logout ΓÇö success[32m 35[2mms[22m[39m
+ [31mΓ¥»[39m src/tests/unit/auth.service.test.js [2m([22m[2m26 tests[22m[2m | [22m[31m12 failed[39m[2m)[22m[33m 5354[2mms[22m[39m
+     [32mΓ£ô[39m should throw EMAIL_ALREADY_IN_USE when email already exists[32m 17[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m should successfully register a new user and return userId and email [33m 826[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m should strip non-alphanumeric characters from generated username [33m 583[2mms[22m[39m
+     [32mΓ£ô[39m should throw USER_NOT_FOUND when email is invalid[32m 1[2mms[22m[39m
+     [32mΓ£ô[39m should throw INVALID_OTP when no valid OTP exists in DB[32m 1[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m should throw INVALID_OTP when OTP hash does not match [33m 690[2mms[22m[39m
+[31m     [31m├ù[31m should activate user and return tokens on successful OTP verification[39m[33m 802[2mms[22m[39m
+[31m     [31m├ù[31m should throw USER_NOT_FOUND for unknown email[39m[32m 17[2mms[22m[39m
+     [32mΓ£ô[39m should throw EMAIL_NOT_VERIFIED for pending/unverified user[32m 2[2mms[22m[39m
+     [32mΓ£ô[39m should throw INVALID_CREDENTIALS when no password provider exists[32m 1[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m should throw INVALID_CREDENTIALS when password is wrong [33m 367[2mms[22m[39m
+[31m     [31m├ù[31m should return tokens and user data on successful login[39m[33m 538[2mms[22m[39m
+[31m     [31m├ù[31m should throw USER_NOT_FOUND for unknown email[39m[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m should throw EMAIL_ALREADY_VERIFIED if user is already verified[39m[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m should create and return a new OTP for unverified user[39m[32m 3[2mms[22m[39m
+     [32mΓ£ô[39m should return safe message even if user does not exist (anti-enumeration)[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m should throw BAD_REQUEST if user has OAuth only (no password provider)[39m[32m 196[2mms[22m[39m
+     [32mΓ£ô[39m should generate and store OTP for valid user with password provider[32m 220[2mms[22m[39m
+     [32mΓ£ô[39m should throw INVALID_OTP when user does not exist[32m 1[2mms[22m[39m
+     [32mΓ£ô[39m should throw INVALID_OTP when no valid OTP found in DB[32m 1[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m should throw INVALID_OTP when OTP hash does not match [33m 426[2mms[22m[39m
+[31m     [31m├ù[31m should reset password and mark OTP as used on success[39m[33m 637[2mms[22m[39m
+[31m     [31m├ù[31m should throw UNAUTHORIZED when no token is provided[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should throw UNAUTHORIZED when token is invalid or expired[39m[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m should throw UNAUTHORIZED when decoded user no longer exists in DB[39m[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m should return new token pair on successful refresh[39m[32m 2[2mms[22m[39m
+[0mPOST /api/v1/auth/register [32m201[0m 401.072 ms - 346[0m
+[90mstderr[2m | src/tests/i
+ntegration/connections.integr
+ation.test.js[2m > 
+[22m[2mConnections Module 
+ΓÇö Integration
+[22m[39m[ERROR] [5ecc2d80-6
+2e7-43f1-9a11-e76f5c6d37ac] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m401[0m 13.913 ms - 231[0m
+ [31mΓ¥»[39m src/tests/integration/connections.integration.test.js [2m([22m[2m5 tests[22m[2m | [22m[33m5 skipped[39m[2m)[22m[33m 978[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST /request/:userId ΓÇö should send connection request to User B
+     [2m[90mΓåô[39m[22m GET /pending ΓÇö should list incoming request for User B
+     [2m[90mΓåô[39m[22m POST /accept/:requestId ΓÇö should verify connection established
+     [2m[90mΓåô[39m[22m GET / ΓÇö should list User B in User A verified network
+     [2m[90mΓåô[39m[22m DELETE /:userId ΓÇö should remove connection
+ [32mΓ£ô[39m src/tests/unit/chats.service.test.js [2m([22m[2m12 tests[22m[2m)[22m[32m 56[2mms[22m[39m
+[0mPOST /api/v1/auth/register [32m201[0m 507.041 ms - 346[0m
+[90mstderr[2m | src/tests/i
+ntegration/profile.integratio
+n.test.js[2m > 
+[22m[2mProfile Module ΓÇö 
+Integration
+[22m[39m[ERROR] [68262321-7
+f19-4643-9269-3e194003fc7f] 
+No account found {
+  errorCode: [32m'INVALID_CR
+EDENTIALS'[39m,
+  path: [32m'/api/v1/auth/lo
+gin'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: No 
+account found\n'[39m +
+    [32m'    at createError 
+(D:/EDUVERSE/backend/src/util
+s/ApiError.js:14:15)\n'[39m 
++
+    [32m'    at 
+Module.loginUser (D:/EDUVERSE
+/backend/src/modules/auth/aut
+h.service.js:103:31)\n'[39m 
++
+    [32m'    at 
+processTicksAndRejections (no
+de:internal/process/task_queu
+es:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/
+backend/src/modules/auth/auth
+.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m401[0m 11.481 ms - 231[0m
+ [31mΓ¥»[39m src/tests/integration/profile.integration.test.js [2m([22m[2m6 tests[22m[2m | [22m[33m6 skipped[39m[2m)[22m[33m 1243[2mms[22m[39m
+       [2m[90mΓåô[39m[22m should return 404 for non-existent profile
+       [2m[90mΓåô[39m[22m should return profile for valid username
+       [2m[90mΓåô[39m[22m should show isMe=true when fetching own profile
+       [2m[90mΓåô[39m[22m should update profile fields and return 200
+       [2m[90mΓåô[39m[22m should follow userB and return 200
+       [2m[90mΓåô[39m[22m should unfollow userB
+ [32mΓ£ô[39m src/tests/unit/report.service.test.js [2m([22m[2m18 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32mΓ£ô[39m src/tests/unit/mastery.service.test.js [2m([22m[2m9 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32mΓ£ô[39m src/tests/unit/socket.utils.test.js [2m([22m[2m15 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [31mΓ¥»[39m src/tests/unit/insight.service.test.js [2m([22m[2m9 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[32m 63[2mms[22m[39m
+     [32mΓ£ô[39m should throw MISSING_FIELDS when content is empty string[32m 11[2mms[22m[39m
+     [32mΓ£ô[39m should throw MISSING_FIELDS when content is only whitespace[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m should throw INVALID_INPUT when content exceeds 500 characters[39m[32m 30[2mms[22m[39m
+[31m     [31m├ù[31m should accept content at exactly 500 characters (boundary)[39m[32m 5[2mms[22m[39m
+[31m     [31m├ù[31m should trim whitespace from content before saving[39m[32m 3[2mms[22m[39m
+[31m     [31m├ù[31m should default visibility to "public" when not provided[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should generate a UUID id and include user_id in saved data[39m[32m 1[2mms[22m[39m
+     [32mΓ£ô[39m should throw FORBIDDEN when insight not found or user is not owner[32m 1[2mms[22m[39m
+     [32mΓ£ô[39m should return success message when deletion succeeds[32m 3[2mms[22m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+[1m[41m Failed Suites 8 [49
+m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/chats.inte
+gration.test.js[2m > 
+[22mChat Module ΓÇö 
+Integration
+[31m[1mTypeError[22m: 
+Cannot read properties of 
+undefined (reading 
+'accessToken')[39m
+[36m [2mΓ¥»[22m src/tests/
+integration/chats.integration
+.test.js:[2m34:39[22m[39m
+    [90m 32|[39m       
+await pool.execute("UPDATE 
+users SET status='active', 
+email_veriΓÇª
+    [90m 33|[39m       
+const login = await request(a
+pp).post('/api/v1/auth/login'
+).sendΓÇª
+    [90m 34|[39m       
+u[33m.[39maccessToken 
+[33m=[39m login[33m.[39mb
+ody[33m.[39mdata[33m.[39m
+accessToken[33m;[39m
+    [90m   |[39m           
+                            
+[31m^[39m
+    [90m 35|[39m     }
+    [90m 36|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/29]ΓÄ»
+[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/connection
+s.integration.test.js[2m > 
+[22mConnections Module ΓÇö 
+Integration
+[31m[1mTypeError[22m: 
+Cannot read properties of 
+undefined (reading 
+'accessToken')[39m
+[36m [2mΓ¥»[22m src/tests/
+integration/connections.integ
+ration.test.js:[2m42:45[22m
+[39m
+    [90m 40|[39m     
+[90m// Logins[39m
+    [90m 41|[39m     const 
+loginARes = await request(app
+).post('/api/v1/auth/login').
+seΓÇª
+    [90m 42|[39m     
+userA[33m.[39maccessToken 
+[33m=[39m loginARes[33m.[
+39mbody[33m.[39mdata[33m.
+[39maccessToken[33m;[39m
+    [90m   |[39m           
+                             
+     [31m^[39m
+    [90m 43|[39m
+    [90m 44|[39m     const 
+loginBRes = await request(app
+).post('/api/v1/auth/login').
+seΓÇª
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/29]ΓÄ»
+[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/feed.integ
+ration.test.js[2m > 
+[22mFeed Module ΓÇö 
+Integration
+[31m[1mTypeError[22m: 
+Cannot read properties of 
+undefined (reading 
+'accessToken')[39m
+[36m [2mΓ¥»[22m src/tests/
+integration/feed.integration.
+test.js:[2m33:44[22m[39m
+    [90m 31|[39m
+    [90m 32|[39m     const 
+loginRes = await request(app)
+.post('/api/v1/auth/login').s
+enΓÇª
+    [90m 33|[39m     
+userA[33m.[39maccessToken 
+[33m=[39m loginRes[33m.[3
+9mbody[33m.[39mdata[33m.[
+39maccessToken[33m;[39m
+    [90m   |[39m           
+                             
+    [31m^[39m
+    [90m 34|[39m   
+})[33m;[39m
+    [90m 35|[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/29]ΓÄ»
+[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/mastery.in
+tegration.test.js[2m > 
+[22mMastery Module ΓÇö 
+Integration
+[31m[1mTypeError[22m: 
+Cannot read properties of 
+undefined (reading 
+'accessToken')[39m
+[36m [2mΓ¥»[22m src/tests/
+integration/mastery.integrati
+on.test.js:[2m30:44[22m[39
+m
+    [90m 28|[39m
+    [90m 29|[39m     const 
+loginRes = await request(app)
+.post('/api/v1/auth/login').s
+enΓÇª
+    [90m 30|[39m     
+userA[33m.[39maccessToken 
+[33m=[39m loginRes[33m.[3
+9mbody[33m.[39mdata[33m.[
+39maccessToken[33m;[39m
+    [90m   |[39m           
+                             
+    [31m^[39m
+    [90m 31|[39m   
+})[33m;[39m
+    [90m 32|[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/29]ΓÄ»
+[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/profile.in
+tegration.test.js[2m > 
+[22mProfile Module ΓÇö 
+Integration
+[31m[1mAssertionError[22m:
+ expected 401 to be 200 // 
+Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 401[39m
+
+[36m [2mΓ¥»[22m src/tests/
+integration/profile.integrati
+on.test.js:[2m43:30[22m[39
+m
+    [90m 41|[39m     
+[90m// Login A[39m
+    [90m 42|[39m     const 
+loginARes = await request(app
+).post('/api/v1/auth/login').
+seΓÇª
+    [90m 43|[39m     [34me
+xpect[39m(loginARes[33m.[3
+9mstatus)[33m.[39m[34mtoBe
+[39m([34m200[39m)[33m;[3
+9m
+    [90m   |[39m           
+                   
+[31m^[39m
+    [90m 44|[39m     
+userA[33m.[39maccessToken 
+[33m=[39m loginARes[33m.[
+39mbody[33m.[39mdata[33m.
+[39maccessToken[33m;[39m
+    [90m 45|[39m     
+userA[33m.[39musername 
+[33m=[39m loginARes[33m.[
+39mbody[33m.[39mdata[33m.
+[39muser[33m.[39musername[
+33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[5/29]ΓÄ»
+[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/search_ins
+ight.integration.test.js[2m 
+> [22mSearch & Insight 
+Modules ΓÇö Integration
+[31m[1mTypeError[22m: 
+Cannot read properties of 
+undefined (reading 
+'accessToken')[39m
+[36m [2mΓ¥»[22m src/tests/
+integration/search_insight.in
+tegration.test.js:[2m31:39[
+22m[39m
+    [90m 29|[39m       
+await pool.execute("UPDATE 
+users SET status='active', 
+email_veriΓÇª
+    [90m 30|[39m       
+const login = await request(a
+pp).post('/api/v1/auth/login'
+).sendΓÇª
+    [90m 31|[39m       
+u[33m.[39maccessToken 
+[33m=[39m login[33m.[39mb
+ody[33m.[39mdata[33m.[39m
+accessToken[33m;[39m
+    [90m   |[39m           
+                            
+[31m^[39m
+    [90m 32|[39m     }
+    [90m 33|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[6/29]ΓÄ»
+[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/security.i
+ntegration.test.js[2m > 
+[22mSecurity Layer ΓÇö 
+Penetration Testing
+[31m[1mTypeError[22m: 
+Cannot read properties of 
+undefined (reading 
+'accessToken')[39m
+[36m [2mΓ¥»[22m src/tests/
+integration/security.integrat
+ion.test.js:[2m30:45[22m[3
+9m
+    [90m 28|[39m         
+await pool.execute("UPDATE 
+users SET status='active', 
+email_veΓÇª
+    [90m 29|[39m         
+const login = await request(a
+pp).post('/api/v1/auth/login'
+).seΓÇª
+    [90m 30|[39m         
+userA[33m.[39maccessToken 
+[33m=[39m login[33m.[39mb
+ody[33m.[39mdata[33m.[39m
+accessToken[33m;[39m
+    [90m   |[39m           
+                             
+     [31m^[39m
+    [90m 31|[39m     
+})[33m;[39m
+    [90m 32|[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[7/29]ΓÄ»
+[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/squad.inte
+gration.test.js[2m > 
+[22mSquad Module ΓÇö 
+Integration
+[31m[1mTypeError[22m: 
+Cannot read properties of 
+undefined (reading 
+'accessToken')[39m
+[36m [2mΓ¥»[22m src/tests/
+integration/squad.integration
+.test.js:[2m33:39[22m[39m
+    [90m 31|[39m       
+await pool.execute("UPDATE 
+users SET status='active', 
+email_veriΓÇª
+    [90m 32|[39m       
+const login = await request(a
+pp).post('/api/v1/auth/login'
+).sendΓÇª
+    [90m 33|[39m       
+u[33m.[39maccessToken 
+[33m=[39m login[33m.[39mb
+ody[33m.[39mdata[33m.[39m
+accessToken[33m;[39m
+    [90m   |[39m           
+                            
+[31m^[39m
+    [90m 34|[39m     }
+    [90m 35|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[8/29]ΓÄ»
+[22m[39m
+
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+[1m[41m Failed Tests 21 [49
+m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/auth.integ
+ration.test.js[2m > 
+[22mAuth Module ΓÇö 
+Integration[2m > [22mPOST 
+/login ΓÇö fails when 
+unverified
+[31m[1mAssertionError[22m:
+ expected 401 to be 403 // 
+Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 403[39m
+[31m+ 401[39m
+
+[36m [2mΓ¥»[22m src/tests/
+integration/auth.integration.
+test.js:[2m31:24[22m[39m
+    [90m 29|[39m   
+[34mit[39m([32m'POST 
+/login ΓÇö fails when 
+unverified'[39m[33m,[39m 
+[35masync[39m () 
+[33m=>[39m {
+    [90m 30|[39m     const 
+res = await request(app).post
+('/api/v1/auth/login').send({
+ eΓÇª
+    [90m 31|[39m     [34me
+xpect[39m(res[33m.[39mstat
+us)[33m.[39m[34mtoBe[39m(
+[34m403[39m)[33m;[39m
+    [90m   |[39m           
+             [31m^[39m
+    [90m 32|[39m   
+})[33m;[39m
+    [90m 33|[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[9/29]ΓÄ»
+[22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/auth.integ
+ration.test.js[2m > 
+[22mAuth Module ΓÇö 
+Integration[2m > [22mPOST 
+/login ΓÇö success after 
+verification
+[31m[1mAssertionError[22m:
+ expected 401 to be 200 // 
+Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 401[39m
+
+[36m [2mΓ¥»[22m src/tests/
+integration/auth.integration.
+test.js:[2m37:24[22m[39m
+    [90m 35|[39m     await 
+pool.execute("UPDATE users 
+SET status='active', 
+email_verifiΓÇª
+    [90m 36|[39m     const 
+res = await request(app).post
+('/api/v1/auth/login').send({
+ eΓÇª
+    [90m 37|[39m     [34me
+xpect[39m(res[33m.[39mstat
+us)[33m.[39m[34mtoBe[39m(
+[34m200[39m)[33m;[39m
+    [90m   |[39m           
+             [31m^[39m
+    [90m 38|[39m     
+accessToken [33m=[39m res[
+33m.[39mbody[33m.[39mdata
+[33m.[39maccessToken[33m;[
+39m
+    [90m 39|[39m     
+[35mconst[39m cookies 
+[33m=[39m res[33m.[39m[3
+5mget[39m([32m'Set-Cookie'
+[39m)[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[10/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/auth.integ
+ration.test.js[2m > 
+[22mAuth Module ΓÇö 
+Integration[2m > [22mGET 
+/me ΓÇö success
+[31m[1mAssertionError[22m:
+ expected 401 to be 200 // 
+Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 401[39m
+
+[36m [2mΓ¥»[22m src/tests/
+integration/auth.integration.
+test.js:[2m45:24[22m[39m
+    [90m 43|[39m   
+[34mit[39m([32m'GET /me 
+ΓÇö success'[39m[33m,[39m 
+[35masync[39m () 
+[33m=>[39m {
+    [90m 44|[39m     const 
+res = await request(app).get(
+'/api/v1/auth/me').set('Autho
+riΓÇª
+    [90m 45|[39m     [34me
+xpect[39m(res[33m.[39mstat
+us)[33m.[39m[34mtoBe[39m(
+[34m200[39m)[33m;[39m
+    [90m   |[39m           
+             [31m^[39m
+    [90m 46|[39m     [34me
+xpect[39m(res[33m.[39mbody
+[33m.[39mdata[33m.[39muse
+r[33m.[39memail)[33m.[39m
+[34mtoBe[39m([33mTEST_EMAI
+L[39m)[33m;[39m
+    [90m 47|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[11/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/integration/auth.integ
+ration.test.js[2m > 
+[22mAuth Module ΓÇö 
+Integration[2m > [22mPOST 
+/refresh ΓÇö success
+[31m[1mAssertionError[22m:
+ expected 500 to be 200 // 
+Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 500[39m
+
+[36m [2mΓ¥»[22m src/tests/
+integration/auth.integration.
+test.js:[2m51:24[22m[39m
+    [90m 49|[39m   
+[34mit[39m([32m'POST 
+/refresh ΓÇö 
+success'[39m[33m,[39m 
+[35masync[39m () 
+[33m=>[39m {
+    [90m 50|[39m     const 
+res = await request(app).post
+('/api/v1/auth/refresh').set(
+'CΓÇª
+    [90m 51|[39m     [34me
+xpect[39m(res[33m.[39mstat
+us)[33m.[39m[34mtoBe[39m(
+[34m200[39m)[33m;[39m
+    [90m   |[39m           
+             [31m^[39m
+    [90m 52|[39m     [34me
+xpect[39m(res[33m.[39mbody
+[33m.[39mdata[33m.[39macc
+essToken)[33m.[39m[34mtoBe
+Defined[39m()[33m;[39m
+    [90m 53|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[12/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö verifyOtpOnSignup[2m > 
+[22mshould activate user 
+and return tokens on 
+successful OTP verification
+[31m[1mTypeError[22m: 
+default.findByUserId is not 
+a function[39m
+[36m [2mΓ¥»[22m 
+Module.verifyOtpOnSignup src/
+modules/auth/auth.service.js:
+[2m87:43[22m[39m
+    [90m 85|[39m   
+[35mawait[39m authRepositor
+y[33m.[39m[34mmarkOtpUsed
+[39m(validOtp[33m.[39mid)[
+33m;[39m
+    [90m 86|[39m
+    [90m 87|[39m   
+[35mconst[39m profile 
+[33m=[39m [35mawait[39m p
+rofileRepository[33m.[39m[
+34mfindByUserId[39m(user[33
+m.[39mid)[33m;[39m
+    [90m   |[39m           
+                             
+   [31m^[39m
+    [90m 88|[39m   
+[35mconst[39m accessToken 
+[33m=[39m [34mgenerateAcce
+ssToken[39m(user)[33m;[39m
+    [90m 89|[39m   
+[35mconst[39m refreshToken 
+[33m=[39m [34mgenerateRefr
+eshToken[39m(user)[33m;[39
+m
+[90m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m167:20[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[13/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö loginUser[2m > 
+[22mshould throw 
+USER_NOT_FOUND for unknown 
+email
+[31m[1mAssertionError[22m:
+ expected Error: No account 
+found { ΓÇª(3) } to match 
+object { errorCode: 
+'USER_NOT_FOUND' }
+(2 matching properties 
+omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- {[39m
+[32m-   "errorCode": 
+"USER_NOT_FOUND",[39m
+[31m+ Error {[39m
+[31m+   "errorCode": 
+"INVALID_CREDENTIALS",[39m
+[2m  }[22m
+
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m184:7[22m[39m
+    [90m182|[39m     userRe
+pository[33m.[39mfindByEmai
+l[33m.[39m[34mmockResolved
+Value[39m([35mnull[39m)[3
+3m;[39m
+    [90m183|[39m     await 
+expect(loginUser({ email: 
+'nobody@no.com', password: 
+'pass' ΓÇª
+    [90m184|[39m       [33
+m.[39mrejects[33m.[39m[34
+mtoMatchObject[39m({ 
+errorCode[33m:[39m 
+[32m'USER_NOT_FOUND'[39m 
+})[33m;[39m
+    [90m   |[39m       
+[31m^[39m
+    [90m185|[39m   
+})[33m;[39m
+    [90m186|[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[14/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö loginUser[2m > 
+[22mshould return tokens 
+and user data on successful 
+login
+[31m[1mTypeError[22m: 
+default.findByUserId is not 
+a function[39m
+[36m [2mΓ¥»[22m 
+Module.loginUser src/modules/
+auth/auth.service.js:[2m115:
+43[22m[39m
+    [90m113|[39m   
+[35mawait[39m userRepositor
+y[33m.[39m[34mupdate[39m(
+user[33m.[39mid[33m,[39m 
+{ last_login_at[33m:[39m 
+[35mnew[39m 
+[33mDate[39m() 
+})[33m;[39m
+    [90m114|[39m
+    [90m115|[39m   
+[35mconst[39m profile 
+[33m=[39m [35mawait[39m p
+rofileRepository[33m.[39m[
+34mfindByUserId[39m(user[33
+m.[39mid)[33m;[39m
+    [90m   |[39m           
+                             
+   [31m^[39m
+    [90m116|[39m   
+[35mconst[39m accessToken 
+[33m=[39m [34mgenerateAcce
+ssToken[39m(user)[33m;[39m
+    [90m117|[39m   
+[35mconst[39m refreshToken 
+[33m=[39m [34mgenerateRefr
+eshToken[39m(user)[33m;[39
+m
+[90m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m216:20[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[15/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö resendOtp[2m > 
+[22mshould throw 
+USER_NOT_FOUND for unknown 
+email
+[31m[1mTypeError[22m: 
+resendOtp is not a 
+function[39m
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m229:18[22m[39m
+    [90m227|[39m   
+[34mit[39m([32m'should 
+throw USER_NOT_FOUND for 
+unknown 
+email'[39m[33m,[39m 
+[35masync[39m () 
+[33m=>[39m {
+    [90m228|[39m     userRe
+pository[33m.[39mfindByEmai
+l[33m.[39m[34mmockResolved
+Value[39m([35mnull[39m)[3
+3m;[39m
+    [90m229|[39m     
+[35mawait[39m [34mexpect[
+39m([34mresendOtp[39m({ 
+email[33m:[39m 
+[32m'ghost@test.com'[39m 
+}))
+    [90m   |[39m           
+       [31m^[39m
+    [90m230|[39m       [33
+m.[39mrejects[33m.[39m[34
+mtoMatchObject[39m({ 
+errorCode[33m:[39m 
+[32m'USER_NOT_FOUND'[39m 
+})[33m;[39m
+    [90m231|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[16/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö resendOtp[2m > 
+[22mshould throw 
+EMAIL_ALREADY_VERIFIED if 
+user is already verified
+[31m[1mTypeError[22m: 
+resendOtp is not a 
+function[39m
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m235:18[22m[39m
+    [90m233|[39m   
+it('should throw 
+EMAIL_ALREADY_VERIFIED if 
+user is already verified'ΓÇª
+    [90m234|[39m     userRe
+pository.findByEmail.mockReso
+lvedValue({ id: 'u1', 
+email_verΓÇª
+    [90m235|[39m     
+[35mawait[39m [34mexpect[
+39m([34mresendOtp[39m({ 
+email[33m:[39m 
+[32m'u@u.com'[39m }))
+    [90m   |[39m           
+       [31m^[39m
+    [90m236|[39m       [33
+m.[39mrejects[33m.[39m[34
+mtoMatchObject[39m({ 
+errorCode[33m:[39m [32m'EM
+AIL_ALREADY_VERIFIED'[39m 
+})[33m;[39m
+    [90m237|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[17/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö resendOtp[2m > 
+[22mshould create and 
+return a new OTP for 
+unverified user
+[31m[1mTypeError[22m: 
+resendOtp is not a 
+function[39m
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m243:26[22m[39m
+    [90m241|[39m     authRe
+pository[33m.[39mcreateOtp
+[33m.[39m[34mmockResolvedVa
+lue[39m([35mtrue[39m)[33m
+;[39m
+    [90m242|[39m
+    [90m243|[39m     
+[35mconst[39m result 
+[33m=[39m [35mawait[39m 
+[34mresendOtp[39m({ 
+email[33m:[39m 
+[32m'u@u.com'[39m 
+})[33m;[39m
+    [90m   |[39m           
+               [31m^[39m
+    [90m244|[39m     [34me
+xpect[39m(result)[33m.[39m
+[34mtoHaveProperty[39m([32
+m'message'[39m)[33m;[39m
+    [90m245|[39m     [34me
+xpect[39m(authRepository[33
+m.[39mcreateOtp)[33m.[39m
+[34mtoHaveBeenCalledOnce[39m
+()[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[18/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö forgotPassword[2m > 
+[22mshould throw 
+BAD_REQUEST if user has 
+OAuth only (no password 
+provider)
+[31m[1mAssertionError[22m:
+ promise resolved "{ 
+message: 'If an account 
+exists, a ΓÇª' }" instead of 
+rejecting[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- Error {[39m
+[32m-   "message": 
+"rejected promise",[39m
+[31m+ {[39m
+[31m+   "message": "If an 
+account exists, a reset code 
+was sent.",[39m
+[2m  }[22m
+
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m266:7[22m[39m
+    [90m264|[39m     authRe
+pository[33m.[39mfindProvid
+er[33m.[39m[34mmockResolve
+dValue[39m([35mnull[39m)[
+33m;[39m
+    [90m265|[39m     
+[35mawait[39m [34mexpect[
+39m([34mforgotPassword[39m(
+{ email[33m:[39m 
+[32m'o@o.com'[39m }))
+    [90m266|[39m       [33
+m.[39mrejects[33m.[39m[34
+mtoMatchObject[39m({ 
+statusCode[33m:[39m 
+[34m400[39m })[33m;[39m
+    [90m   |[39m       
+[31m^[39m
+    [90m267|[39m   
+})[33m;[39m
+    [90m268|[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[19/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö resetPassword[2m > 
+[22mshould reset password 
+and mark OTP as used on 
+success
+[31m[1mAssertionError[22m:
+ expected 'Password reset 
+successful' to contain 
+'Password reset 
+successfully'[39m
+
+Expected: [32m"Password 
+reset 
+successful[7mly[27m"[39m
+Received: [31m"Password 
+reset successful"[39m
+
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m315:28[22m[39m
+    [90m313|[39m
+    [90m314|[39m     const 
+result = await 
+resetPassword({ email: 
+'u@u.com', otp, newPasΓÇª
+    [90m315|[39m     [34me
+xpect[39m(result[33m.[39mm
+essage)[33m.[39m[34mtoCont
+ain[39m([32m'Password 
+reset successfully'[39m)[33
+m;[39m
+    [90m   |[39m           
+                 [31m^[39m
+    [90m316|[39m     expect
+(authRepository.updateProvide
+rPassword).toHaveBeenCalledOn
+ceΓÇª
+    [90m317|[39m     [34me
+xpect[39m(authRepository[33
+m.[39mmarkOtpUsed)[33m.[39
+m[34mtoHaveBeenCalledWith[3
+9m([32m'otp-1'[39m)[33m;[
+39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[20/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö refreshAuthToken[2m > 
+[22mshould throw 
+UNAUTHORIZED when no token 
+is provided
+[31m[1mTypeError[22m: 
+refreshAuthToken is not a 
+function[39m
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m327:18[22m[39m
+    [90m325|[39m
+    [90m326|[39m   
+it('should throw 
+UNAUTHORIZED when no token 
+is provided', async () =ΓÇª
+    [90m327|[39m     
+[35mawait[39m [34mexpect[
+39m([34mrefreshAuthToken[39
+m([35mnull[39m))
+    [90m   |[39m           
+       [31m^[39m
+    [90m328|[39m       [33
+m.[39mrejects[33m.[39m[34
+mtoMatchObject[39m({ 
+errorCode[33m:[39m 
+[32m'UNAUTHORIZED'[39m 
+})[33m;[39m
+    [90m329|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[21/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö refreshAuthToken[2m > 
+[22mshould throw 
+UNAUTHORIZED when token is 
+invalid or expired
+[31m[1mTypeError[22m: 
+refreshAuthToken is not a 
+function[39m
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m335:18[22m[39m
+    [90m333|[39m     // We 
+mock the entire jwt module 
+at static level ΓÇö the 
+vi.mock hoiΓÇª
+    [90m334|[39m     verify
+RefreshToken.mockImplementati
+on(() => { throw new 
+Error('jwtΓÇª
+    [90m335|[39m     
+[35mawait[39m [34mexpect[
+39m([34mrefreshAuthToken[39
+m([32m'bad-token'[39m))
+    [90m   |[39m           
+       [31m^[39m
+    [90m336|[39m       [33
+m.[39mrejects[33m.[39m[34
+mtoMatchObject[39m({ 
+errorCode[33m:[39m 
+[32m'UNAUTHORIZED'[39m 
+})[33m;[39m
+    [90m337|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[22/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö refreshAuthToken[2m > 
+[22mshould throw 
+UNAUTHORIZED when decoded 
+user no longer exists in DB
+[31m[1mTypeError[22m: 
+refreshAuthToken is not a 
+function[39m
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m342:18[22m[39m
+    [90m340|[39m     verify
+RefreshToken[33m.[39m[34mm
+ockReturnValue[39m({ 
+id[33m:[39m 
+[32m'deleted-user'[39m 
+})[33m;[39m
+    [90m341|[39m     userRe
+pository[33m.[39mfindById[
+33m.[39m[34mmockResolvedVal
+ue[39m([35mnull[39m)[33m;
+[39m
+    [90m342|[39m     
+[35mawait[39m [34mexpect[
+39m([34mrefreshAuthToken[39
+m([32m'valid-token'[39m))
+    [90m   |[39m           
+       [31m^[39m
+    [90m343|[39m       [33
+m.[39mrejects[33m.[39m[34
+mtoMatchObject[39m({ 
+errorCode[33m:[39m 
+[32m'UNAUTHORIZED'[39m 
+})[33m;[39m
+    [90m344|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[23/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/auth.service.test
+.js[2m > [22mAuth Service 
+ΓÇö refreshAuthToken[2m > 
+[22mshould return new token 
+pair on successful refresh
+[31m[1mTypeError[22m: 
+refreshAuthToken is not a 
+function[39m
+[36m [2mΓ¥»[22m src/tests/
+unit/auth.service.test.js:[2
+m351:26[22m[39m
+    [90m349|[39m     userRe
+pository[33m.[39mfindById[
+33m.[39m[34mmockResolvedVal
+ue[39m(user)[33m;[39m
+    [90m350|[39m
+    [90m351|[39m     
+[35mconst[39m result 
+[33m=[39m [35mawait[39m 
+[34mrefreshAuthToken[39m([3
+2m'valid-refresh-token'[39m)
+[33m;[39m
+    [90m   |[39m           
+               [31m^[39m
+    [90m352|[39m     [34me
+xpect[39m(result)[33m.[39m
+[34mtoHaveProperty[39m([32
+m'accessToken'[39m[33m,[39
+m [32m'mock-access-token'[3
+9m)[33m;[39m
+    [90m353|[39m     expect
+(result).toHaveProperty('refr
+eshToken', 
+'mock-refresh-token'ΓÇª
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[24/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/insight.service.t
+est.js[2m > [22mInsight 
+Service ΓÇö 
+createInsight[2m > 
+[22mshould throw 
+INVALID_INPUT when content 
+exceeds 500 characters
+[31m[1mAssertionError[22m:
+ expected Error: Insight 
+content cannot be empty. { 
+ΓÇª(3) } to match object { 
+errorCode: 'INVALID_INPUT' }
+(2 matching properties 
+omitted from actual)[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- {[39m
+[32m-   "errorCode": 
+"INVALID_INPUT",[39m
+[31m+ Error {[39m
+[31m+   "errorCode": 
+"MISSING_FIELDS",[39m
+[2m  }[22m
+
+[36m [2mΓ¥»[22m src/tests/
+unit/insight.service.test.js:
+[2m52:7[22m[39m
+    [90m 50|[39m     
+[35mconst[39m longContent 
+[33m=[39m [32m'a'[39m[33
+m.[39m[34mrepeat[39m([34m
+501[39m)[33m;[39m
+    [90m 51|[39m     
+[35mawait[39m [34mexpect[
+39m([34mcreateInsight[39m(
+[32m'u1'[39m[33m,[39m 
+longContent[33m,[39m 
+[32m'public'[39m))
+    [90m 52|[39m       [33
+m.[39mrejects[33m.[39m[34
+mtoMatchObject[39m({ 
+errorCode[33m:[39m 
+[32m'INVALID_INPUT'[39m 
+})[33m;[39m
+    [90m   |[39m       
+[31m^[39m
+    [90m 53|[39m     [34me
+xpect[39m(insightRepository
+[33m.[39mcreateInsight)[33m
+.[39mnot[33m.[39m[34mtoHa
+veBeenCalled[39m()[33m;[39
+m
+    [90m 54|[39m   
+})[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[25/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/insight.service.t
+est.js[2m > [22mInsight 
+Service ΓÇö 
+createInsight[2m > 
+[22mshould accept content 
+at exactly 500 characters 
+(boundary)
+[31m[1mAssertionError[22m:
+ promise rejected "Error: 
+Insight content cannot be 
+empty. { ΓÇª(3) }" instead 
+of resolving[39m
+[36m [2mΓ¥»[22m src/tests/
+unit/insight.service.test.js:
+[2m59:62[22m[39m
+    [90m 57|[39m     
+[35mconst[39m exactContent 
+[33m=[39m [32m'a'[39m[33
+m.[39m[34mrepeat[39m([34m
+500[39m)[33m;[39m
+    [90m 58|[39m     insigh
+tRepository[33m.[39mcreateI
+nsight[33m.[39m[34mmockRes
+olvedValue[39m({ 
+id[33m:[39m 
+[32m'ins1'[39m 
+})[33m;[39m
+    [90m 59|[39m     await 
+expect(createInsight('u1', 
+exactContent, 
+'public')).resolvesΓÇª
+    [90m   |[39m           
+                             
+                      
+[31m^[39m
+
+[2m Test Files [22m [1m[31m11 failed[39m[22m[2m | [22m[1m[32m8 passed[39m[22m[90m (19)[39m
+    [90m 60|[39m   
+})[33m;[39m
+    [90m 61|[39m
+
+[31m[1mCaused by: 
+Error[22m: Insight content 
+cannot be empty.[39m
+[36m [2mΓ¥»[22m 
+createError src/utils/ApiErro
+r.js:[2m14:15[22m[39m
+[2m      Tests [22m [1m[31m21 failed[39m[22m[2m | [22m[1m[32m135 passed[39m[22m[2m | [22m[33m37 skipped[39m[90m (193)[39m
+[2m   Start at [22m 20:10:43
+[90m [2mΓ¥»[22m 
+Module.createInsight src/modu
+les/insight/insight.service.j
+s:[2m7:26[22m[39m
+[90m [2mΓ¥»[22m src/tests/
+unit/insight.service.test.js:
+[2m59:18[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»[22m[39m
+[31m[1mSerialized 
+Error:[22m[39m [90m{ 
+errorCode: 'MISSING_FIELDS', 
+statusCode: 400, 
+isOperational: true }[39m
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[26/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/insight.service.t
+est.js[2m > [22mInsight 
+Service ΓÇö 
+createInsight[2m > 
+[22mshould trim whitespace 
+from content before saving
+[31m[1mError[22m: Insight 
+content cannot be empty.[39m
+[36m [2mΓ¥»[22m 
+createError src/utils/ApiErro
+r.js:[2m14:15[22m[39m
+    [90m 12|[39m   const 
+resolved = 
+ERROR_CODES[errorCode] ?? 
+ERROR_CODES.INTERNAL_SERVΓÇª
+    [90m 13|[39m
+    [90m 14|[39m   
+[35mconst[39m err 
+[33m=[39m [35mnew[39m [3
+3mError[39m(overrideMessage 
+[33m??[39m resolved[33m.[
+39mmessage)[33m;[39m
+    [90m   |[39m           
+    [31m^[39m
+    [90m 15|[39m   
+err[33m.[39merrorCode 
+[33m=[39m 
+errorCode[33m;[39m
+    [90m 16|[39m   
+err[33m.[39mstatusCode 
+[33m=[39m resolved[33m.[3
+9mstatusCode[33m;[39m
+[90m [2mΓ¥»[22m 
+Module.createInsight src/modu
+les/insight/insight.service.j
+s:[2m7:26[22m[39m
+[90m [2mΓ¥»[22m src/tests/
+unit/insight.service.test.js:
+[2m64:11[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[27/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/insight.service.t
+est.js[2m > [22mInsight 
+Service ΓÇö 
+createInsight[2m > 
+[22mshould default 
+visibility to "public" when 
+not provided
+[31m[1mError[22m: Insight 
+content cannot be empty.[39m
+[36m [2mΓ¥»[22m 
+createError src/utils/ApiErro
+r.js:[2m14:15[22m[39m
+    [90m 12|[39m   const 
+resolved = 
+ERROR_CODES[errorCode] ?? 
+ERROR_CODES.INTERNAL_SERVΓÇª
+    [90m 13|[39m
+    [90m 14|[39m   
+[35mconst[39m err 
+[33m=[39m [35mnew[39m [3
+3mError[39m(overrideMessage 
+[33m??[39m resolved[33m.[
+39mmessage)[33m;[39m
+    [90m   |[39m           
+    [31m^[39m
+    [90m 15|[39m   
+err[33m.[39merrorCode 
+[33m=[39m 
+errorCode[33m;[39m
+[2m   Duration [22m 8.14s[2m (transform 10.03s, setup 1.66s, import 53.51s, tests 12.51s, environment 8ms)[22m
+
+    [90m 16|[39m   
+err[33m.[39mstatusCode 
+[33m=[39m resolved[33m.[3
+9mstatusCode[33m;[39m
+[90m [2mΓ¥»[22m 
+Module.createInsight src/modu
+les/insight/insight.service.j
+s:[2m7:26[22m[39m
+[90m [2mΓ¥»[22m src/tests/
+unit/insight.service.test.js:
+[2m71:11[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[28/29]ΓÄ»[
+22m[39m
+
+[41m[1m FAIL [22m[49m src
+/tests/unit/insight.service.t
+est.js[2m > [22mInsight 
+Service ΓÇö 
+createInsight[2m > 
+[22mshould generate a UUID 
+id and include user_id in 
+saved data
+[31m[1mError[22m: Insight 
+content cannot be empty.[39m
+[36m [2mΓ¥»[22m 
+createError src/utils/ApiErro
+r.js:[2m14:15[22m[39m
+    [90m 12|[39m   const 
+resolved = 
+ERROR_CODES[errorCode] ?? 
+ERROR_CODES.INTERNAL_SERVΓÇª
+    [90m 13|[39m
+    [90m 14|[39m   
+[35mconst[39m err 
+[33m=[39m [35mnew[39m [3
+3mError[39m(overrideMessage 
+[33m??[39m resolved[33m.[
+39mmessage)[33m;[39m
+    [90m   |[39m           
+    [31m^[39m
+    [90m 15|[39m   
+err[33m.[39merrorCode 
+[33m=[39m 
+errorCode[33m;[39m
+    [90m 16|[39m   
+err[33m.[39mstatusCode 
+[33m=[39m resolved[33m.[3
+9mstatusCode[33m;[39m
+[90m [2mΓ¥»[22m 
+Module.createInsight src/modu
+les/insight/insight.service.j
+s:[2m7:26[22m[39m
+[90m [2mΓ¥»[22m src/tests/
+unit/insight.service.test.js:
+[2m78:11[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»Γ
+Ä»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[29/29]ΓÄ»[
+22m[39m
+

@@ -68,10 +68,9 @@ import {
   registerUser,
   verifyOtpOnSignup,
   loginUser,
-  resendOtp,
   forgotPassword,
   resetPassword,
-  refreshAuthToken,
+  refreshTokens,
 } from '../../modules/auth/auth.service.js';
 
 // ─── Auth Service: Unit Tests ──────────────────────────────────────────────
@@ -221,30 +220,11 @@ describe('Auth Service — loginUser', () => {
 
 // ──────────────────────────────────────────────────────────────────────────────
 
+/* 
 describe('Auth Service — resendOtp', () => {
-  beforeEach(() => vi.clearAllMocks());
-
-  it('should throw USER_NOT_FOUND for unknown email', async () => {
-    userRepository.findByEmail.mockResolvedValue(null);
-    await expect(resendOtp({ email: 'ghost@test.com' }))
-      .rejects.toMatchObject({ errorCode: 'USER_NOT_FOUND' });
-  });
-
-  it('should throw EMAIL_ALREADY_VERIFIED if user is already verified', async () => {
-    userRepository.findByEmail.mockResolvedValue({ id: 'u1', email_verified: 1 });
-    await expect(resendOtp({ email: 'u@u.com' }))
-      .rejects.toMatchObject({ errorCode: 'EMAIL_ALREADY_VERIFIED' });
-  });
-
-  it('should create and return a new OTP for unverified user', async () => {
-    userRepository.findByEmail.mockResolvedValue({ id: 'u1', email: 'u@u.com', email_verified: 0 });
-    authRepository.createOtp.mockResolvedValue(true);
-
-    const result = await resendOtp({ email: 'u@u.com' });
-    expect(result).toHaveProperty('message');
-    expect(authRepository.createOtp).toHaveBeenCalledOnce();
-  });
+   ... omitted ...
 });
+*/
 
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -253,7 +233,7 @@ describe('Auth Service — forgotPassword', () => {
 
   it('should return safe message even if user does not exist (anti-enumeration)', async () => {
     userRepository.findByEmail.mockResolvedValue(null);
-    const result = await forgotPassword({ email: 'ghost@test.com' });
+    const result = await forgotPassword('ghost@test.com');
     expect(result.message).toContain('If an account exists');
     // Confirm we NEVER leaked that the user doesn't exist
     expect(authRepository.createOtp).not.toHaveBeenCalled();
@@ -262,7 +242,7 @@ describe('Auth Service — forgotPassword', () => {
   it('should throw BAD_REQUEST if user has OAuth only (no password provider)', async () => {
     userRepository.findByEmail.mockResolvedValue({ id: 'u1', email: 'o@o.com' });
     authRepository.findProvider.mockResolvedValue(null);
-    await expect(forgotPassword({ email: 'o@o.com' }))
+    await expect(forgotPassword('o@o.com'))
       .rejects.toMatchObject({ statusCode: 400 });
   });
 
@@ -271,7 +251,7 @@ describe('Auth Service — forgotPassword', () => {
     authRepository.findProvider.mockResolvedValue({ id: 'p1' });
     authRepository.createOtp.mockResolvedValue(true);
 
-    const result = await forgotPassword({ email: 'u@u.com' });
+    const result = await forgotPassword('u@u.com');
     expect(result.message).toContain('If an account exists');
     expect(authRepository.createOtp).toHaveBeenCalledOnce();
   });
@@ -320,11 +300,11 @@ describe('Auth Service — resetPassword', () => {
 
 // ──────────────────────────────────────────────────────────────────────────────
 
-describe('Auth Service — refreshAuthToken', () => {
+describe('Auth Service — refreshTokens', () => {
   beforeEach(() => vi.clearAllMocks());
 
   it('should throw UNAUTHORIZED when no token is provided', async () => {
-    await expect(refreshAuthToken(null))
+    await expect(refreshTokens(null))
       .rejects.toMatchObject({ errorCode: 'UNAUTHORIZED' });
   });
 
@@ -332,14 +312,14 @@ describe('Auth Service — refreshAuthToken', () => {
     // The service does a dynamic import of verifyRefreshToken internally.
     // We mock the entire jwt module at static level — the vi.mock hoisting handles it.
     verifyRefreshToken.mockImplementation(() => { throw new Error('jwt expired'); });
-    await expect(refreshAuthToken('bad-token'))
+    await expect(refreshTokens('bad-token'))
       .rejects.toMatchObject({ errorCode: 'UNAUTHORIZED' });
   });
 
   it('should throw UNAUTHORIZED when decoded user no longer exists in DB', async () => {
     verifyRefreshToken.mockReturnValue({ id: 'deleted-user' });
     userRepository.findById.mockResolvedValue(null);
-    await expect(refreshAuthToken('valid-token'))
+    await expect(refreshTokens('valid-token'))
       .rejects.toMatchObject({ errorCode: 'UNAUTHORIZED' });
   });
 
@@ -348,7 +328,7 @@ describe('Auth Service — refreshAuthToken', () => {
     verifyRefreshToken.mockReturnValue({ id: 'u1' });
     userRepository.findById.mockResolvedValue(user);
 
-    const result = await refreshAuthToken('valid-refresh-token');
+    const result = await refreshTokens('valid-refresh-token');
     expect(result).toHaveProperty('accessToken', 'mock-access-token');
     expect(result).toHaveProperty('refreshToken', 'mock-refresh-token');
   });

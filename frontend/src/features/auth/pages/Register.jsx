@@ -91,12 +91,15 @@ const Register = () => {
         />
         
         {error && (
-          <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider text-center">
+          <p 
+            role="alert"
+            className="text-[10px] text-red-500 font-bold uppercase tracking-wider text-center"
+          >
             {error}
           </p>
         )}
 
-        <p className="text-[9px] text-gray-400 text-center leading-relaxed px-4">
+        <p className="text-[9px] text-slate-500 text-center leading-relaxed px-4">
           By clicking sign up, you agree to our <span className="underline cursor-pointer">Terms of Service</span> and <span className="underline cursor-pointer">Privacy Policy</span>.
         </p>
 

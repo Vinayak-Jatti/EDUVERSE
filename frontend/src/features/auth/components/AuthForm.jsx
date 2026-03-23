@@ -81,19 +81,25 @@ const SocialButton = ({ icon, children, onClick }) => (
   </button>
 );
 
-export const AuthInput = ({ label, type = "text", ...props }) => {
+export const AuthInput = ({ label, name, type = "text", ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
+  const inputId = `auth-input-${name}`;
 
   return (
     <div className="space-y-3 md:space-y-4 relative">
       {label && (
-        <label className="block text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.5em] text-black/30 ml-1.5 md:ml-2">
+        <label 
+          htmlFor={inputId}
+          className="block text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.5em] text-slate-600 ml-1.5 md:ml-2"
+        >
           {label}
         </label>
       )}
       <div className="relative">
         <input 
+          id={inputId}
+          name={name}
           type={isPassword ? (showPassword ? "text" : "password") : type}
           {...props} 
           className="skeuo-node w-full p-4 md:p-5 bg-white border-2 border-black/10 focus:border-indigo-600 transition-all text-[9px] md:text-[10px] font-black uppercase tracking-widest placeholder:text-gray-200 focus:outline-none shadow-inner" 
@@ -102,6 +108,7 @@ export const AuthInput = ({ label, type = "text", ...props }) => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
             className="absolute right-4 md:right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
           >
             {showPassword ? <EyeOff className="w-3.5 h-3.5 md:w-4 md:h-4" /> : <Eye className="w-3.5 h-3.5 md:w-4 md:h-4" />}

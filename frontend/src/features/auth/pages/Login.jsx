@@ -30,13 +30,20 @@ const Login = () => {
       await login(accessToken);
       navigate("/feed");
     } catch (err) {
-      const errorMessage = err.response?.data?.message || "Login failed. Please try again.";
-      const errorCode = err.response?.data?.errorCode;
+      // Layer 8 — Reliability: Specific Failover Messaging
+      let errorMessage = "Login failed. Please try again.";
+      
+      if (!err.response) {
+        errorMessage = "Server is currently unreachable. Please check your network connection.";
+      } else {
+        errorMessage = err.response.data?.message || errorMessage;
+        const errorCode = err.response.data?.errorCode;
 
-      // Handle unverified email redirection
-      if (errorCode === "EMAIL_NOT_VERIFIED") {
-        navigate("/verify-otp", { state: { email: formData.email } });
-        return;
+        // Handle unverified email redirection
+        if (errorCode === "EMAIL_NOT_VERIFIED") {
+          navigate("/verify-otp", { state: { email: formData.email } });
+          return;
+        }
       }
 
       setError(errorMessage);
@@ -75,13 +82,19 @@ const Login = () => {
         />
         
         {error && (
-          <p className="text-[10px] text-red-500 font-bold uppercase tracking-wider text-center">
+          <p 
+            role="alert"
+            className="text-[10px] text-red-500 font-bold uppercase tracking-wider text-center"
+          >
             {error}
           </p>
         )}
 
         <div className="flex justify-end pr-1">
-          <Link to="/forgot-password" className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-black transition-colors">
+          <Link 
+            to="/forgot-password" 
+            className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-black transition-colors"
+          >
             Forgot Password?
           </Link>
         </div>

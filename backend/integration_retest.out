@@ -1,0 +1,855 @@
+﻿
+> node-express-mysql-starter@1.0.0 test:integration
+> vitest run --config vitest.integration.config.js
+
+node.exe : [1m[43m DEPRECATED [49m[22m 
+[33m`test.poolOptions` was removed in Vitest 4. All 
+previous `poolOptions` are now top-level options. 
+Please, refer to the migration guide: 
+https://vitest.dev/guide/migration#pool-rework[39m
+At C:\Program Files\nodejs\npm.ps1:29 char:3
++   & $NODE_EXE $NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1m[43 
+   m DEPRE...ool-rework[39m:String) [], RemoteExcep  
+  tion
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+[1m[46m RUN [49m[22m [36mv4.1.0 [39m[90mD:/EDUVERSE/backend[39m
+
+[0mPOST /api/v1/auth/register [32m201[0m 583.337 ms - 345[0m
+[0mPOST /api/v1/auth/register [32m201[0m 586.637 ms - 346[0m
+[0mPOST /api/v1/auth/register [32m201[0m 596.572 ms - 346[0m
+[0mPOST /api/v1/auth/register [32m201[0m 587.500 ms - 345[0m
+[0mPOST /api/v1/auth/register [32m201[0m 589.499 ms - 346[0m
+[0mPOST /api/v1/auth/register [32m201[0m 580.336 ms - 345[0m
+[0mPOST /api/v1/auth/register [32m201[0m 595.013 ms - 345[0m
+[0mPOST /api/v1/auth/register [32m201[0m 604.687 ms - 346[0m
+[0mPOST /api/v1/auth/register [32m201[0m 600.105 ms - 346[0m
+[90mstderr[2m | 
+src/tests/integration/auth.integration.test.js[2m > 
+[22m[2mAuth Module ΓÇö Integration[2m > 
+[22m[2mPOST /login ΓÇö fails when unverified
+[22m[39m[ERROR] 
+[efe2b80c-4e52-42d1-bd99-5439b73e8be1] Email not 
+verified. Please check your inbox for the OTP. {
+  errorCode: [32m'EMAIL_NOT_VERIFIED'[39m,
+  path: [32m'/api/v1/auth/login'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Email not verified. Please 
+check your inbox for the OTP.\n'[39m +
+    [32m'    at createError (D:/EDUVERSE/backend/src/
+utils/ApiError.js:14:15)\n'[39m +
+    [32m'    at Module.loginUser (D:/EDUVERSE/backend
+/src/modules/auth/auth.service.js:105:85)\n'[39m +
+    [32m'    at processTicksAndRejections 
+(node:internal/process/task_queues:105:5)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/modules/auth/
+auth.controller.js:46:18'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m403[0m 22.401 ms - 270[0m
+[0mPOST /api/v1/auth/login [32m200[0m 256.122 ms - 539[0m
+[0mPOST /api/v1/auth/login [32m200[0m 261.459 ms - 537[0m
+[0mPOST /api/v1/auth/login [32m200[0m 255.049 ms - 537[0m
+[0mPOST /api/v1/auth/login [32m200[0m 270.286 ms - 539[0m
+[0mPOST /api/v1/auth/login [32m200[0m 246.580 ms - 537[0m
+[90mstderr[2m | src/tests/integration/security.integ
+ration.test.js[2m > [22m[2mSecurity Layer ΓÇö 
+Penetration Testing[2m > [22m[2mSQLi ΓÇö should 
+NOT allow authentication bypass via OR 1=1
+[22m[39m[ERROR] 
+[51cc27b9-8d69-444c-8420-6dc868c96358] Validation 
+failed {
+  errorCode: [32m'VALIDATION_ERROR'[39m,
+  path: [32m'/api/v1/auth/login'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Validation failed\n'[39m +
+    [32m'    at createError (D:/EDUVERSE/backend/src/
+utils/ApiError.js:14:15)\n'[39m +
+    [32m'    at validate (D:/EDUVERSE/backend/src/mid
+dlewares/validate.middleware.js:17:28)\n'[39m +
+    [32m'    at Layer.handle [as handle_request] (D:\
+\EDUVERSE\\backend\\node_modules\\express\\lib\\router
+\\layer.js:95:5)\n'[39m +
+    [32m'    at next (D:\\EDUVERSE\\backend\\node_mod
+ules\\express\\lib\\router\\route.js:149:13)\n'[39m +
+    [32m'    at middleware (D:\\EDUVERSE\\backend\\no
+de_modules\\express-validator\\lib\\middlewares\\check
+.js:16:13)\n'[39m +
+    [32m'    at processTicksAndRejections 
+(node:internal/process/task_queues:105:5)'[39m
+}
+
+[0mPOST /api/v1/auth/login [33m422[0m 14.227 ms - 229[0m
+[0mPOST /api/v1/mastery [33m404[0m 2.468 ms - 239[0m
+[0mPOST /api/v1/auth/login [32m200[0m 257.149 ms - 537[0m
+[0mPOST /api/v1/auth/login [32m200[0m 279.611 ms - 539[0m
+[0mPATCH /api/v1/profile/me [32m200[0m 28.692 ms - 861[0m
+[0mGET /api/v1/auth/me [32m200[0m 23.326 ms - 396[0m
+[0mGET /api/v1/mastery/discovery [33m404[0m 10.134 ms - 257[0m
+[90mstderr[2m | 
+src/tests/integration/auth.integration.test.js[2m > 
+[22m[2mAuth Module ΓÇö Integration[2m > 
+[22m[2mPOST /refresh ΓÇö success
+[22m[39m[ERROR] 
+[09c761ac-547c-4152-83cd-d0f8302dd745] 
+__vite_ssr_import_1__.refreshAuthToken is not a 
+function {
+  errorCode: [90mundefined[39m,
+  path: [32m'/api/v1/auth/refresh'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'TypeError: 
+__vite_ssr_import_1__.refreshAuthToken is not a 
+function\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/modules/auth/
+auth.controller.js:207:36\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/utils/asyncHa
+ndler.js:14:19\n'[39m +
+    [32m'    at Layer.handle [as handle_request] (D:\
+\EDUVERSE\\backend\\node_modules\\express\\lib\\router
+\\layer.js:95:5)\n'[39m +
+    [32m'    at next (D:\\EDUVERSE\\backend\\node_mod
+ules\\express\\lib\\router\\route.js:149:13)\n'[39m +
+    [32m'    at Route.dispatch (D:\\EDUVERSE\\backend
+\\node_modules\\express\\lib\\router\\route.js:119:3)\
+n'[39m +
+    [32m'    at Layer.handle [as handle_request] (D:\
+\EDUVERSE\\backend\\node_modules\\express\\lib\\router
+\\layer.js:95:5)\n'[39m +
+    [32m'    at D:\\EDUVERSE\\backend\\node_modules\\
+express\\lib\\router\\index.js:284:15\n'[39m +
+    [32m'    at Function.process_params (D:\\EDUVERSE
+\\backend\\node_modules\\express\\lib\\router\\index.j
+s:346:12)\n'[39m +
+    [32m'    at next (D:\\EDUVERSE\\backend\\node_mod
+ules\\express\\lib\\router\\index.js:280:10)\n'[39m +
+    [32m'    at Function.handle (D:\\EDUVERSE\\backen
+d\\node_modules\\express\\lib\\router\\index.js:175:3)
+'[39m
+}
+
+[0mPOST /api/v1/auth/refresh [31m500[0m 4.562 ms - 240[0m
+[0mGET /api/v1/mastery/my [33m404[0m 1.428 ms - 243[0m
+[0mGET /api/v1/profile/me [32m200[0m 15.795 ms - 838[0m
+[0mPOST /api/v1/feed [32m201[0m 31.382 ms - 809[0m
+[0mPATCH /api/v1/profile/me [32m200[0m 16.204 ms - 915[0m
+[90mstderr[2m | src/tests/integration/security.integ
+ration.test.js[2m > [22m[2mSecurity Layer ΓÇö 
+Penetration Testing[2m > [22m[2mBroken Auth ΓÇö 
+should reject JWT with manipulated payload/signature
+[22m[39m[ERROR] 
+[630295df-e70e-4b46-8b10-9796e9774a64] Not 
+authorized, token failed or expired {
+  errorCode: [32m'UNAUTHORIZED'[39m,
+  path: [32m'/api/v1/profile/me'[39m,
+  method: [32m'PATCH'[39m,
+  stack: [32m'Error: Not authorized, token failed or 
+expired\n'[39m +
+    [32m'    at createError (D:/EDUVERSE/backend/src/
+utils/ApiError.js:14:15)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/middlewares/a
+uth.middleware.js:37:22\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/utils/asyncHa
+ndler.js:14:19\n'[39m +
+    [32m'    at Layer.handle [as handle_request] (D:\
+\EDUVERSE\\backend\\node_modules\\express\\lib\\router
+\\layer.js:95:5)\n'[39m +
+    [32m'    at next (D:\\EDUVERSE\\backend\\node_mod
+ules\\express\\lib\\router\\route.js:149:13)\n'[39m +
+    [32m'    at Route.dispatch (D:\\EDUVERSE\\backend
+\\node_modules\\express\\lib\\router\\route.js:119:3)\
+n'[39m +
+    [32m'    at Layer.handle [as handle_request] (D:\
+\EDUVERSE\\backend\\node_modules\\express\\lib\\router
+\\layer.js:95:5)\n'[39m +
+    [32m'    at D:\\EDUVERSE\\backend\\node_modules\\
+express\\lib\\router\\index.js:284:15\n'[39m +
+    [32m'    at Function.process_params (D:\\EDUVERSE
+\\backend\\node_modules\\express\\lib\\router\\index.j
+s:346:12)\n'[39m +
+    [32m'    at next (D:\\EDUVERSE\\backend\\node_mod
+ules\\express\\lib\\router\\index.js:280:10)'[39m
+}
+
+[0mPOST /api/v1/auth/logout [32m200[0m 2.479 ms - 205[0m
+[0mGET /api/v1/feed [32m200[0m 24.207 ms - 213[0m
+[0mPATCH /api/v1/profile/me [33m401[0m 9.626 ms - 248[0m
+ [31mΓ¥»[39m src/tests/integration/mastery.integration.test.js [2m([22m[2m3 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 1292[2mms[22m[39m
+[31m     [31m├ù[31m POST / ΓÇö should initiate a mastery stream and return 201[39m[32m 62[2mms[22m[39m
+[31m     [31m├ù[31m GET /discovery ΓÇö should list the mastery stream in global learning feed[39m[32m 24[2mms[22m[39m
+[31m     [31m├ù[31m GET /my ΓÇö should list creator streams[39m[32m 16[2mms[22m[39m
+ [32mΓ£ô[39m src/tests/integration/security.integration.test.js [2m([22m[2m4 tests[22m[2m)[22m[33m 1324[2mms[22m[39m
+ [31mΓ¥»[39m src/tests/integration/auth.integration.test.js [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 1321[2mms[22m[39m
+     [33m[2mΓ£ô[22m[39m POST /register ΓÇö success [33m 653[2mms[22m[39m
+     [32mΓ£ô[39m POST /login ΓÇö fails when unverified[32m 43[2mms[22m[39m
+     [32mΓ£ô[39m POST /login ΓÇö success after verification[32m 273[2mms[22m[39m
+     [32mΓ£ô[39m GET /me ΓÇö success[32m 40[2mms[22m[39m
+[31m     [31m├ù[31m POST /refresh ΓÇö success[39m[32m 50[2mms[22m[39m
+     [32mΓ£ô[39m POST /logout ΓÇö success[32m 30[2mms[22m[39m
+[90mstderr[2m | 
+src/tests/integration/feed.integration.test.js[2m > 
+[22m[2mFeed Module ΓÇö Integration[2m > 
+[22m[2mPOST /:postId/like ΓÇö should increment like 
+count
+[22m[39m[ERROR] 
+[68fd5015-880e-48cc-9d23-c6bf359e567a] Not 
+authorized, token failed or expired {
+  errorCode: [32m'UNAUTHORIZED'[39m,
+  path: [32m'/api/v1/feed/0e101142-b38d-4902-b3e9-699
+d6d5a0ab5/like'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Not authorized, token failed or 
+expired\n'[39m +
+    [32m'    at createError (D:/EDUVERSE/backend/src/
+utils/ApiError.js:14:15)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/middlewares/a
+uth.middleware.js:37:22\n'[39m +
+    [32m'    at processTicksAndRejections 
+(node:internal/process/task_queues:105:5)'[39m
+}
+
+[0mPOST /api/v1/feed/0e101142-b38d-4902-b3e9-699d6d5a0ab5/like [33m401[0m 21.921 ms - 283[0m
+[90mstderr[2m | 
+src/tests/integration/profile.integration.test.js[2m 
+> [22m[2mProfile Module ΓÇö Integration
+[22m[39m[ERROR] 
+[e7d02244-e10b-474d-a926-449e75823244] Cannot add or 
+update a child row: a foreign key constraint fails 
+(`eduverse`.`otp_tokens`, CONSTRAINT `fk_otp_user` 
+FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON 
+DELETE CASCADE) {
+  errorCode: [90mundefined[39m,
+  path: [32m'/api/v1/auth/register'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Cannot add or update a child 
+row: a foreign key constraint fails 
+(`eduverse`.`otp_tokens`, CONSTRAINT `fk_otp_user` 
+FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON 
+DELETE CASCADE)\n'[39m +
+    [32m'    at PromisePool.execute (D:\\EDUVERSE\\ba
+ckend\\node_modules\\mysql2\\lib\\promise\\pool.js:54:
+22)\n'[39m +
+    [32m'    at Object.createOtp (D:/EDUVERSE/backend
+/src/modules/auth/auth.repository.js:65:33)\n'[39m +
+    [32m'    at Module.registerUser (D:/EDUVERSE/back
+end/src/modules/auth/auth.service.js:57:24)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/modules/auth/
+auth.controller.js:12:18'[39m
+}
+
+[0mPOST /api/v1/auth/register [31m500[0m 523.457 ms - 241[0m
+[90mstderr[2m | 
+src/tests/integration/feed.integration.test.js[2m > 
+[22m[2mFeed Module ΓÇö Integration[2m > 
+[22m[2mPOST /:postId/comments ΓÇö should add a 
+comment and return 201
+[22m[39m[ERROR] 
+[6dba0e43-d078-41ba-a4a9-f57a844aa5e6] Not 
+authorized, token failed or expired {
+  errorCode: [32m'UNAUTHORIZED'[39m,
+  path: [32m'/api/v1/feed/0e101142-b38d-4902-b3e9-699
+d6d5a0ab5/comments'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Not authorized, token failed or 
+expired\n'[39m +
+    [32m'    at createError (D:/EDUVERSE/backend/src/
+utils/ApiError.js:14:15)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/middlewares/a
+uth.middleware.js:37:22\n'[39m +
+    [32m'    at processTicksAndRejections 
+(node:internal/process/task_queues:105:5)'[39m
+}
+
+[0mPOST /api/v1/feed/0e101142-b38d-4902-b3e9-699d6d5a0ab5/comments [33m401[0m 8.080 ms - 287[0m
+[90mstderr[2m | 
+src/tests/integration/squad.integration.test.js[2m > 
+[22m[2mSquad Module ΓÇö Integration
+[22m[39m[ERROR] 
+[7367ecbe-9628-4796-8f26-97fa29ade334] Cannot add or 
+update a child row: a foreign key constraint fails 
+(`eduverse`.`user_auth_providers`, CONSTRAINT 
+`fk_providers_user` FOREIGN KEY (`user_id`) 
+REFERENCES `users` (`id`) ON DELETE CASCADE) {
+  errorCode: [90mundefined[39m,
+  path: [32m'/api/v1/auth/register'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Cannot add or update a child 
+row: a foreign key constraint fails 
+(`eduverse`.`user_auth_providers`, CONSTRAINT 
+`fk_providers_user` FOREIGN KEY (`user_id`) 
+REFERENCES `users` (`id`) ON DELETE CASCADE)\n'[39m +
+    [32m'    at PromisePool.execute (D:\\EDUVERSE\\ba
+ckend\\node_modules\\mysql2\\lib\\promise\\pool.js:54:
+22)\n'[39m +
+    [32m'    at Object.createProvider (D:/EDUVERSE/ba
+ckend/src/modules/auth/auth.repository.js:17:33)\n'[3
+9m +
+    [32m'    at Module.registerUser (D:/EDUVERSE/back
+end/src/modules/auth/auth.service.js:45:24)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/modules/auth/
+auth.controller.js:12:18'[39m
+}
+
+[0mPOST /api/v1/auth/register [31m500[0m 272.101 ms - 241[0m
+[90mstderr[2m | src/tests/integration/search_insight
+.integration.test.js[2m > [22m[2mSearch & Insight 
+Modules ΓÇö Integration
+[22m[39m[ERROR] 
+[ca798d59-51ce-45bb-94cc-5dc2c512c750] Cannot add or 
+update a child row: a foreign key constraint fails 
+(`eduverse`.`user_auth_providers`, CONSTRAINT 
+`fk_providers_user` FOREIGN KEY (`user_id`) 
+REFERENCES `users` (`id`) ON DELETE CASCADE) {
+  errorCode: [90mundefined[39m,
+  path: [32m'/api/v1/auth/register'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Cannot add or update a child 
+row: a foreign key constraint fails 
+(`eduverse`.`user_auth_providers`, CONSTRAINT 
+`fk_providers_user` FOREIGN KEY (`user_id`) 
+REFERENCES `users` (`id`) ON DELETE CASCADE)\n'[39m +
+    [32m'    at PromisePool.execute (D:\\EDUVERSE\\ba
+ckend\\node_modules\\mysql2\\lib\\promise\\pool.js:54:
+22)\n'[39m +
+    [32m'    at Object.createProvider (D:/EDUVERSE/ba
+ckend/src/modules/auth/auth.repository.js:17:33)\n'[3
+9m +
+    [32m'    at Module.registerUser (D:/EDUVERSE/back
+end/src/modules/auth/auth.service.js:45:24)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/modules/auth/
+auth.controller.js:12:18'[39m
+}
+
+[0mPOST /api/v1/auth/register [31m500[0m 273.495 ms - 241[0m
+[90mstderr[2m | src/tests/integration/connections.in
+tegration.test.js[2m > [22m[2mConnections Module 
+ΓÇö Integration
+[22m[39m[ERROR] 
+[eb3c2a11-ae2b-42d4-9d5b-d87932e4c41a] Cannot add or 
+update a child row: a foreign key constraint fails 
+(`eduverse`.`otp_tokens`, CONSTRAINT `fk_otp_user` 
+FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON 
+DELETE CASCADE) {
+  errorCode: [90mundefined[39m,
+  path: [32m'/api/v1/auth/register'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Cannot add or update a child 
+row: a foreign key constraint fails 
+(`eduverse`.`otp_tokens`, CONSTRAINT `fk_otp_user` 
+FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON 
+DELETE CASCADE)\n'[39m +
+    [32m'    at PromisePool.execute (D:\\EDUVERSE\\ba
+ckend\\node_modules\\mysql2\\lib\\promise\\pool.js:54:
+22)\n'[39m +
+    [32m'    at Object.createOtp (D:/EDUVERSE/backend
+/src/modules/auth/auth.repository.js:65:33)\n'[39m +
+    [32m'    at Module.registerUser (D:/EDUVERSE/back
+end/src/modules/auth/auth.service.js:57:24)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/modules/auth/
+auth.controller.js:12:18'[39m
+}
+
+[0mPOST /api/v1/auth/register [31m500[0m 498.047 ms - 241[0m
+[0mGET /api/v1/feed/0e101142-b38d-4902-b3e9-699d6d5a0ab5/comments [32m200[0m 16.652 ms - 245[0m
+[0mPOST /api/v1/auth/register [31m500[0m 289.881 ms - 241[0m
+[90mstderr[2m | 
+src/tests/integration/chats.integration.test.js[2m > 
+[22m[2mChat Module ΓÇö Integration
+[22m[39m[ERROR] 
+[834688a7-53a1-4999-9ed0-ce7099faf1c6] Cannot add or 
+update a child row: a foreign key constraint fails 
+(`eduverse`.`user_auth_providers`, CONSTRAINT 
+`fk_providers_user` FOREIGN KEY (`user_id`) 
+REFERENCES `users` (`id`) ON DELETE CASCADE) {
+  errorCode: [90mundefined[39m,
+  path: [32m'/api/v1/auth/register'[39m,
+  method: [32m'POST'[39m,
+  stack: [32m'Error: Cannot add or update a child 
+row: a foreign key constraint fails 
+(`eduverse`.`user_auth_providers`, CONSTRAINT 
+`fk_providers_user` FOREIGN KEY (`user_id`) 
+REFERENCES `users` (`id`) ON DELETE CASCADE)\n'[39m +
+    [32m'    at PromisePool.execute (D:\\EDUVERSE\\ba
+ckend\\node_modules\\mysql2\\lib\\promise\\pool.js:54:
+22)\n'[39m +
+    [32m'    at Object.createProvider (D:/EDUVERSE/ba
+ckend/src/modules/auth/auth.repository.js:17:33)\n'[3
+9m +
+    [32m'    at Module.registerUser (D:/EDUVERSE/back
+end/src/modules/auth/auth.service.js:45:24)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/modules/auth/
+auth.controller.js:12:18'[39m
+}
+
+[90mstderr[2m | 
+src/tests/integration/feed.integration.test.js[2m > 
+[22m[2mFeed Module ΓÇö Integration[2m > 
+[22m[2mDELETE /:postId ΓÇö should hide content from 
+feed
+[22m[39m[ERROR] 
+[e3f07dbc-1ddd-46c6-bc40-50d054fba224] Not 
+authorized, token failed or expired {
+  errorCode: [32m'UNAUTHORIZED'[39m,
+  path: [32m'/api/v1/feed/0e101142-b38d-4902-b3e9-699
+d6d5a0ab5'[39m,
+  method: [32m'DELETE'[39m,
+  stack: [32m'Error: Not authorized, token failed or 
+expired\n'[39m +
+    [32m'    at createError (D:/EDUVERSE/backend/src/
+utils/ApiError.js:14:15)\n'[39m +
+    [32m'    at D:/EDUVERSE/backend/src/middlewares/a
+uth.middleware.js:37:22\n'[39m +
+    [32m'    at processTicksAndRejections 
+(node:internal/process/task_queues:105:5)'[39m
+}
+
+ [31mΓ¥»[39m src/tests/integration/profile.integration.test.js [2m([22m[2m6 tests[22m[2m | [22m[33m6 skipped[39m[2m)[22m[33m 1445[2mms[22m[39m
+       [2m[90mΓåô[39m[22m should return 404 for non-existent profile
+       [2m[90mΓåô[39m[22m should return profile for valid username
+       [2m[90mΓåô[39m[22m should show isMe=true when fetching own profile
+       [2m[90mΓåô[39m[22m should update profile fields and return 200
+       [2m[90mΓåô[39m[22m should follow userB and return 200
+       [2m[90mΓåô[39m[22m should unfollow userB
+ [31mΓ¥»[39m src/tests/integration/squad.integration.test.js [2m([22m[2m5 tests[22m[2m | [22m[33m5 skipped[39m[2m)[22m[33m 1444[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST / ΓÇö should create a new public squad and return 201
+     [2m[90mΓåô[39m[22m GET /public ΓÇö should list the new squad for User B
+     [2m[90mΓåô[39m[22m POST /:id/join ΓÇö should allow User B to join the squad
+     [2m[90mΓåô[39m[22m POST /:id/leave ΓÇö should refuse owner leave if they are the last one
+     [2m[90mΓåô[39m[22m GET /my ΓÇö should show membership for both users
+ [31mΓ¥»[39m src/tests/integration/search_insight.integration.test.js [2m([22m[2m3 tests[22m[2m | [22m[33m3 skipped[39m[2m)[22m[33m 1449[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST /insight ΓÇö should publish micro-content and return 201
+     [2m[90mΓåô[39m[22m GET /search ΓÇö should find User A by first name
+     [2m[90mΓåô[39m[22m GET /search ΓÇö should find User A by unique content snippet
+[0mDELETE /api/v1/feed/0e101142-b38d-4902-b3e9-699d6d5a0ab5 [33m401[0m 6.408 ms - 280[0m
+ [31mΓ¥»[39m src/tests/integration/connections.integration.test.js [2m([22m[2m5 tests[22m[2m | [22m[33m5 skipped[39m[2m)[22m[33m 1459[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST /request/:userId ΓÇö should send connection request to User B
+     [2m[90mΓåô[39m[22m GET /pending ΓÇö should list incoming request for User B
+     [2m[90mΓåô[39m[22m POST /accept/:requestId ΓÇö should verify connection established
+     [2m[90mΓåô[39m[22m GET / ΓÇö should list User B in User A verified network
+     [2m[90mΓåô[39m[22m DELETE /:userId ΓÇö should remove connection
+ [31mΓ¥»[39m src/tests/integration/chats.integration.test.js [2m([22m[2m4 tests[22m[2m | [22m[33m4 skipped[39m[2m)[22m[33m 1493[2mms[22m[39m
+     [2m[90mΓåô[39m[22m POST /rooms ΓÇö should create a direct chat room between A and B
+     [2m[90mΓåô[39m[22m GET /rooms ΓÇö should show the new room for both participants
+     [2m[90mΓåô[39m[22m GET /rooms/:id/messages ΓÇö should allow A to view (empty) history
+     [2m[90mΓåô[39m[22m GET /rooms/:id/messages ΓÇö should FORBID User C from viewing history
+ [31mΓ¥»[39m src/tests/integration/feed.integration.test.js [2m([22m[2m6 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[33m 1510[2mms[22m[39m
+     [32mΓ£ô[39m POST / ΓÇö should publish a text post and return 201[32m 57[2mms[22m[39m
+[31m     [31m├ù[31m GET / ΓÇö should list the published post in home feed[39m[32m 46[2mms[22m[39m
+[31m     [31m├ù[31m POST /:postId/like ΓÇö should increment like count[39m[32m 71[2mms[22m[39m
+[31m     [31m├ù[31m POST /:postId/comments ΓÇö should add a comment and return 201[39m[32m 26[2mms[22m[39m
+[31m     [31m├ù[31m GET /:postId/comments ΓÇö should list the comment[39m[32m 32[2mms[22m[39m
+[31m     [31m├ù[31m DELETE /:postId ΓÇö should hide content from feed[39m[32m 32[2mms[22m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m[1m[41m Failed Suites 5 
+[49m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/chats.integration.test.js[2m > 
+[22mChat Module ΓÇö Integration
+[31m[1mTypeError[22m: Cannot read properties of 
+undefined (reading 'userId')[39m
+[36m [2mΓ¥»[22m src/tests/integration/chats.integra
+tion.test.js:[2m31:28[22m[39m
+    [90m 29|[39m         password[33m:[39m 
+[33mTEST_PASS[39m[33m,[39m campus[33m:[39m 
+[32m'Chat Uni'[39m
+    [90m 30|[39m       })[33m;[39m
+    [90m 31|[39m       u[33m.[39mid [33m=[39m re
+g[33m.[39mbody[33m.[39mdata[33m.[39muserId[33m;
+[39m
+    [90m   |[39m                            
+[31m^[39m
+    [90m 32|[39m       await pool.execute("UPDATE 
+users SET status='active', email_veriΓÇª
+    [90m 33|[39m       const login = await 
+request(app).post('/api/v1/auth/login').sendΓÇª
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/tests/integration/connec
+tions.integration.test.js[2m > [22mConnections 
+Module ΓÇö Integration
+[31m[1mTypeError[22m: Cannot read properties of 
+undefined (reading 'userId')[39m
+[36m [2mΓ¥»[22m src/tests/integration/connections.i
+ntegration.test.js:[2m35:34[22m[39m
+    [90m 33|[39m       password[33m:[39m 
+[33mTEST_PASS[39m[33m,[39m campus[33m:[39m 
+[32m'Uni B'[39m
+    [90m 34|[39m     })[33m;[39m
+    [90m 35|[39m     userB[33m.[39mid [33m=[39m 
+regBRes[33m.[39mbody[33m.[39mdata[33m.[39muserId
+[33m;[39m
+    [90m   |[39m                                  
+[31m^[39m
+    [90m 36|[39m
+    [90m 37|[39m     [90m// Verify manually[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/profile.integration.test.js[2m 
+> [22mProfile Module ΓÇö Integration
+[31m[1mAssertionError[22m: expected 500 to be 201 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 201[39m
+[31m+ 500[39m
+
+[36m [2mΓ¥»[22m src/tests/integration/profile.integ
+ration.test.js:[2m34:28[22m[39m
+    [90m 32|[39m       password[33m:[39m 
+[33mTEST_PASS[39m[33m,[39m campus[33m:[39m 
+[32m'Beta Uni'[39m
+    [90m 33|[39m     })[33m;[39m
+    [90m 34|[39m     [34mexpect[39m(regBRes[33m.
+[39mstatus)[33m.[39m[34mtoBe[39m([34m201[39m)[3
+3m;[39m
+    [90m   |[39m                            
+[31m^[39m
+    [90m 35|[39m     userB[33m.[39mid [33m=[39m 
+regBRes[33m.[39mbody[33m.[39mdata[33m.[39muserId
+[33m;[39m
+    [90m 36|[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m src/tests/integration/search
+_insight.integration.test.js[2m > [22mSearch & 
+Insight Modules ΓÇö Integration
+[31m[1mTypeError[22m: Cannot read properties of 
+undefined (reading 'userId')[39m
+[36m [2mΓ¥»[22m src/tests/integration/search_insigh
+t.integration.test.js:[2m28:28[22m[39m
+    [90m 26|[39m         email[33m:[39m 
+u[33m.[39memail[33m,[39m password[33m:[39m 
+[33mTEST_PASS[39m[33m,[39m campus[33m:[39m 
+[32m'Finders Uni'[39m
+    [90m 27|[39m       })[33m;[39m
+    [90m 28|[39m       u[33m.[39mid [33m=[39m re
+g[33m.[39mbody[33m.[39mdata[33m.[39muserId[33m;
+[39m
+    [90m   |[39m                            
+[31m^[39m
+    [90m 29|[39m       await pool.execute("UPDATE 
+users SET status='active', email_veriΓÇª
+    [90m 30|[39m       const login = await 
+request(app).post('/api/v1/auth/login').sendΓÇª
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/squad.integration.test.js[2m > 
+[22mSquad Module ΓÇö Integration
+[31m[1mTypeError[22m: Cannot read properties of 
+undefined (reading 'userId')[39m
+[36m [2mΓ¥»[22m src/tests/integration/squad.integra
+tion.test.js:[2m30:28[22m[39m
+    [90m 28|[39m         password[33m:[39m 
+[33mTEST_PASS[39m[33m,[39m campus[33m:[39m 
+[32m'Squad Central'[39m
+    [90m 29|[39m       })[33m;[39m
+    [90m 30|[39m       u[33m.[39mid [33m=[39m re
+g[33m.[39mbody[33m.[39mdata[33m.[39muserId[33m;
+[39m
+    [90m   |[39m                            
+[31m^[39m
+    [90m 31|[39m       await pool.execute("UPDATE 
+users SET status='active', email_veriΓÇª
+    [90m 32|[39m       const login = await 
+request(app).post('/api/v1/auth/login').sendΓÇª
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[5/14]ΓÄ»[22m[39m
+
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m[1m[41m Failed Tests 
+9 [49m[22m[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/auth.integration.test.js[2m > 
+[22mAuth Module ΓÇö Integration[2m > [22mPOST 
+/refresh ΓÇö success
+[31m[1mAssertionError[22m: expected 500 to be 200 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 500[39m
+
+[36m [2mΓ¥»[22m src/tests/integration/auth.integrat
+ion.test.js:[2m51:24[22m[39m
+    [90m 49|[39m   [34mit[39m([32m'POST /refresh 
+ΓÇö success'[39m[33m,[39m [35masync[39m () 
+[33m=>[39m {
+    [90m 50|[39m     const res = await 
+request(app).post('/api/v1/auth/refresh').set('CΓÇª
+    [90m 51|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;
+[39m
+    [90m   |[39m                        [31m^[39m
+    [90m 52|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata[33m.[39maccessToken)[33m.[39m
+[34mtoBeDefined[39m()[33m;[39m
+    [90m 53|[39m   })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[6/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/feed.integration.test.js[2m > 
+[22mFeed Module ΓÇö Integration[2m > [22mGET / ΓÇö 
+should list the published post in home feed
+[31m[1mAssertionError[22m: expected 0 to be 
+greater than 0[39m
+[36m [2mΓ¥»[22m src/tests/integration/feed.integrat
+ion.test.js:[2m63:34[22m[39m
+    [90m 61|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;
+[39m
+    [90m 62|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata)[33m.[39m[34mtoBeDefined[39m()
+[33m;[39m
+    [90m 63|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata[33m.[39mlength)[33m.[39m[34mt
+oBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m   |[39m                                  
+[31m^[39m
+    [90m 64|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata[[34m0[39m][33m.[39mid)[33m.[
+39m[34mtoBe[39m(postId)[33m;[39m
+    [90m 65|[39m   })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[7/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/feed.integration.test.js[2m > 
+[22mFeed Module ΓÇö Integration[2m > [22mPOST 
+/:postId/like ΓÇö should increment like count
+[31m[1mAssertionError[22m: expected 401 to be 200 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 401[39m
+
+[36m [2mΓ¥»[22m src/tests/integration/feed.integrat
+ion.test.js:[2m74:24[22m[39m
+    [90m 72|[39m       [33m.[39m[34msend[39m({ 
+targetType[33m:[39m [32m'post'[39m })[33m;[39m
+    [90m 73|[39m
+    [90m 74|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;
+[39m
+    [90m   |[39m                        [31m^[39m
+    [90m 75|[39m
+    [90m 76|[39m     [90m// Check feed 
+reflection[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[8/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/feed.integration.test.js[2m > 
+[22mFeed Module ΓÇö Integration[2m > [22mPOST 
+/:postId/comments ΓÇö should add a comment and return 
+201
+[31m[1mAssertionError[22m: expected 401 to be 201 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 201[39m
+[31m+ 401[39m
+
+[36m [2mΓ¥»[22m src/tests/integration/feed.integrat
+ion.test.js:[2m98:24[22m[39m
+    [90m 96|[39m       })[33m;[39m
+    [90m 97|[39m
+    [90m 98|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m201[39m)[33m;
+[39m
+    [90m   |[39m                        [31m^[39m
+    [90m 99|[39m   })[33m;[39m
+    [90m100|[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[9/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/feed.integration.test.js[2m > 
+[22mFeed Module ΓÇö Integration[2m > [22mGET 
+/:postId/comments ΓÇö should list the comment
+[31m[1mAssertionError[22m: expected 0 to be 
+greater than 0[39m
+[36m [2mΓ¥»[22m src/tests/integration/feed.integrat
+ion.test.js:[2m108:34[22m[39m
+    [90m106|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;
+[39m
+    [90m107|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata)[33m.[39m[34mtoBeDefined[39m()
+[33m;[39m
+    [90m108|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata[33m.[39mlength)[33m.[39m[34mt
+oBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m   |[39m                                  
+[31m^[39m
+    [90m109|[39m
+    [90m110|[39m     commentId [33m=[39m res[33m.
+[39mbody[33m.[39mdata[[34m0[39m][33m.[39mid[33
+m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[10/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/feed.integration.test.js[2m > 
+[22mFeed Module ΓÇö Integration[2m > [22mDELETE 
+/:postId ΓÇö should hide content from feed
+[31m[1mAssertionError[22m: expected 401 to be 200 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 401[39m
+
+[36m [2mΓ¥»[22m src/tests/integration/feed.integrat
+ion.test.js:[2m120:24[22m[39m
+    [90m118|[39m       [33m.[39m[35mset[39m([32
+m'Authorization'[39m[33m,[39m [32m`Bearer [39m[3
+6m${[39muserA[33m.[39maccessToken[36m}[39m[32m`
+[39m)[33m;[39m
+    [90m119|[39m
+    [90m120|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;
+[39m
+    [90m   |[39m                        [31m^[39m
+    [90m121|[39m
+    [90m122|[39m     [90m// Verify gone[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[11/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/mastery.integration.test.js[2m 
+> [22mMastery Module ΓÇö Integration[2m > [22mPOST 
+/ ΓÇö should initiate a mastery stream and return 201
+[31m[1mAssertionError[22m: expected 404 to be 201 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 201[39m
+[31m+ 404[39m
+
+[36m [2mΓ¥»[22m src/tests/integration/mastery.integ
+ration.test.js:[2m49:24[22m[39m
+    [90m 47|[39m       .attach('media', 
+Buffer.from('mock_video_data'), 'test_video.mp4ΓÇª
+    [90m 48|[39m
+    [90m 49|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m201[39m)[33m;
+[39m
+    [90m   |[39m                        [31m^[39m
+    [90m 50|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata[33m.[39mid)[33m.[39m[34mtoBeD
+efined[39m()[33m;[39m
+    [90m 51|[39m     streamId [33m=[39m res[33m.
+[39mbody[33m.[39mdata[33m.[39mid[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[12/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/mastery.integration.test.js[2m 
+> [22mMastery Module ΓÇö Integration[2m > [22mGET 
+/discovery ΓÇö should list the mastery stream in 
+global learning feed
+[31m[1mAssertionError[22m: expected 404 to be 200 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 404[39m
+
+[36m [2mΓ¥»[22m src/tests/integration/mastery.integ
+ration.test.js:[2m60:24[22m[39m
+    [90m 58|[39m       [33m.[39m[35mset[39m([32
+m'Authorization'[39m[33m,[39m [32m`Bearer [39m[3
+6m${[39muserA[33m.[39maccessToken[36m}[39m[32m`
+[39m)[33m;[39m
+    [90m 59|[39m
+    [90m 60|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;
+[39m
+    [90m   |[39m                        [31m^[39m
+    [90m 61|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata)[33m.[39m[34mtoBeDefined[39m()
+[33m;[39m
+    [90m 62|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata[33m.[39m[34msome[39m(s 
+[33m=>[39m s[33m.[39mid [33m===[39m streamId))[
+33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[13/14]ΓÄ»[22m[39m
+
+[41m[1m FAIL [22m[49m 
+src/tests/integration/mastery.integration.test.js[2m 
+> [22mMastery Module ΓÇö Integration[2m > [22mGET 
+/my ΓÇö should list creator streams
+[31m[1mAssertionError[22m: expected 404 to be 200 
+// Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 200[39m
+[31m+ 404[39m
+
+[36m [2mΓ¥»[22m src/tests/integration/mastery.integ
+ration.test.js:[2m71:24[22m[39m
+    [90m 69|[39m       [33m.[39m[35mset[39m([32
+m'Authorization'[39m[33m,[39m [32m`Bearer [39m[3
+6m${[39muserA[33m.[39maccessToken[36m}[39m[32m`
+[39m)[33m;[39m
+    [90m 70|[39m
+    [90m 71|[39m     [34mexpect[39m(res[33m.[39m
+status)[33m.[39m[34mtoBe[39m([34m200[39m)[33m;
+[39m
+    [90m   |[39m                        [31m^[39m
+    [90m 72|[39m     [34mexpect[39m(res[33m.[39m
+body[33m.[39mdata[[34m0[39m][33m.[39mid)[33m.[
+39m[34mtoBe[39m(streamId)[33m;[39m
+    [90m 73|[39m   })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[14/14]ΓÄ»[22m[39m
+
+
+[2m Test Files [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (9)[39m
+[2m      Tests [22m [1m[31m9 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[2m | [22m[33m23 skipped[39m[90m (42)[39m
+[2m   Start at [22m 20:05:44
+[2m   Duration [22m 8.81s[2m (transform 9.03s, setup 0ms, import 55.10s, tests 12.74s, environment 6ms)[22m
+

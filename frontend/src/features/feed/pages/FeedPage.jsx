@@ -54,8 +54,8 @@ const FeedPage = () => {
       if (cached) {
           const { data, expiry } = JSON.parse(cached);
           if (Date.now() < expiry) {
-              console.log("Serving Tech Intel from Local Storage ⚡");
               setTechNews(data.results);
+
               setNextNewsPage(data.nextPage);
               return;
           }

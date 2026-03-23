@@ -24,7 +24,7 @@ export const getProfile = asyncHandler(async (req, res) => {
 export const updateProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const updateData = { ...req.body };
-  console.log(`[DEBUG] updateProfile: User ${userId}`, updateData);
+
 
   // If new files were uploaded to cloudinary, the paths are here
   if (req.files?.avatar?.[0]) updateData.avatar_url = req.files.avatar[0].path;

@@ -40,7 +40,7 @@ describe('Mastery Module — Integration', () => {
     // we assume the controller handles missing files gracefully or we mock a field.
     // However, I'll try to send a JSON first to see if it bypasses or crashes.
     const res = await request(app)
-      .post('/api/v1/mastery')
+      .post('/api/v1/mastery-streams')
       .set('Authorization', `Bearer ${userA.accessToken}`)
       .field('body', 'Welcome to my Mastery stream on Advanced SQL!')
       .field('visibility', 'public')
@@ -54,7 +54,7 @@ describe('Mastery Module — Integration', () => {
   // ─── Phase 2: Discovery ─────────────────────────────────────────────────────
   it('GET /discovery — should list the mastery stream in global learning feed', async () => {
     const res = await request(app)
-      .get('/api/v1/mastery/discovery')
+      .get('/api/v1/mastery-streams/discovery')
       .set('Authorization', `Bearer ${userA.accessToken}`);
 
     expect(res.status).toBe(200);
@@ -65,7 +65,7 @@ describe('Mastery Module — Integration', () => {
   // ─── Phase 3: My Streams ───────────────────────────────────────────────────
   it('GET /my — should list creator streams', async () => {
     const res = await request(app)
-      .get('/api/v1/mastery/my')
+      .get('/api/v1/mastery-streams/my')
       .set('Authorization', `Bearer ${userA.accessToken}`);
 
     expect(res.status).toBe(200);

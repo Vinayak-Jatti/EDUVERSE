@@ -28,7 +28,7 @@ describe('Auth Module — Integration', () => {
 
   it('POST /login — fails when unverified', async () => {
     const res = await request(app).post('/api/v1/auth/login').send({ email: TEST_EMAIL, password: TEST_PASSWORD });
-    expect(res.status).toBe(400); 
+    expect(res.status).toBe(403); 
   });
 
   it('POST /login — success after verification', async () => {

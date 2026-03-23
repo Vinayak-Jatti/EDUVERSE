@@ -17,7 +17,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         
         {/* LOGO NODE */}
-        <Link to="/" className="flex items-center gap-3 text-2xl font-black tracking-tighter text-black group">
+        <Link 
+          to="/" 
+          aria-label="EduVerse Home"
+          className="flex items-center gap-3 text-2xl font-black tracking-tighter text-black group"
+        >
            <div className="skeuo-node w-10 h-10 bg-white flex items-center justify-center border-2 border-white group-hover:bg-black group-hover:text-white transition-all duration-500 shadow-md">
               <GraduationCap size={20} strokeWidth={2.5} />
            </div>
@@ -27,11 +31,11 @@ const Navbar = () => {
         {/* DESKTOP LINKS */}
         <div className="hidden md:flex items-center gap-10">
            {navLinks.map((link, idx) => (
-             <a key={idx} href={link.href} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-black transition-colors">
+             <a key={idx} href={link.href} className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-black transition-colors">
                {link.name}
              </a>
            ))}
-           <Link to="/login" className="text-[10px] font-black uppercase tracking-widest text-black/40 hover:text-black transition-colors">
+           <Link to="/login" className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-black transition-colors">
              Sign In
            </Link>
            <Link to="/register" 
@@ -45,6 +49,7 @@ const Navbar = () => {
         {/* MOBILE MENU TOGGLE */}
         <button 
            onClick={() => setIsOpen(!isOpen)}
+           aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
            className="md:hidden skeuo-node w-12 h-12 flex items-center justify-center bg-white shadow-md border-none active:scale-90 transition-all z-[60]"
         >
            {isOpen ? <X size={20} /> : <Menu size={20} />}
