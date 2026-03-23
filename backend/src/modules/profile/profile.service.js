@@ -52,8 +52,19 @@ export const getProfile = async (identifier, currentUserId = null) => {
  * Update profile data
  */
 export const updateProfile = async (userId, updateData) => {
-  // Prevent direct update of counts or user_id
-  const { post_count, follower_count, following_count, user_id, id, ...allowedUpdates } = updateData;
+  // Layer 4 — Security Protocol: Strict Whitelist Enforcement
+  const whitelist = [
+    'display_name', 'bio', 'city', 'country', 'edu_sector', 'institution_name', 
+    'field_of_study', 'graduation_year', 'visibility', 'show_email', 'show_phone', 
+    'website_url', 'linkedin_url', 'github_url', 'avatar_url', 'cover_url', 'username'
+  ];
+  
+  const allowedUpdates = Object.keys(updateData)
+    .filter(key => whitelist.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = updateData[key];
+      return obj;
+    }, {});
   
   // If username is being changed, check for uniqueness
   if (allowedUpdates.username) {

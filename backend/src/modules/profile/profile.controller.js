@@ -6,8 +6,14 @@ import asyncHandler from "../../utils/asyncHandler.js";
  * Handle get profile request
  */
 export const getProfile = asyncHandler(async (req, res) => {
-  const { identifier } = req.params;
+  let { identifier } = req.params;
   const currentUserId = req.user?.id; // Defined if user is logged in
+  
+  // Handle 'me' alias for current user's profile
+  if (identifier === 'me' && currentUserId) {
+    identifier = currentUserId;
+  }
+
   const profile = await profileService.getProfile(identifier, currentUserId);
   return sendSuccess(res, req, { data: profile });
 });
