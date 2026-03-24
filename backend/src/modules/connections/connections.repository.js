@@ -91,7 +91,7 @@ const connectionsRepository = {
         up.display_name,
         up.username,
         up.avatar_url,
-        up.headline
+        up.bio
       FROM connections c
       JOIN users u ON (u.id = IF(c.requester_id = ?, c.addressee_id, c.requester_id))
       JOIN user_profiles up ON u.id = up.user_id
@@ -114,7 +114,7 @@ const connectionsRepository = {
         up.display_name,
         up.username,
         up.avatar_url,
-        up.headline
+        up.bio
       FROM connections c
       JOIN users u ON c.requester_id = u.id
       JOIN user_profiles up ON u.id = up.user_id
@@ -137,7 +137,7 @@ const connectionsRepository = {
         up.display_name,
         up.username,
         up.avatar_url,
-        up.headline
+        up.bio
       FROM connections c
       JOIN users u ON c.addressee_id = u.id
       JOIN user_profiles up ON u.id = up.user_id

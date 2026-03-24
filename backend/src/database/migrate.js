@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import pool from "../config/db.js";
+import logger from "../utils/logger.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -58,12 +59,12 @@ const migrate = async () => {
   const migrationsDir = path.join(__dirname, "migrations");
   const files = fs.readdirSync(migrationsDir).sort();
 
-  console.log("🚦 Starting migrations...\n");
+  logger.info("🚦 Starting migrations...");
 
   for (const file of files) {
     if (!file.endsWith(".sql")) continue;
 
-    console.log(`🏃 Running ${file}...`);
+    logger.info(`🏃 Running ${file}...`);
     const rawSql = fs.readFileSync(path.join(migrationsDir, file), "utf8");
     const statements = splitStatements(rawSql);
 
@@ -78,18 +79,20 @@ const migrate = async () => {
         if (IDEMPOTENT_CODES.has(err.errno)) {
           skipped++;
         } else {
-          console.error(`\n❌ Fatal error in ${file}:`);
-          console.error(`   errno  : ${err.errno}`);
-          console.error(`   Message: ${err.message}`);
-          console.error(`   SQL    : ${stmt.slice(0, 300)}`);
+          logger.error({
+            msg: `Fatal error in ${file}`,
+            errno: err.errno,
+            error: err.message,
+            sql: stmt.slice(0, 300)
+          });
           process.exit(1);
         }
       }
     }
-    console.log(`   ✅ Success: ${applied} applied, ${skipped} skipped.`);
+    logger.info(`   ✅ Success: ${applied} applied, ${skipped} skipped.`);
   }
 
-  console.log("\n🏁 All migrations completed successfully.");
+  logger.info("🏁 All migrations completed successfully.");
   process.exit(0);
 };
 

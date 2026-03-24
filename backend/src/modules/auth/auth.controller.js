@@ -204,7 +204,7 @@ export const githubCallback = asyncHandler(async (req, res) => {
 
 export const refreshTokens = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-  const result = await authService.refreshAuthToken(refreshToken);
+  const result = await authService.refreshTokens(refreshToken);
 
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
@@ -245,7 +245,7 @@ export const getMe = asyncHandler(async (req, res) => {
 });
 
 export const forgotPassword = asyncHandler(async (req, res) => {
-  const result = await authService.forgotPassword(req.body);
+  const result = await authService.forgotPassword(req.body.email);
   sendSuccess(res, req, {
     message: result.message,
     data: null,

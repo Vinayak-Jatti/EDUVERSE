@@ -1,15 +1,14 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-
-dotenv.config();
+import config from "../config/env.js";
+import logger from "../utils/logger.js";
 
 const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: parseInt(process.env.MAIL_PORT || "465"),
-  secure: process.env.MAIL_PORT == "465", // true for 465, false for other ports
+  host: config.mail.host,
+  port: parseInt(config.mail.port),
+  secure: config.mail.port == "465",
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
+    user: config.mail.user,
+    pass: config.mail.pass,
   },
 });
 
@@ -20,7 +19,7 @@ const transporter = nodemailer.createTransport({
  */
 export const sendOTPEmail = async (to, otp) => {
   const mailOptions = {
-    from: process.env.MAIL_FROM,
+    from: config.mail.from,
     to,
     subject: "Verify Your EDUVERSE Account",
     html: `
@@ -39,10 +38,10 @@ export const sendOTPEmail = async (to, otp) => {
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log("✉️  Email sent: %s", info.messageId);
+    logger.info(`✉️  Email sent: ${info.messageId}`);
     return info;
   } catch (error) {
-    console.error("❌ Error sending email:", error);
+    logger.error(`❌ Error sending email: ${error.message}`);
     throw error;
   }
 };
@@ -54,7 +53,7 @@ export const sendOTPEmail = async (to, otp) => {
  */
 export const sendPasswordResetEmail = async (to, otp) => {
   const mailOptions = {
-    from: process.env.MAIL_FROM,
+    from: config.mail.from,
     to,
     subject: "Reset Your EDUVERSE Password",
     html: `
@@ -73,10 +72,10 @@ export const sendPasswordResetEmail = async (to, otp) => {
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log("✉️  Password reset email sent: %s", info.messageId);
+    logger.info(`✉️  Password reset email sent: ${info.messageId}`);
     return info;
   } catch (error) {
-    console.error("❌ Error sending password reset email:", error);
+    logger.error(`❌ Error sending password reset email: ${error.message}`);
     throw error;
   }
 };

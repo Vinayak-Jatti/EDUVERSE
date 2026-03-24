@@ -4,7 +4,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import xssClean from "xss-clean";
 import config from "../config/env.js";
-import morganLogger from "../utils/logger.js";
+import httpLogger from "../utils/httpLogger.js";
 import requestId from "../middlewares/requestId.middleware.js";
 import { apiLimiter } from "../middlewares/rateLimit.middleware.js";
 
@@ -42,7 +42,7 @@ export default (app) => {
 
   // 📝 Request Tracing & Logging
   app.use(requestId);
-  app.use(morganLogger);
+  app.use(httpLogger);
 
   // 📦 Body Parsing
   app.use(express.json({ limit: "16kb" }));

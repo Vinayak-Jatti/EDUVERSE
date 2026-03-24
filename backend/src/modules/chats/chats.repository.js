@@ -80,6 +80,13 @@ const chatsRepository = {
     return rows.length > 0;
   },
 
+  // Get all participants of a room (for socket broadcasting)
+  async getRoomParticipants(roomId) {
+    const query = `SELECT user_id FROM chat_participants WHERE room_id = ?`;
+    const [rows] = await pool.execute(query, [roomId]);
+    return rows;
+  },
+
   // 6. GET /chat/rooms/:roomId/messages — fetch paginated message history
   async getRoomMessages(roomId, limit, offset) {
     const query = `

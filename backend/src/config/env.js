@@ -1,14 +1,7 @@
 import dotenv from "dotenv";
 
 dotenv.config({
-  path: [
-    "./.env.test",
-    "./.env.dev",
-    "./.env.local",
-    "./.env",
-    "./.env.example",
-
-  ],
+  path: ["./.env","./.env.dev", "./.env.local", "./.env.example"],
 });
 
 // Throw immediately at startup if a required variable is missing
@@ -55,12 +48,18 @@ const config = {
     google: {
       clientId: optional("GOOGLE_CLIENT_ID", ""),
       clientSecret: optional("GOOGLE_CLIENT_SECRET", ""),
-      redirectUri: optional("GOOGLE_REDIRECT_URI", "http://localhost:3000/api/v1/auth/google/callback"),
+      redirectUri: optional(
+        "GOOGLE_REDIRECT_URI",
+        "http://localhost:3001/api/v1/auth/google/callback"
+      ),
     },
     github: {
       clientId: optional("GITHUB_CLIENT_ID", ""),
       clientSecret: optional("GITHUB_CLIENT_SECRET", ""),
-      redirectUri: optional("GITHUB_REDIRECT_URI", "http://localhost:3000/api/v1/auth/github/callback"),
+      redirectUri: optional(
+        "GITHUB_REDIRECT_URI",
+        "http://localhost:3001/api/v1/auth/github/callback"
+      ),
     },
   },
 };

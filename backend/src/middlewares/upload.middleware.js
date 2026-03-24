@@ -2,6 +2,7 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
 import createError from "../utils/ApiError.js";
+import logger from "../utils/logger.js";
 
 // ─── Shared Storage Configuration ─────────────────────
 const createStorage = (folderName, allowedFormats, resourceType = "image") => {
@@ -22,7 +23,7 @@ const fileFilter = (allowedTypes) => {
     if (allowedTypes.test(file.mimetype)) {
       cb(null, true);
     } else {
-      console.warn(`Signal Rejection: ${file.mimetype} is out of protocol.`);
+      logger.warn(`Signal Rejection: ${file.mimetype} is out of protocol.`);
       cb(createError("BAD_REQUEST", `Manual Override Required: ${file.mimetype} is not a valid curriculum signal.`));
     }
   };

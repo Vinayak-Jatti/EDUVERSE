@@ -1,5 +1,6 @@
 import axios from "axios";
 import createError from "../../utils/ApiError.js";
+import logger from "../../utils/logger.js";
 
 const API_KEY = "pub_de8527a036374454b3e1280887e3f621";
 const BASE_URL = "https://newsdata.io/api/1/news";
@@ -17,7 +18,7 @@ export const fetchTechNews = async (page = null) => {
     
     // Return cached data if valid
     if (newsCache.data && now < newsCache.expiry && !page) {
-        console.log("Serving Tech News from Enterprise Cache ⚡ (Credits Protected)");
+        logger.info("Serving Tech News from Enterprise Cache ⚡ (Credits Protected)");
         return newsCache.data;
     }
 
@@ -58,7 +59,7 @@ export const fetchTechNews = async (page = null) => {
 
         return newsData;
     } catch (err) {
-        console.error("News API Error:", err.response?.data || err.message);
+        logger.error({ msg: "News API Error", error: err.response?.data || err.message });
         throw createError("SERVICE_UNAVAILABLE", "Failed to fetch high-performance intelligence. Please try again later.");
     }
 };

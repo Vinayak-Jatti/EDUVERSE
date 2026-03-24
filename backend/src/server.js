@@ -4,6 +4,7 @@ import config from "./config/env.js";
 import pool from "./config/db.js";
 import loadDb from "./loaders/db.loader.js";
 import socketLoader from "./loaders/socket.loader.js";
+import logger from "./utils/logger.js";
 
 const startServer = async () => {
   try {
@@ -19,23 +20,23 @@ const startServer = async () => {
 
     // 🌐 Start Listening
     server.listen(config.server.port, () => {
-      console.log(`🚀 Server running on port ${config.server.port} [${config.server.env}]`);
-      console.log(`💬 Socket.io logic initialized [${config.cors.origin}]`);
+      logger.info(`🚀 Server running on port ${config.server.port} [${config.server.env}]`);
+      logger.info(`💬 Socket.io logic initialized [${config.cors.origin}]`);
     });
 
     // ─── Graceful Shutdown ─────────────────────────────────────────────────
     const shutdown = async (signal) => {
-      console.log(`\n⚠️  ${signal} received — shutting down gracefully`);
+      logger.warn(`⚠️  ${signal} received — shutting down gracefully`);
       server.close(async () => {
-        console.log("✅ HTTP server closed");
+        logger.info("✅ HTTP server closed");
         await pool.end();
-        console.log("✅ MySQL pool closed");
+        logger.info("✅ MySQL pool closed");
         process.exit(0);
       });
 
       // Force exit after 10s
       setTimeout(() => {
-        console.error("❌ Forced shutdown after timeout");
+        logger.error("❌ Forced shutdown after timeout");
         process.exit(1);
       }, 10_000);
     };
@@ -44,7 +45,7 @@ const startServer = async () => {
     process.on("SIGINT", () => shutdown("SIGINT"));
 
   } catch (err) {
-    console.error("❌ Failed to start server:", err.message);
+    logger.error(`❌ Failed to start server: ${err.message}`);
     process.exit(1);
   }
 };

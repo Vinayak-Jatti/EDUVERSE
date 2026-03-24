@@ -1,4 +1,5 @@
 import pool from '../../../config/db.js';
+import logger from '../../../utils/logger.js';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
@@ -66,7 +67,7 @@ export const dbCleanup = async (tables = TABLES_TO_CLEANUP) => {
     }
     await conn.execute('SET FOREIGN_KEY_CHECKS = 1');
   } catch (err) {
-    console.error(`[DB_CLEANUP_ERROR] Table: ${err.message}`);
+    logger.error(`[DB_CLEANUP_ERROR] Table: ${err.message}`);
     throw err;
   } finally {
     conn.release();

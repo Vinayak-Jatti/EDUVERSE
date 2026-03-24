@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import config from "../config/env.js";
 import chatsRepository from "../modules/chats/chats.repository.js";
+import logger from "../utils/logger.js";
 
 // Basic XSS sanitizer
 const sanitizeInput = (text) => {
@@ -22,13 +23,13 @@ const socketLoader = (server) => {
   });
 
   io.on("connection", (socket) => {
-    console.log(`[Socket] Established: ${socket.id}`);
+    logger.debug(`[Socket] Established: ${socket.id}`);
 
     // 8. Global User Notification Room
     socket.on("joinPersonal", (userId) => {
       if (!userId) return;
       socket.join(`user_${userId}`);
-      console.log(`[Socket] User ${userId} joined personal notification channel.`);
+      logger.debug(`[Socket] User ${userId} joined personal notification channel.`);
     });
 
     // 8. joinRoom — user joins a room channel
@@ -45,10 +46,10 @@ const socketLoader = (server) => {
         }
 
         socket.join(roomId);
-        console.log(`[Socket] User ${userId} joined room ${roomId}`);
+        logger.debug(`[Socket] User ${userId} joined room ${roomId}`);
         if (callback) callback({ success: true });
       } catch (err) {
-        console.error("[Socket] joinRoom Error:", err);
+        logger.error(`[Socket] joinRoom Error: ${err.message}`);
         if (callback) callback({ error: "Server sync failure" });
       }
     });
@@ -93,10 +94,7 @@ const socketLoader = (server) => {
 
         // ALERT the target user regardless of what room they are viewing
         // For phase 1, we pull participants directly to whisper the sidebar update
-        const participantsQuery = await import("../../config/db.js").then(module => module.default.query(
-           "SELECT user_id FROM chat_participants WHERE room_id = ?", [roomId]
-        ));
-        const participants = participantsQuery[0];
+        const participants = await chatsRepository.getRoomParticipants(roomId);
         participants.forEach(p => {
            if (p.user_id !== senderId) {
              socket.to(`user_${p.user_id}`).emit("refreshRooms");
@@ -105,7 +103,7 @@ const socketLoader = (server) => {
 
         if (callback) callback({ success: true, data: broadcastPayload });
       } catch (err) {
-        console.error("[Socket] sendMessage Error:", err);
+        logger.error(`[Socket] sendMessage Error: ${err.message}`);
         if (callback) callback({ error: "Failed to dispatch message." });
       }
     });
@@ -122,13 +120,13 @@ const socketLoader = (server) => {
           socket.to(roomId).emit("typing", { userId, isTyping });
         }
       } catch (err) {
-        console.error("[Socket] typing Error:", err);
+        logger.error(`[Socket] typing Error: ${err.message}`);
       }
     });
 
     // 11. disconnect — handle offline state
     socket.on("disconnect", () => {
-      console.log(`[Socket] Lost Signal: ${socket.id}`);
+      logger.debug(`[Socket] Lost Signal: ${socket.id}`);
     });
   });
 

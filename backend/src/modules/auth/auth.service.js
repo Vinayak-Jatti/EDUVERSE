@@ -8,16 +8,13 @@ import userRepository from "../user/user.repository.js";
 import profileRepository from "../profile/profile.repository.js";
 import { USER_STATUS, AUTH_PROVIDERS, OTP_PURPOSE } from "./auth.constants.js";
 import createError from "../../utils/ApiError.js";
+import { sendOTPEmail, sendPasswordResetEmail } from "../../services/mail.service.js";
 
 // Helper for generating six-digit secure OTPs
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-const sendOTPEmail = async (email, otp) => {
-  // Production Note: actual delivery handled by mailService.sendOTPEmail
-  // Demo logs removed for security compliance
-};
 
 /**
  * Register user & send OTP
@@ -124,6 +121,32 @@ export const loginUser = async ({ email, password }) => {
 };
 
 /**
+ * Resend OTP for email verification
+ */
+export const resendOtp = async ({ email }) => {
+  const user = await userRepository.findByEmail(email);
+  if (!user) throw createError("USER_NOT_FOUND");
+  if (user.email_verified) throw createError("EMAIL_ALREADY_VERIFIED");
+
+  const otp = generateOTP();
+  const saltOtp = await bcrypt.genSalt(10);
+  const otpHash = await bcrypt.hash(otp, saltOtp);
+  const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+  await authRepository.createOtp({
+    id: uuidv4(),
+    user_id: user.id,
+    purpose: OTP_PURPOSE.SIGNUP,
+    target: email,
+    otp_hash: otpHash,
+    expires_at: expiresAt,
+  });
+
+  await sendOTPEmail(email, otp);
+  return { message: "New OTP sent to your email" };
+};
+
+/**
  * Handle OAuth Login/Register
  */
 export const loginOrRegisterOAuth = async ({ email, provider, providerUid, name, avatarUrl }) => {
@@ -190,7 +213,7 @@ export const forgotPassword = async (email) => {
     expires_at: expiresAt,
   });
 
-  await sendOTPEmail(email, otp);
+  await sendPasswordResetEmail(email, otp);
   return { message: "If an account exists, a reset code was sent." };
 };
 

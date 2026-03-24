@@ -1,4 +1,5 @@
 import { sendError } from "../utils/response.js";
+import logger from "../utils/logger.js";
 
 /**
  * Global error handler — must be the last middleware in app.js.
@@ -9,8 +10,10 @@ import { sendError } from "../utils/response.js";
  */
 const errorHandler = (err, req, res, _next) => {
   // Always log the full error server-side
-  console.error(`[ERROR] [${req.id ?? "no-id"}] ${err.message}`, {
+  logger.error({
+    msg: err.message,
     errorCode: err.errorCode,
+    requestId: req.id,
     path: req.originalUrl,
     method: req.method,
     stack: err.stack,

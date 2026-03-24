@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
 import config from "./env.js";
+import logger from "../utils/logger.js";
 
 const pool = mysql.createPool({
   host: config.db.host,
@@ -14,8 +15,9 @@ const pool = mysql.createPool({
 });
 
 pool.on("error", (err) => {
-  console.error("MySQL pool error:", {
-    message: err.message,
+  logger.error({
+    msg: "MySQL pool error",
+    err: err.message,
     code: err.code,
     sqlMessage: err.sqlMessage,
   });

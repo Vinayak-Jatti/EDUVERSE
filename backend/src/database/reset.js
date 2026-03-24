@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
 import config from "../config/env.js";
+import logger from "../utils/logger.js";
 import { execSync } from "child_process";
 
 const reset = async () => {
@@ -13,26 +14,26 @@ const reset = async () => {
       password: config.db.password,
     });
 
-    console.log(`⚠️  Dropping database \`${config.db.name}\`...`);
+    logger.warn(`⚠️  Dropping database \`${config.db.name}\`...`);
     await conn.execute(`DROP DATABASE IF EXISTS \`${config.db.name}\``);
-    console.log(`✅ Dropped.\n`);
+    logger.info(`✅ Dropped.`);
 
-    console.log(`🛠  Creating database \`${config.db.name}\`...`);
+    logger.info(`🛠  Creating database \`${config.db.name}\`...`);
     await conn.execute(
       `CREATE DATABASE \`${config.db.name}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
     );
-    console.log(`✅ Created.\n`);
+    logger.info(`✅ Created.`);
 
     await conn.end();
 
     // Now run migrations against the fresh DB
-    console.log(`🚦 Running migrations on fresh database...`);
+    logger.info(`🚦 Running migrations on fresh database...`);
     execSync("node src/database/migrate.js", { stdio: "inherit" });
 
-    console.log(`\n🎉 Database reset complete!`);
+    logger.info(`🎉 Database reset complete!`);
     process.exit(0);
   } catch (err) {
-    console.error(`\n❌ Reset failed: ${err.message}`);
+    logger.error(`❌ Reset failed: ${err.message}`);
     if (conn) await conn.end().catch(() => {});
     process.exit(1);
   }

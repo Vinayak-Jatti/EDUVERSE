@@ -6,7 +6,8 @@ const authRepository = {
 
   findProvider: async (userId, provider) => {
     const [rows] = await pool.execute(
-      `SELECT * FROM ${TABLES.USER_AUTH_PROVIDERS} WHERE user_id = ? AND provider = ?`,
+      `SELECT id, user_id, provider, provider_uid, password_hash, linked_at 
+       FROM ${TABLES.USER_AUTH_PROVIDERS} WHERE user_id = ? AND provider = ?`,
       [userId, provider]
     );
     return rows[0] ?? null;
@@ -44,7 +45,8 @@ const authRepository = {
 
   findSessionByJti: async (jti) => {
     const [rows] = await pool.execute(
-      `SELECT * FROM ${TABLES.SESSIONS} WHERE jwt_jti = ? AND is_revoked = 0 LIMIT 1`,
+      `SELECT id, user_id, jwt_jti, device_name, ip_address, user_agent, is_revoked, revoked_at, expires_at, created_at 
+       FROM ${TABLES.SESSIONS} WHERE jwt_jti = ? AND is_revoked = 0 LIMIT 1`,
       [jti]
     );
     return rows[0] ?? null;
@@ -72,7 +74,8 @@ const authRepository = {
 
   findValidOtp: async (userId, purpose, target) => {
     const [rows] = await pool.execute(
-      `SELECT * FROM ${TABLES.OTP_TOKENS} 
+      `SELECT id, user_id, purpose, target, otp_hash, attempt_count, max_attempts, used, expires_at, created_at 
+       FROM ${TABLES.OTP_TOKENS} 
        WHERE user_id = ? AND purpose = ? AND target = ? AND used = 0 AND expires_at > NOW() 
        ORDER BY created_at DESC LIMIT 1`,
       [userId, purpose, target]
@@ -92,7 +95,8 @@ const authRepository = {
    */
   findProviderByUid: async (provider, providerUid) => {
     const [rows] = await pool.execute(
-      `SELECT * FROM ${TABLES.USER_AUTH_PROVIDERS} WHERE provider = ? AND provider_uid = ?`,
+      `SELECT id, user_id, provider, provider_uid, password_hash, linked_at 
+       FROM ${TABLES.USER_AUTH_PROVIDERS} WHERE provider = ? AND provider_uid = ?`,
       [provider, providerUid]
     );
     return rows[0] ?? null;

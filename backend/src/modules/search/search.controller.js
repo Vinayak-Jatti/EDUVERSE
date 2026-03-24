@@ -13,7 +13,7 @@ const SearchController = {
         const query = req.query.q || "";
         const userId = req.user.id; // Currently used to filter results (block logic etc)
 
-        const results = await searchService.performGlobalSearch(query, userId);
+        const results = await searchService.searchAcrossAll({ query, userId });
         
         return sendSuccess(res, req, {
             message: "Global search results retrieved.",
