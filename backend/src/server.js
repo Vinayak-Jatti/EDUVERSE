@@ -20,17 +20,17 @@ const startServer = async () => {
 
     // 🌐 Start Listening
     server.listen(config.server.port, () => {
-      logger.info(`🚀 Server running on port ${config.server.port} [${config.server.env}]`);
-      logger.info(`💬 Socket.io logic initialized [${config.cors.origin}]`);
+      logger.info(`Server running on port ${config.server.port} [${config.server.env}]`);
+      logger.info(`Socket.io logic initialized [${config.cors.origin}]`);
     });
 
     // ─── Graceful Shutdown ─────────────────────────────────────────────────
     const shutdown = async (signal) => {
-      logger.warn(`⚠️  ${signal} received — shutting down gracefully`);
+      logger.warn(`${signal} received — shutting down gracefully`);
       server.close(async () => {
-        logger.info("✅ HTTP server closed");
+        logger.info("HTTP server closed");
         await pool.end();
-        logger.info("✅ MySQL pool closed");
+        logger.info("MySQL pool closed");
         process.exit(0);
       });
 
@@ -43,7 +43,6 @@ const startServer = async () => {
 
     process.on("SIGTERM", () => shutdown("SIGTERM"));
     process.on("SIGINT", () => shutdown("SIGINT"));
-
   } catch (err) {
     logger.error(`❌ Failed to start server: ${err.message}`);
     process.exit(1);

@@ -15,7 +15,6 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
-
 /**
  * Register user & send OTP
  */
@@ -24,9 +23,12 @@ export const registerUser = async ({ firstName, lastName, email, campus, passwor
   if (existingUser) throw createError("EMAIL_ALREADY_IN_USE");
 
   const userId = uuidv4();
-  const baseUsername = email.split("@")[0].toLowerCase().replace(/[^a-z0-9_]/g, "");
+  const baseUsername = email
+    .split("@")[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9_]/g, "");
   const uniqueUsername = `${baseUsername}_${Math.floor(1000 + Math.random() * 9000)}`;
-  
+
   await userRepository.create({ id: userId, email, status: USER_STATUS.PENDING });
 
   await profileRepository.create({
@@ -34,7 +36,7 @@ export const registerUser = async ({ firstName, lastName, email, campus, passwor
     username: uniqueUsername,
     display_name: `${firstName} ${lastName}`.trim(),
     institution_name: campus,
-    edu_sector: 'university'
+    edu_sector: "university",
   });
 
   const salt = await bcrypt.genSalt(10);
@@ -99,7 +101,8 @@ export const loginUser = async ({ email, password }) => {
   const user = await userRepository.findByEmail(email);
   if (!user) throw createError("INVALID_CREDENTIALS", "No account found");
 
-  if (user.status === USER_STATUS.PENDING || !user.email_verified) throw createError("EMAIL_NOT_VERIFIED");
+  if (user.status === USER_STATUS.PENDING || !user.email_verified)
+    throw createError("EMAIL_NOT_VERIFIED");
 
   const provider = await authRepository.findProvider(user.id, AUTH_PROVIDERS.PASSWORD);
   if (!provider) throw createError("INVALID_CREDENTIALS");
@@ -162,14 +165,16 @@ export const loginOrRegisterOAuth = async ({ email, provider, providerUid, name,
       user = { id: userId, email, status: USER_STATUS.ACTIVE, email_verified: 1 };
       await userRepository.create(user);
 
-      const baseUsername = (email.split("@")[0] || name.split(" ")[0]).toLowerCase().replace(/[^a-z0-9_]/g, "");
+      const baseUsername = (email.split("@")[0] || name.split(" ")[0])
+        .toLowerCase()
+        .replace(/[^a-z0-9_]/g, "");
       const uniqueUsername = `${baseUsername}_${Math.floor(1000 + Math.random() * 9000)}`;
       await profileRepository.create({
         user_id: userId,
         username: uniqueUsername,
         display_name: name || baseUsername,
         avatar_url: avatarUrl,
-        edu_sector: 'university'
+        edu_sector: "university",
       });
     }
 
@@ -247,10 +252,10 @@ export const refreshTokens = async (refreshToken) => {
     const newAccessToken = generateAccessToken(user);
     const newRefreshToken = generateRefreshToken(user);
 
-    return { 
-      accessToken: newAccessToken, 
+    return {
+      accessToken: newAccessToken,
       refreshToken: newRefreshToken,
-      user: { id: user.id, email: user.email }
+      user: { id: user.id, email: user.email },
     };
   } catch (error) {
     throw createError("UNAUTHORIZED", "Refresh session expired");

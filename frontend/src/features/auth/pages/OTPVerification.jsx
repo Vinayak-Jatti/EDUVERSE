@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, RefreshCw, CheckCircle2 } from "lucide-react";
 import apiClient from "../../../services/apiClient";
+import { toast } from "react-toastify";
+import { InlineAlert } from "../../../components/shared";
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -64,13 +66,14 @@ const OTPVerification = () => {
     setError("");
     try {
       await apiClient.post("/auth/resend-otp", { email });
-      alert("A new OTP has been sent to " + email);
+      toast.info("A new OTP has been sent to " + email);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to resend OTP.");
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-[#F8FAFC]">
@@ -110,13 +113,9 @@ const OTPVerification = () => {
         </div>
 
         {error && (
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-red-500 text-xs font-bold uppercase tracking-wider text-center mb-6"
-          >
-            {error}
-          </motion.p>
+          <div className="mb-6">
+            <InlineAlert message={error} />
+          </div>
         )}
 
         <button

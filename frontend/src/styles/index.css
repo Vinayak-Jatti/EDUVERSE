@@ -100,3 +100,63 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
   }
 }
+
+/* ─── React Toastify Overrides (EduVerse Design) ─── */
+:root {
+  --toastify-font-family: 'Inter', sans-serif;
+  --toastify-z-index: 10000;
+  --toastify-toast-width: 420px;
+}
+
+.Toastify__toast-container {
+  @apply !p-6 sm:!p-8;
+}
+
+.Toastify__toast {
+  @apply !min-h-0 !p-1 !mb-5 !rounded-[2rem] !border !border-white/10 !shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] !overflow-hidden !transition-all !duration-500 hover:!scale-[1.02] active:!scale-[0.98];
+  background: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(24px) !important;
+}
+
+/* Sub-type branding */
+.Toastify__toast--success { @apply !border-emerald-500/20; }
+.Toastify__toast--error { @apply !border-red-500/20; }
+.Toastify__toast--warning { @apply !border-yellow-500/20; }
+.Toastify__toast--info { @apply !border-blue-500/20; }
+
+.Toastify__toast-body {
+  @apply !m-0 !p-5 !flex !items-center !gap-5;
+}
+
+/* The actual text content */
+.Toastify__toast-body > div:last-child {
+  @apply !font-black !uppercase !tracking-[0.2em] !text-[10px] !leading-relaxed !text-white !flex-1;
+}
+
+.Toastify__toast-icon {
+  @apply !w-6 !h-6 !m-0 !p-1.5 !rounded-xl !bg-white/5 !flex-shrink-0;
+}
+
+.Toastify__progress-bar {
+  @apply !h-[3px] !opacity-30;
+}
+
+.Toastify__progress-bar--success { @apply !bg-emerald-400; }
+.Toastify__progress-bar--error { @apply !bg-red-400; }
+.Toastify__progress-bar--info { @apply !bg-blue-400; }
+.Toastify__progress-bar--warning { @apply !bg-yellow-400; }
+
+.Toastify__close-button {
+  @apply !opacity-20 hover:!opacity-100 !transition-opacity !mr-4 !p-2 !rounded-xl hover:!bg-white/5;
+  color: white !important;
+}
+
+@media (max-width: 640px) {
+  .Toastify__toast-container {
+    @apply !w-full !p-4 !bottom-0 !right-0;
+  }
+  .Toastify__toast {
+    @apply !mb-3 !rounded-[1.5rem];
+  }
+}
+

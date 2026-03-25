@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle, Upload, ArrowRight, ShieldCheck } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 const Input = ({ placeholder, ...props }) => (
   <div className="relative group">
@@ -33,9 +34,10 @@ const Apply = () => {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-            alert('Application submitted to the EDUVERSE Sync Registry.');
+            toast.success('Registry Sync Complete: Application submitted to the EDUVERSE Sync Registry.');
         }, 1500);
     };
+
 
     return (
         <section id="apply" className="py-24 md:py-48 px-4 md:px-6 lg:px-20 bg-white relative overflow-hidden">

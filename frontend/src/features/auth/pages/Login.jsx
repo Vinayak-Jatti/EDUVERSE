@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext.jsx";
 import AuthForm, { AuthInput, AuthButton } from "../components/AuthForm";
 import apiClient from "../../../services/apiClient";
+import { InlineAlert } from "../../../components/shared";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -81,14 +82,7 @@ const Login = () => {
           onChange={handleChange}
         />
         
-        {error && (
-          <p 
-            role="alert"
-            className="text-[10px] text-red-500 font-bold uppercase tracking-wider text-center"
-          >
-            {error}
-          </p>
-        )}
+        {error && <InlineAlert message={error} />}
 
         <div className="flex justify-end pr-1">
           <Link 

@@ -8,6 +8,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import CommentSection from "../../comment/components/CommentSection";
 import ReportModal from "./ReportModal";
+import { ConfirmModal } from "../../../components/shared";
 
 /**
  * Premium MasteryStreamCard for video content
@@ -19,13 +20,13 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
   const [isExpanded, setIsExpanded] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = React.useRef(null);
 
   const isOwnPost = currentUser?.id === post?.user_id;
 
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this mastery stream?")) return;
+  const confirmDelete = async () => {
     try {
       await apiClient.delete(`/feed/${post.id}`);
       if (onPostDeleted) onPostDeleted(post.id);
@@ -40,7 +41,6 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
     setIsLiking(true);
     const liked = !post.has_liked;
 
-    // Optimistic Update
     setPost({
       ...post,
       has_liked: liked,
@@ -64,7 +64,6 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
 
   const handlePlayClick = () => {
     setIsPlaying(true);
-    // Auto play when replacing DOM
     setTimeout(() => {
        if (videoRef.current) videoRef.current.play();
     }, 150);
@@ -78,7 +77,6 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
       animate={{ opacity: 1, scale: 1 }}
       className="bg-white border border-gray-100 rounded-[2.5rem] overflow-hidden mb-6 shadow-sm hover:shadow-xl transition-all group"
     >
-      {/* Video Content Area */}
       <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
         {!isPlaying ? (
           <>
@@ -104,7 +102,6 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
               </motion.button>
             </div>
 
-            {/* Floating Author Badge */}
             <div className="absolute bottom-4 left-4 p-2 pl-1 bg-black/40 backdrop-blur-md rounded-2xl border border-white/10 flex items-center gap-2 z-10">
                 <Link to={`/profile/${post.username}`} className="flex items-center gap-2">
                     <div className="w-7 h-7 rounded-lg overflow-hidden border border-white/20">
@@ -133,40 +130,40 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
       <div className="p-6">
           <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="text-lg font-bold text-gray-900 leading-tight mb-1">{post.title || "Elite Mastery Session"}</h3>
-                <p className="text-[11px] font-medium text-gray-400 uppercase tracking-widest">
-                    {post.created_at ? formatDistanceToNow(new Date(post.created_at)) : 'Just now'} ago
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 leading-tight mb-1">{post.title || "Elite Mastery Session"}</h3>
+                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                    {post.created_at ? formatDistanceToNow(new Date(post.created_at)) : 'Just now'}
                 </p>
               </div>
               <div className="flex gap-1">
-                <button className="p-2 text-gray-300 hover:text-black transition-colors">
+                <button className="p-2 text-gray-300 hover:text-black transition-colors rounded-xl">
                     <MoreHorizontal size={14} />
                 </button>
               </div>
           </div>
 
-          <p className={`text-[13px] text-gray-600 leading-relaxed mb-4 ${isExpanded ? '' : 'line-clamp-2'}`}>
+          <p className={`text-[13px] font-bold text-gray-600 leading-relaxed mb-4 ${isExpanded ? '' : 'line-clamp-2'}`}>
             {post.body}
           </p>
 
           <button 
              onClick={() => setIsExpanded(!isExpanded)}
-             className="text-[10px] font-black text-indigo-600 uppercase tracking-tighter hover:tracking-widest transition-all mb-4 flex items-center gap-1"
+             className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] hover:tracking-[0.3em] transition-all mb-4 flex items-center gap-1"
           >
              {isExpanded ? <>CLOSE <ChevronUp size={12}/></> : <>READ MORE <ChevronDown size={12}/></>}
           </button>
 
           <div className="pt-5 border-t border-gray-50 flex items-center justify-between">
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-8">
                 <Action 
-                  icon={<Heart size={18} className={post.has_liked ? "fill-rose-500 text-rose-500" : ""} />} 
+                  icon={<Heart size={18} className={post.has_liked ? "fill-rose-500 text-rose-500" : "text-gray-300"} />} 
                   count={post.like_count || 0} 
                   active={post.has_liked} 
                   onClick={handleLike} 
                   activeColor="text-rose-500" 
                 />
                 <Action 
-                  icon={<MessageSquare size={18} className={showComments ? "fill-black text-black" : ""} />} 
+                  icon={<MessageSquare size={18} className={showComments ? "fill-black text-black" : "text-gray-300"} />} 
                   count={post.comment_count || 0} 
                   active={showComments}
                    onClick={() => setShowComments(!showComments)}
@@ -177,14 +174,14 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
                 {!isOwnPost ? (
                   <button 
                     onClick={() => setIsReportModalOpen(true)}
-                    className="flex items-center gap-1.5 p-2 text-gray-400 hover:text-rose-500 rounded-xl transition-all font-bold text-[11px]"
+                    className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all font-black uppercase text-[9px] tracking-widest"
                   >
                     <Flag size={14} /> Report
                   </button>
                 ) : (
                   <button 
-                    onClick={handleDelete}
-                    className="flex items-center gap-1.5 p-2 text-gray-400 hover:text-rose-500 rounded-xl transition-all font-bold text-[11px]"
+                    onClick={() => setIsDeleteModalOpen(true)}
+                    className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all font-black uppercase text-[9px] tracking-widest"
                   >
                     <Trash2 size={14} /> Delete
                   </button>
@@ -198,7 +195,7 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden"
+                className="overflow-hidden mt-6"
               >
                 <CommentSection postId={post.id} targetType="post" />
               </motion.div>
@@ -212,6 +209,15 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
          targetId={post.id} 
          targetType="post" 
       />
+
+      <ConfirmModal 
+        isOpen={isDeleteModalOpen} 
+        onClose={() => setIsDeleteModalOpen(false)} 
+        onConfirm={confirmDelete}
+        title="Delete Mastery Stream?"
+        message="Neutralizing this session will remove it permanently from the EDUVERSE Mastery Registry."
+        confirmText="Confirm Delete"
+      />
     </motion.div>
   );
 };
@@ -219,10 +225,12 @@ const MasteryStreamCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) 
 const Action = ({ icon, count, active, onClick, activeColor }) => (
   <button 
     onClick={onClick}
-    className={`flex items-center gap-2 transition-all active:scale-90 ${active ? activeColor : 'text-gray-400 hover:text-black'}`}
+    className={`flex items-center gap-2 transition-all group ${active ? activeColor : 'text-gray-300 hover:text-black'}`}
   >
-    {icon}
-    <span className="text-[12px] font-bold">{count || 0}</span>
+    <div className={`transition-transform group-active:scale-125`}>
+      {icon}
+    </div>
+    <span className="text-[11px] font-black uppercase tracking-tighter">{count || 0}</span>
   </button>
 );
 

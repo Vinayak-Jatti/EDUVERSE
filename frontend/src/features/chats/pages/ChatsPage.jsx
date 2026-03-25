@@ -66,15 +66,13 @@ const ChatsPage = () => {
       }
     });
 
-    // Join isolated personal broadcast channel for notifications
-    socket.emit("joinPersonal", user.id);
-
     return () => {
       socket.off("receiveMessage");
       socket.off("refreshRooms");
       socket.off("typing");
     };
   }, [socket, activeRoom, user.id]);
+
 
   // Handle Room Selection -> Mount/Unmount logic
   useEffect(() => {

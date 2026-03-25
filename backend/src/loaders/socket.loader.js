@@ -22,23 +22,25 @@ const socketLoader = (server) => {
     },
   });
 
-  io.on("connection", (socket) => {
-    logger.debug(`[Socket] Established: ${socket.id}`);
+  let connectionCount = 0;
 
-    // 8. Global User Notification Room
+  io.on("connection", (socket) => {
+    connectionCount++;
+    logger.debug(`[Socket] Established: ${socket.id} (Total Active: ${connectionCount})`);
+
+    // Global User Notification Room
     socket.on("joinPersonal", (userId) => {
       if (!userId) return;
       socket.join(`user_${userId}`);
       logger.debug(`[Socket] User ${userId} joined personal notification channel.`);
     });
 
-    // 8. joinRoom — user joins a room channel
+    // joinRoom — user joins a room channel
     socket.on("joinRoom", async (data, callback) => {
       try {
         const { roomId, userId } = data;
         if (!roomId || !userId) return;
 
-        // 33. Validate room membership server-side
         const isParticipant = await chatsRepository.isParticipant(roomId, userId);
         if (!isParticipant) {
           if (callback) callback({ error: "Security Protocol: Access denied to this room." });
@@ -54,12 +56,11 @@ const socketLoader = (server) => {
       }
     });
 
-    // 9. sendMessage — broadcast message
+    // sendMessage — broadcast message
     socket.on("sendMessage", async (data, callback) => {
       try {
         const { roomId, senderId, content, messageType } = data;
         
-        // 13. Apply rate limiting
         const lastMessageTime = rateLimits.get(senderId) || 0;
         if (Date.now() - lastMessageTime < RATE_LIMIT_MS) {
           if (callback) callback({ error: "Rate limit exceeded. Please wait." });
@@ -67,17 +68,13 @@ const socketLoader = (server) => {
         }
         rateLimits.set(senderId, Date.now());
 
-        // 34. Prevent sending if not a participant
         const isParticipant = await chatsRepository.isParticipant(roomId, senderId);
         if (!isParticipant) {
           if (callback) callback({ error: "Security Protocol: Unauthorized to send." });
           return;
         }
 
-        // 35. Sanitize message to prevent XSS
         const sanitizedContent = sanitizeInput(content);
-
-        // Store the persistent data
         const msgId = await chatsRepository.createMessage(roomId, senderId, sanitizedContent, messageType || 'text');
 
         const broadcastPayload = {
@@ -89,11 +86,8 @@ const socketLoader = (server) => {
           created_at: new Date().toISOString()
         };
 
-        // Broadcast to everyone currently viewing the room
         socket.to(roomId).emit("receiveMessage", broadcastPayload);
 
-        // ALERT the target user regardless of what room they are viewing
-        // For phase 1, we pull participants directly to whisper the sidebar update
         const participants = await chatsRepository.getRoomParticipants(roomId);
         participants.forEach(p => {
            if (p.user_id !== senderId) {
@@ -108,13 +102,12 @@ const socketLoader = (server) => {
       }
     });
 
-    // 10. typing — emit typing indicator
+    // typing — emit typing indicator
     socket.on("typing", async (data) => {
       try {
         const { roomId, userId, isTyping } = data;
         if (!roomId || !userId) return;
 
-        // Ensure authorization to broadcast typing
         const isParticipant = await chatsRepository.isParticipant(roomId, userId);
         if (isParticipant) {
           socket.to(roomId).emit("typing", { userId, isTyping });
@@ -124,9 +117,12 @@ const socketLoader = (server) => {
       }
     });
 
-    // 11. disconnect — handle offline state
+    socket.on("error", (err) => {
+      logger.error(`[Socket] Error for ${socket.id}: ${err.message}`);
+    });
+
     socket.on("disconnect", () => {
-      logger.debug(`[Socket] Lost Signal: ${socket.id}`);
+      logger.debug(`[Socket] Signal Lost: ${socket.id}`);
     });
   });
 
@@ -134,3 +130,4 @@ const socketLoader = (server) => {
 };
 
 export default socketLoader;
+

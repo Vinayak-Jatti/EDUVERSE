@@ -8,6 +8,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import CommentSection from "../../comment/components/CommentSection";
 import ReportModal from "./ReportModal";
+import { ConfirmModal } from "../../../components/shared";
 
 /**
  * Premium Insight Card for micro-content
@@ -16,9 +17,9 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
   const { user: currentUser } = useAuth();
   const [post, setPost] = useState(initialPost);
   const [isLiking, setIsLiking] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const isOwnPost = currentUser?.id === post?.user_id;
 
@@ -27,7 +28,6 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
     setIsLiking(true);
     const liked = !post.has_liked;
     
-    // Optimistic Update
     setPost({
       ...post,
       has_liked: liked,
@@ -49,11 +49,9 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
     }
   };
 
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this insight?")) return;
+  const confirmDelete = async () => {
     try {
       await apiClient.delete(`/insights/${post.id}`);
-      setIsDeleted(true);
       toast.info("Insight deleted");
       if (onPostDeleted) onPostDeleted(post.id);
     } catch (err) {
@@ -61,7 +59,7 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
     }
   };
 
-  if (isDeleted || !post) return null;
+  if (!post) return null;
 
   return (
     <motion.div 
@@ -69,15 +67,13 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
       animate={{ opacity: 1, y: 0 }}
       className="bg-white border border-gray-100 rounded-[2rem] p-6 mb-5 hover:shadow-md transition-all relative overflow-hidden group shadow-sm"
     >
-      {/* Subtle Quote Mark Decoration */}
       <div className="absolute top-0 right-0 p-6 opacity-[0.03] text-black">
         <Quote size={80} />
       </div>
 
-      {/* Header */}
       <div className="flex items-center justify-between mb-4 relative z-10">
         <Link to={`/profile/${post.username}`} className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+          <div className="w-10 h-10 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
             <img 
               src={post.avatar_url || `https://api.dicebear.com/7.x/shapes/svg?seed=${post.username}`} 
               alt={post.display_name} 
@@ -85,38 +81,36 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
             />
           </div>
           <div>
-            <h4 className="text-[13px] font-bold text-gray-900 leading-none mb-0.5">{post.display_name}</h4>
-            <p className="text-[10px] font-medium text-gray-400 uppercase tracking-tight">
-              @{post.username} • {post.created_at ? formatDistanceToNow(new Date(post.created_at)) : 'Just now'} ago
+            <h4 className="text-[13px] font-black uppercase tracking-tight text-gray-900 leading-none mb-1">{post.display_name}</h4>
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+              @{post.username} • {post.created_at ? formatDistanceToNow(new Date(post.created_at)) : 'Just now'}
             </p>
           </div>
         </Link>
         <div className="flex items-center gap-1">
-          <button className="p-2 text-gray-300 hover:text-black transition-colors">
-            <MoreHorizontal size={14} />
+          <button className="p-2 text-gray-300 hover:text-black transition-colors rounded-xl">
+            <MoreHorizontal size={16} />
           </button>
         </div>
       </div>
 
-      {/* Content */}
       <div className="relative z-10 my-4">
-        <p className="text-[15px] font-semibold leading-relaxed text-gray-800 whitespace-pre-wrap">
+        <p className="text-[15px] font-bold leading-relaxed text-gray-800 whitespace-pre-wrap">
           {post.body}
         </p>
       </div>
 
-      {/* Footer */}
       <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-50 relative z-10">
-        <div className="flex items-center gap-6">
-          <MiniAction 
-            icon={<Heart size={16} className={post.has_liked ? "fill-rose-500 text-rose-500" : ""} />} 
+        <div className="flex items-center gap-8">
+          <Action 
+            icon={<Heart size={18} className={post.has_liked ? "fill-rose-500 text-rose-500" : "text-gray-300"} />} 
             count={post.like_count || 0} 
             active={post.has_liked} 
             onClick={handleLike} 
             activeColor="text-rose-500" 
           />
-          <MiniAction 
-            icon={<MessageSquare size={16} className={showComments ? "fill-black text-black" : ""} />} 
+          <Action 
+            icon={<MessageSquare size={18} className={showComments ? "fill-black text-black" : "text-gray-300"} />} 
             count={post.comment_count || 0} 
             active={showComments}
             onClick={() => setShowComments(!showComments)}
@@ -127,14 +121,14 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
           {!isOwnPost ? (
             <button 
               onClick={() => setIsReportModalOpen(true)}
-              className="flex items-center gap-1.5 p-2 text-gray-400 hover:text-rose-500 rounded-xl transition-all font-bold text-[11px]"
+              className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all font-black uppercase text-[9px] tracking-widest"
             >
               <Flag size={14} /> Report
             </button>
           ) : (
             <button 
-              onClick={handleDelete}
-              className="flex items-center gap-1.5 p-2 text-gray-400 hover:text-rose-500 rounded-xl transition-all font-bold text-[11px]"
+              onClick={() => setIsDeleteModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all font-black uppercase text-[9px] tracking-widest"
             >
               <Trash2 size={14} /> Delete
             </button>
@@ -142,14 +136,13 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
         </div>
       </div>
 
-      {/* Comments Section */}
       <AnimatePresence>
         {showComments && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden"
+            className="overflow-hidden mt-6"
           >
             <CommentSection postId={post.id} targetType="insight" />
           </motion.div>
@@ -162,17 +155,28 @@ const InsightCard = ({ post: initialPost, onPostDeleted, onPostUpdated }) => {
         targetId={post.id} 
         targetType="insight" 
       />
+
+      <ConfirmModal 
+        isOpen={isDeleteModalOpen} 
+        onClose={() => setIsDeleteModalOpen(false)} 
+        onConfirm={confirmDelete}
+        title="Neutralize Insight?"
+        message="This action will remove the insight permanently from the EDUVERSE stream."
+        confirmText="Confirm Delete"
+      />
     </motion.div>
   );
 };
 
-const MiniAction = ({ icon, count, active, onClick, activeColor }) => (
+const Action = ({ icon, count, active, onClick, activeColor }) => (
   <button 
     onClick={onClick}
-    className={`flex items-center gap-2 transition-all active:scale-95 ${active ? activeColor : 'text-gray-400 hover:text-black'}`}
+    className={`flex items-center gap-2 transition-all group ${active ? activeColor : 'text-gray-300 hover:text-black'}`}
   >
-    {icon}
-    <span className="text-[11px] font-bold">{count || 0}</span>
+    <div className={`transition-transform group-active:scale-125`}>
+      {icon}
+    </div>
+    <span className="text-[11px] font-black uppercase tracking-tighter">{count || 0}</span>
   </button>
 );
 

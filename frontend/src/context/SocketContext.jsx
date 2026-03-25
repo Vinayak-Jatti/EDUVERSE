@@ -25,16 +25,25 @@ export const SocketProvider = ({ children }) => {
       setSocket(newSocket);
 
       newSocket.on("connect", () => {
-         // Identify this socket as the user
-         newSocket.emit("join_user", user.id);
+         // Identify this socket as the user - matching backend event name
+         newSocket.emit("joinPersonal", user.id);
+      });
+
+      newSocket.on("connect_error", (err) => {
+         // Silently handle or use a specialized error reporter
       });
 
       return () => {
+        newSocket.off("connect");
+        newSocket.off("connect_error");
         newSocket.close();
         setSocket(null);
       };
+
+
     }
-  }, [user]);
+  }, [user?.id]);
+
 
   return (
     <SocketContext.Provider value={socket}>
