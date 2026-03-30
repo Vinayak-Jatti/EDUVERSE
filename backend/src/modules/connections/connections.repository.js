@@ -151,7 +151,11 @@ const connectionsRepository = {
   /**
    * Get connection suggestions (users not connected to)
    */
+  /**
+   * Get connection suggestions (users not connected to)
+   */
   async getSuggestions(userId, limit = 5) {
+    const safeLimit = parseInt(limit, 10) || 5;
     const query = `
       SELECT 
         u.id as user_id,
@@ -169,12 +173,9 @@ const connectionsRepository = {
         WHERE requester_id = ? OR addressee_id = ?
       )
       ORDER BY RAND()
-      LIMIT ?
+      LIMIT ${safeLimit}
     `;
-    // We pass limits as string if using direct ? parameter, but execute handles it
-    // Better to use limit directly if we have issues with type casting.
-    // Ensure limit is number.
-    const [rows] = await pool.execute(query, [userId, userId, userId, userId, parseInt(limit, 10)]);
+    const [rows] = await pool.execute(query, [userId, userId, userId, userId]);
     return rows;
   }
 };
