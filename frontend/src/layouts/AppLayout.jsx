@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import AppSidebar from "../components/layout/AppSidebar.jsx";
-import { Bell, MessageSquare, Plus, Search, Users, Menu, X, LogOut, GraduationCap } from "lucide-react";
+import { Bell, MessageSquare, Plus, Search, Users, Menu, X, LogOut, GraduationCap, Home, User, BookOpen, Settings } from "lucide-react";
 import Noise from "../components/common/Noise.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext.jsx";
+import CreatePostModal from "../features/feed/components/CreatePostModal.jsx";
 
 const AppLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isGlobalCreateOpen, setIsGlobalCreateOpen] = useState(false);
+  const [globalCreationMode, setGlobalCreationMode] = useState("post");
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -65,7 +68,10 @@ const AppLayout = () => {
               </Link>
 
               {/* CREATE BUTTON */}
-              <button className="hidden sm:flex items-center gap-2 bg-black text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl font-black uppercase tracking-widest text-[9px] hover:bg-gray-800 shadow-lg shadow-black/10 active:scale-95 transition-all">
+              <button 
+                 onClick={() => { setGlobalCreationMode('post'); setIsGlobalCreateOpen(true); }}
+                 className="hidden sm:flex items-center gap-2 bg-black text-white px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl font-black uppercase tracking-widest text-[9px] hover:bg-gray-800 shadow-lg shadow-black/10 active:scale-95 transition-all"
+               >
                 <Plus className="w-4 h-4" />
                 <span className="hidden lg:block">Create</span>
               </button>
@@ -125,12 +131,22 @@ const AppLayout = () => {
 
               <div className="space-y-4 mb-8">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 ml-4 mb-4">Navigation</h3>
-                <MobileLink to="/feed" onClick={() => setIsMobileMenuOpen(false)}>Home Feed</MobileLink>
-                <MobileLink to="/groups" onClick={() => setIsMobileMenuOpen(false)}>Study Groups</MobileLink>
+                <MobileLink to="/feed" onClick={() => setIsMobileMenuOpen(false)} icon={Home}>Home Feed</MobileLink>
+                {user && (
+                  <MobileLink to={`/profile/${user.username}`} onClick={() => setIsMobileMenuOpen(false)} icon={User}>My Profile</MobileLink>
+                )}
+                <MobileLink to="/chats" onClick={() => setIsMobileMenuOpen(false)} icon={MessageSquare}>Messages</MobileLink>
+                <MobileLink to="/connections" onClick={() => setIsMobileMenuOpen(false)} icon={Users}>My Network</MobileLink>
+                <MobileLink to="/resources" onClick={() => setIsMobileMenuOpen(false)} icon={BookOpen}>Resources</MobileLink>
+                <MobileLink to="/squads" onClick={() => setIsMobileMenuOpen(false)} icon={Users}>Study Groups</MobileLink>
+                <MobileLink to="/settings" onClick={() => setIsMobileMenuOpen(false)} icon={Settings}>Settings</MobileLink>
               </div>
               <div className="space-y-4 pt-8 border-t border-black/5">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 ml-4 mb-4">Quick Actions</h3>
-                <button className="w-full flex items-center justify-between p-4 bg-indigo-50 rounded-2xl text-indigo-600 font-black uppercase tracking-widest text-[10px]">
+                <button 
+                   onClick={() => { setIsMobileMenuOpen(false); setGlobalCreationMode('post'); setIsGlobalCreateOpen(true); }}
+                   className="w-full flex items-center justify-between p-4 bg-indigo-50 rounded-2xl text-indigo-600 font-black uppercase tracking-widest text-[10px]"
+                >
                   <span>Create New Post</span>
                   <Plus size={16} />
                 </button>
@@ -161,9 +177,25 @@ const AppLayout = () => {
       </main>
 
       {/* FAB FOR MOBILE */}
-      <button className="lg:hidden fixed bottom-8 right-8 w-16 h-16 bg-indigo-600 text-white rounded-2xl shadow-2xl flex items-center justify-center z-[100] active:scale-90 transition-transform">
-          <Plus className="w-8 h-8" />
-      </button>
+      {!isMobileMenuOpen && (
+        <button 
+           onClick={() => { setGlobalCreationMode('post'); setIsGlobalCreateOpen(true); }}
+           className="lg:hidden fixed bottom-8 right-8 w-16 h-16 bg-indigo-600 text-white rounded-2xl shadow-2xl flex items-center justify-center z-[100] active:scale-90 transition-transform"
+        >
+            <Plus className="w-8 h-8" />
+        </button>
+      )}
+
+      {/* Global Post Creation Modal */}
+      <CreatePostModal 
+         isOpen={isGlobalCreateOpen} 
+         creationMode={globalCreationMode}
+         onClose={() => setIsGlobalCreateOpen(false)} 
+         onPostCreated={(newPost) => {
+            // Dispatch a generic DOM event so FeedPage or anyone can react natively
+            window.dispatchEvent(new CustomEvent('eduverse:postCreated', { detail: { newPost } }));
+         }} 
+      />
     </div>
   );
 };
@@ -174,13 +206,14 @@ const NavIcon = ({ icon: Icon }) => (
   </button>
 );
 
-const MobileLink = ({ to, children, onClick }) => (
+const MobileLink = ({ to, children, onClick, icon: Icon }) => (
   <Link 
     to={to} 
     onClick={onClick}
-    className="block p-4 text-sm font-black uppercase tracking-widest text-gray-500 hover:text-black hover:bg-gray-50 rounded-2xl transition-all"
+    className="flex items-center gap-4 p-4 text-sm font-black uppercase tracking-widest text-gray-500 hover:text-black hover:bg-gray-50 rounded-2xl transition-all"
   >
-    {children}
+    {Icon && <Icon className="w-5 h-5" />}
+    <span>{children}</span>
   </Link>
 );
 

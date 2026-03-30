@@ -83,6 +83,7 @@ const socketLoader = (server) => {
           sender_id: senderId,
           content: sanitizedContent,
           message_type: messageType || 'text',
+          status: 'sent',
           created_at: new Date().toISOString()
         };
 
@@ -114,6 +115,56 @@ const socketLoader = (server) => {
         }
       } catch (err) {
         logger.error(`[Socket] typing Error: ${err.message}`);
+      }
+    });
+
+    // messageDelivered — sender's client receives confirmation
+    socket.on("messageDelivered", async (data) => {
+      try {
+        const { messageId, roomId, userId } = data;
+        if (!messageId || !roomId || !userId) return;
+        const isParticipant = await chatsRepository.isParticipant(roomId, userId);
+        if (isParticipant) {
+          await chatsRepository.updateMessageStatus(messageId, 'delivered');
+          socket.to(roomId).emit("messageStatusUpdated", { messageId, roomId, status: 'delivered' });
+        }
+      } catch (err) {
+        logger.error(`[Socket] messageDelivered Error: ${err.message}`);
+      }
+    });
+
+    // messageSeen — sender's client sees blue ticks
+    socket.on("messageSeen", async (data) => {
+      try {
+        const { messageId, roomId, userId } = data;
+        if (!messageId || !roomId || !userId) return;
+        const isParticipant = await chatsRepository.isParticipant(roomId, userId);
+        if (isParticipant) {
+          await chatsRepository.updateMessageStatus(messageId, 'seen');
+          socket.to(roomId).emit("messageStatusUpdated", { messageId, roomId, status: 'seen' });
+        }
+      } catch (err) {
+        logger.error(`[Socket] messageSeen Error: ${err.message}`);
+      }
+    });
+
+    // unsendMessage — soft delete
+    socket.on("unsendMessage", async (data, callback) => {
+      try {
+        const { messageId, roomId, userId } = data;
+        if (!messageId || !roomId || !userId) return;
+        
+        const success = await chatsRepository.softDeleteMessage(messageId, userId);
+        if (success) {
+          // Tell everyone in the room to remove the message
+          io.in(roomId).emit("messageDeleted", { messageId, roomId });
+          if(callback) callback({ success: true });
+        } else {
+          if(callback) callback({ error: "Unauthorized or message not found" });
+        }
+      } catch (err) {
+        logger.error(`[Socket] unsendMessage Error: ${err.message}`);
+        if(callback) callback({ error: "Failed to unsend message" });
       }
     });
 

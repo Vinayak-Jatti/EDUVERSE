@@ -39,11 +39,17 @@ const ChatsPage = () => {
     socket.on("receiveMessage", (message) => {
       // Add message if it matches active room, preventing duplicates
       if (activeRoom && message.room_id === activeRoom.id) {
+         // Auto-seen if window is open
+         socket.emit("messageSeen", { messageId: message.id, roomId: message.room_id, userId: user.id });
+         
         setMessages(prev => {
           if (prev.some(m => m.id === message.id)) return prev;
           // Only snap-to-bottom automatically natively handeled by ChatWindow thanks to lastMessageId tracking
           return [...prev, message];
         });
+      } else {
+         // Received but not active window
+         socket.emit("messageDelivered", { messageId: message.id, roomId: message.room_id, userId: user.id });
       }
       // Re-fetch rooms to update the sidebar previews instantly
       fetchRooms();
@@ -52,8 +58,6 @@ const ChatsPage = () => {
     // Handle background notification triggers (from other browsers)
     socket.on("refreshRooms", () => {
        fetchRooms();
-       // Note: If activeRoom is set but they missed a message because they were on another tab,
-       // we might want to refetch messages if we missed it. For Phase 1, the user will see it in the sidebar.
        if (activeRoom) {
           fetchMessages(activeRoom.id, 0, false);
        }
@@ -66,10 +70,23 @@ const ChatsPage = () => {
       }
     });
 
+    // Tick Verification Updates
+    socket.on("messageStatusUpdated", ({ messageId, status }) => {
+       setMessages(prev => prev.map(m => m.id === messageId ? { ...m, status } : m));
+    });
+
+    // Message Unsent / Soft Deleted
+    socket.on("messageDeleted", ({ messageId }) => {
+       setMessages(prev => prev.filter(m => m.id !== messageId));
+       fetchRooms(); // refresh last message preview if needed
+    });
+
     return () => {
       socket.off("receiveMessage");
       socket.off("refreshRooms");
       socket.off("typing");
+      socket.off("messageStatusUpdated");
+      socket.off("messageDeleted");
     };
   }, [socket, activeRoom, user.id]);
 
@@ -146,7 +163,8 @@ const ChatsPage = () => {
         sender_id: user.id,
         content,
         created_at: new Date().toISOString(),
-        message_type: 'text'
+        message_type: 'text',
+        status: 'sent'
     };
     
     setMessages(prev => [...prev, optimisticMsg]);
@@ -171,6 +189,13 @@ const ChatsPage = () => {
   const handleTyping = (isTyping) => {
     if (!activeRoom || !socket) return;
     socket.emit("typing", { roomId: activeRoom.id, userId: user.id, isTyping });
+  };
+
+  const handleUnsendMessage = (messageId) => {
+     if (!activeRoom || !socket) return;
+     socket.emit("unsendMessage", { messageId, roomId: activeRoom.id, userId: user.id });
+     // Optimistically hide
+     setMessages(prev => prev.filter(m => m.id !== messageId));
   };
 
   if (loading && !rooms.length) {
@@ -231,6 +256,7 @@ const ChatsPage = () => {
                       isOtherTyping={isOtherTyping}
                       onLoadOlderMessages={handleLoadOlderMessages}
                       isLoadingOlder={isLoadingOlder}
+                      onUnsendMessage={handleUnsendMessage}
                   />
                 )}
              </motion.div>

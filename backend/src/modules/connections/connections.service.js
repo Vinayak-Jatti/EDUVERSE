@@ -58,6 +58,13 @@ const connectionsService = {
       connectionsRepository.getOutgoingRequests(userId)
     ]);
     return { incoming, outgoing };
+  },
+
+  /**
+   * Get suggestions for connections
+   */
+  async getSuggestions(userId) {
+    return await connectionsRepository.getSuggestions(userId);
   }
 };
 

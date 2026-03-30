@@ -62,3 +62,15 @@ export const removeConnection = asyncHandler(async (req, res) => {
     message: "Connection Neutralized"
   });
 });
+
+/**
+ * @desc Get connection suggestions
+ * @route GET /api/v1/connections/suggestions
+ */
+export const getSuggestions = asyncHandler(async (req, res) => {
+  const suggestions = await connectionsService.getSuggestions(req.user.id);
+  return sendSuccess(res, req, {
+    message: "Suggestions loaded",
+    data: { suggestions }
+  });
+});

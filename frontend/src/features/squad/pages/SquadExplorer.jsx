@@ -61,6 +61,9 @@ const SquadExplorer = () => {
           <h1 className="text-4xl font-black uppercase tracking-tighter text-gray-900 leading-none">
             Academy <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">Squads</span>
           </h1>
+          <div className="mt-4 px-3 py-1 bg-amber-100 text-amber-700 font-black uppercase tracking-widest text-[10px] rounded border border-amber-200 inline-block">
+            🚧 UNDER DEVELOPMENT
+          </div>
         </div>
 
         <div className="flex items-center gap-4">
@@ -80,7 +83,20 @@ const SquadExplorer = () => {
         </div>
       </div>
 
+      <div className="relative">
+        {/* UNDER DEVELOPMENT OVERLAY */}
+        <div className="absolute inset-0 z-50 bg-white/60 backdrop-blur-md rounded-[3rem] border border-black/5 flex flex-col items-center justify-center pointer-events-auto">
+           <div className="p-8 bg-white border border-black/10 shadow-2xl rounded-[2.5rem] flex flex-col items-center max-w-sm text-center">
+             <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mb-6">
+                <Compass size={32} />
+             </div>
+             <h2 className="text-xl font-black uppercase tracking-tighter mb-2">Phase 3 Deployment</h2>
+             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-relaxed">Study Groups and Enterprise Squads are currently being configured for Phase 3. Core infrastructure is locked.</p>
+           </div>
+        </div>
+
       {/* Search & Filter Bar */}
+      <div className="relative z-0">
       <div className="bg-white border border-black/5 rounded-[3rem] p-4 mb-12 flex items-center gap-4 shadow-xl shadow-black/5">
         <div className="flex-1 flex items-center gap-4 px-6 py-4 bg-gray-50 rounded-2xl focus-within:bg-white focus-within:ring-2 focus-within:ring-black/5 transition-all">
           <Search className="text-gray-400" size={20} />
@@ -113,6 +129,8 @@ const SquadExplorer = () => {
           ))}
         </div>
       )}
+      </div>
+      </div>
 
       <AnimatePresence>
         {isModalOpen && (

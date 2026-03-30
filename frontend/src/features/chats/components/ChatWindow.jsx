@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { MoreVertical, Video, Sparkles, Bot } from "lucide-react";
+import { MoreVertical, Video, Sparkles, Bot, Check, CheckCheck, Trash2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import MessageInput from "./MessageInput";
@@ -15,7 +15,8 @@ const ChatWindow = ({
   isOtherTyping, 
   user, 
   onLoadOlderMessages, 
-  isLoadingOlder 
+  isLoadingOlder,
+  onUnsendMessage
 }) => {
   const scrollRef = useRef(null);
 
@@ -133,8 +134,28 @@ const ChatWindow = ({
                         <span className={`text-[8px] md:text-[9px] font-black uppercase tracking-widest text-gray-300`}>
                             {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
                         </span>
+                        
+                        {/* WhatsApp-style ticks */}
+                        {isMe && !isAI && (
+                          <span className="flex items-center">
+                            {msg.status === 'sent' && <Check className="w-3 h-3 text-gray-400" />}
+                            {msg.status === 'delivered' && <CheckCheck className="w-3 h-3 text-gray-400" />}
+                            {msg.status === 'seen' && <CheckCheck className="w-3 h-3 text-black" />}
+                          </span>
+                        )}
                       </div>
                   </div>
+                  
+                  {/* Unsend Button (Hover) */}
+                  {isMe && !isAI && !msg.id.startsWith("temp_") && (
+                     <button 
+                       onClick={() => onUnsendMessage && onUnsendMessage(msg.id)}
+                       className="absolute top-1/2 -translate-y-1/2 -left-10 md:-left-12 p-2 bg-white text-gray-400 hover:text-rose-500 rounded-full opacity-0 group-hover:opacity-100 transition-all border border-black/5 shadow-sm scale-90 group-hover:scale-100 z-10"
+                       title="Unsend for everyone"
+                     >
+                       <Trash2 className="w-4 h-4" />
+                     </button>
+                  )}
               </motion.div>
             );
           })}

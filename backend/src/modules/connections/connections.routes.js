@@ -4,7 +4,8 @@ import {
   getPendingConnections, 
   requestConnection, 
   acceptConnection, 
-  removeConnection 
+  removeConnection,
+  getSuggestions
 } from "./connections.controller.js";
 import { protect } from "../../middlewares/auth.middleware.js";
 
@@ -14,6 +15,7 @@ router.use(protect); // All connection routes require intelligence clearance (Au
 
 router.get("/", getMyConnections);
 router.get("/pending", getPendingConnections);
+router.get("/suggestions", getSuggestions);
 router.post("/request/:userId", requestConnection);
 router.post("/accept/:requestId", acceptConnection);
 router.delete("/:userId", removeConnection);

@@ -146,6 +146,36 @@ const connectionsRepository = {
     `;
     const [rows] = await pool.execute(query, [userId]);
     return rows;
+  },
+
+  /**
+   * Get connection suggestions (users not connected to)
+   */
+  async getSuggestions(userId, limit = 5) {
+    const query = `
+      SELECT 
+        u.id as user_id,
+        up.display_name,
+        up.username,
+        up.avatar_url,
+        up.bio,
+        up.headline
+      FROM users u
+      JOIN user_profiles up ON u.id = up.user_id
+      WHERE u.id != ?
+      AND u.id NOT IN (
+        SELECT IF(requester_id = ?, addressee_id, requester_id)
+        FROM connections
+        WHERE requester_id = ? OR addressee_id = ?
+      )
+      ORDER BY RAND()
+      LIMIT ?
+    `;
+    // We pass limits as string if using direct ? parameter, but execute handles it
+    // Better to use limit directly if we have issues with type casting.
+    // Ensure limit is number.
+    const [rows] = await pool.execute(query, [userId, userId, userId, userId, parseInt(limit, 10)]);
+    return rows;
   }
 };
 

@@ -77,15 +77,27 @@ const FeedPage = () => {
       }
       setNextNewsPage(data.data.nextPage);
     } catch (err) {
-      console.error("News catch:", err);
+      // Failed to load news; silently handled as it is a secondary feature 
+      // or managed by parent error boundaries if necessary.
     } finally {
       setNewsLoading(false);
     }
   };
 
   const handlePostCreated = (newPost) => {
-    setPosts([newPost, ...posts]);
+    setPosts(prev => [newPost, ...prev]);
   };
+
+  // Listen to globally created posts
+  useEffect(() => {
+    const onGlobalPost = (e) => {
+      if (e.detail?.newPost) {
+        handlePostCreated(e.detail.newPost);
+      }
+    };
+    window.addEventListener('eduverse:postCreated', onGlobalPost);
+    return () => window.removeEventListener('eduverse:postCreated', onGlobalPost);
+  }, []);
 
   const filteredPosts = posts.filter(p => {
     if (activeFilter === 'all') return true;

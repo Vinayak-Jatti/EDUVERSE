@@ -97,6 +97,7 @@ const chatsRepository = {
         m.content,
         m.message_type,
         m.created_at,
+        m.status,
         up.display_name as sender_name,
         up.avatar_url as sender_avatar
       FROM messages m
@@ -118,6 +119,19 @@ const chatsRepository = {
     `;
     await pool.execute(query, [msgId, roomId, senderId, content, type]);
     return msgId;
+  },
+
+  // Update read receipts (status)
+  async updateMessageStatus(messageId, status) {
+    const query = `UPDATE messages SET status = ? WHERE id = ?`;
+    await pool.execute(query, [status, messageId]);
+  },
+
+  // Soft delete a message (only sender can do this)
+  async softDeleteMessage(messageId, senderId) {
+    const query = `UPDATE messages SET is_deleted = 1, deleted_at = CURRENT_TIMESTAMP WHERE id = ? AND sender_id = ?`;
+    const [result] = await pool.execute(query, [messageId, senderId]);
+    return result.affectedRows > 0;
   }
 };
 

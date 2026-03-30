@@ -12,6 +12,7 @@ const ConnectionsPage = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("network"); 
   const [deleteTargetId, setDeleteTargetId] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -20,12 +21,14 @@ const ConnectionsPage = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [connRes, pendRes] = await Promise.all([
+      const [connRes, pendRes, suggRes] = await Promise.all([
         apiClient.get("/connections"),
-        apiClient.get("/connections/pending")
+        apiClient.get("/connections/pending"),
+        apiClient.get("/connections/suggestions")
       ]);
-      setConnections(connRes.data.data);
+      setConnections(connRes.data.data.connections || connRes.data.data);
       setPending(pendRes.data.data);
+      setSuggestions(suggRes.data.data?.suggestions || []);
     } catch (err) {
       toast.error("Network Sync Fault");
     } finally {
@@ -40,6 +43,16 @@ const ConnectionsPage = () => {
       fetchData();
     } catch (err) {
       toast.error("Handshake Fault");
+    }
+  };
+
+  const handleRequestAccess = async (userId) => {
+    try {
+      await apiClient.post(`/connections/request/${userId}`);
+      toast.success("Handshake Initiated");
+      fetchData(); // Refresh UI to update status
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Protocol Error");
     }
   };
 
@@ -129,11 +142,32 @@ const ConnectionsPage = () => {
                  ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center p-12 md:p-20 bg-white border border-black/5 rounded-[3rem] md:rounded-[4rem] shadow-sm">
+              <div className="flex flex-col items-center justify-center p-12 md:p-20 bg-white border border-black/5 rounded-[3rem] md:rounded-[4rem] shadow-sm mb-10">
                  <Users size={50} className="text-gray-100 mb-6" />
                  <h2 className="text-lg md:text-xl font-black uppercase tracking-tight mb-4">Registry is Empty</h2>
-                 <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px] text-center max-w-xs md:max-w-sm leading-relaxed">Start exploring the feeds to initiate professional academic handshakes and expand your intelligence pool.</p>
+                 <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px] text-center max-w-xs md:max-w-sm leading-relaxed mb-6">Start exploring the feeds to initiate professional academic handshakes and expand your intelligence pool.</p>
               </div>
+            )}
+
+            {/* Suggestions Block */}
+            {connections.length === 0 && suggestions.length > 0 && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-8">
+                 <SectionHeader title="Suggested Peers" icon={<Search size={15} />} />
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                   {suggestions.map(sugg => (
+                     <ConnectionCard 
+                       key={sugg.user_id}
+                       user={sugg}
+                       actions={
+                         <button onClick={() => handleRequestAccess(sugg.user_id)} className="p-3 md:p-4 bg-indigo-600 text-white rounded-2xl hover:bg-black transition-all active:scale-95 shadow-lg flex items-center gap-2">
+                            <span className="hidden sm:inline text-[9px] font-black uppercase tracking-widest">Connect</span>
+                            <UserPlus size={16} />
+                         </button>
+                       }
+                     />
+                   ))}
+                 </div>
+              </motion.div>
             )}
           </motion.div>
         )}
