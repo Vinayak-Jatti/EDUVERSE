@@ -67,7 +67,16 @@ export const login = asyncHandler(async (req, res) => {
  * Logout (Clear Cookie)
  */
 export const logout = asyncHandler(async (req, res) => {
-  res.clearCookie("refreshToken");
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
+  });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
+  });
   sendSuccess(res, req, { message: "Logged out successfully." });
 });
 
@@ -135,6 +144,14 @@ export const googleCallback = asyncHandler(async (req, res) => {
     avatarUrl: googleUser.picture,
   });
 
+  // Set access token in HttpOnly cookie
+  res.cookie("accessToken", result.accessToken, {
+    httpOnly: true,
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
+    maxAge: 1 * 60 * 60 * 1000, 
+  });
+
   // Set refresh token cookie
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
@@ -143,10 +160,8 @@ export const googleCallback = asyncHandler(async (req, res) => {
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 
-  // Redirect to frontend with access token in URL (temporary, for demo)
-  // Ideally, frontend picks this up and stores it.
-  // Redirect to frontend with access token in URL
-  res.redirect(`${config.cors.origin}/feed?token=${result.accessToken}`);
+  // Redirect to frontend without token in URL
+  res.redirect(`${config.cors.origin}/feed`);
 });
 
 /**
@@ -190,6 +205,14 @@ export const githubCallback = asyncHandler(async (req, res) => {
     avatarUrl: githubUser.avatar_url,
   });
 
+  // Set access token in HttpOnly cookie
+  res.cookie("accessToken", result.accessToken, {
+    httpOnly: true,
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
+    maxAge: 1 * 60 * 60 * 1000, // 1 hour
+  });
+
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
     secure: config.server.isProduction,
@@ -197,7 +220,8 @@ export const githubCallback = asyncHandler(async (req, res) => {
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 
-  res.redirect(`${config.cors.origin}/feed?token=${result.accessToken}`);
+  // Redirect to frontend without token in URL
+  res.redirect(`${config.cors.origin}/feed`);
 });
 
 /**
