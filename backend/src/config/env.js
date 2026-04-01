@@ -22,8 +22,6 @@ const config = {
     isProduction: optional("NODE_ENV", "development") === "production",
   },
   cors: {
-    origin: optional("CORS_ORIGIN",  "https://eduverse-main.vercel.app",
-    "https://eduverse-main.vercel.app/"),
     origin2: optional("CORS_ORIGIN2", "CORS_ORIGIN2"),
   },
   db: {
