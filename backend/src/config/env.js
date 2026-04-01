@@ -22,7 +22,7 @@ const config = {
     isProduction: optional("NODE_ENV", "development") === "production",
   },
   cors: {
-    origin2: optional("CORS_ORIGIN2", "CORS_ORIGIN2"),
+    origin: optional("CORS_ORIGIN", "http://localhost:5173"),
   },
   db: {
     host: optional("DB_HOST", "localhost"),
@@ -50,7 +50,7 @@ const config = {
       clientSecret: optional("GOOGLE_CLIENT_SECRET", ""),
       redirectUri: optional(
         "GOOGLE_REDIRECT_URI",
-        "http://localhost:3001/api/v1/auth/google/callback"
+        "https://eduverse-oyk3.onrender.com/api/v1/auth/google/callback"
       ),
     },
     github: {
@@ -58,7 +58,7 @@ const config = {
       clientSecret: optional("GITHUB_CLIENT_SECRET", ""),
       redirectUri: optional(
         "GITHUB_REDIRECT_URI",
-        "http://localhost:3001/api/v1/auth/github/callback"
+        "https://eduverse-oyk3.onrender.com/api/v1/auth/github/callback"
       ),
     },
   },

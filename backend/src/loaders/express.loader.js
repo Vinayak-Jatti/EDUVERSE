@@ -37,7 +37,11 @@ export default (app) => {
       }
     }
   }));
-  app.use(cors({ origin: config.cors.origin || config.cors.origin2 , credentials: true }));
+  app.use(cors({ 
+    origin: config.cors.origin, 
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+  }));
   app.use(xssClean());
 
   // 📝 Request Tracing & Logging
