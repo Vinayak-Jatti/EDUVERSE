@@ -9,7 +9,20 @@ import requestId from "../middlewares/requestId.middleware.js";
 import { apiLimiter } from "../middlewares/rateLimit.middleware.js";
 
 export default (app) => {
-  // 🛡 Security
+  // 🛡 Rely on Render's Proxy
+  app.set("trust proxy", 1);
+
+  // 🛡 HTTPS Enforcement (Behind Proxy)
+  if (config.server.isProduction) {
+    app.use((req, res, next) => {
+      if (req.header("x-forwarded-proto") !== "https") {
+        return res.redirect(`https://${req.header("host")}${req.url}`);
+      }
+      next();
+    });
+  }
+
+  // 🛡 Security & CORS
   app.use(helmet({
     crossOriginEmbedderPolicy: false,
     crossOriginResourcePolicy: { policy: "cross-origin" },
@@ -37,11 +50,14 @@ export default (app) => {
       }
     }
   }));
+
   app.use(cors({ 
-    origin: config.cors.origin, 
+    origin: config.cors.origin, // e.g., https://eduverse.vercel.app
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
   }));
+
   app.use(xssClean());
 
   // 📝 Request Tracing & Logging
@@ -56,9 +72,15 @@ export default (app) => {
   // 📂 Static Files
   app.use(express.static("public"));
 
-  // 🚦 Rate Limiting
-  if (config.server.env !== 'test') {
-    app.use("/api", apiLimiter);
+  // 🚦 Selective Rate Limiting
+  if (config.server.env !== "test") {
+    app.use("/api", (req, res, next) => {
+      // Skip rate limit for OAuth callbacks which are sensitive to IP/Proxy changes
+      if (req.path.includes("/auth/google/callback") || req.path.includes("/auth/github/callback")) {
+        return next();
+      }
+      apiLimiter(req, res, next);
+    });
   }
 
   // JSON Error Handling for malformed body

@@ -1,6 +1,7 @@
 import { generateState, generateCodeVerifier } from "arctic";
 import * as authService from "./auth.service.js";
 import { googleProvider, githubProvider, getGoogleUser, getGitHubUser } from "./oauth.service.js";
+import config from "../../config/env.js";
 import { sendSuccess, sendCreated } from "../../utils/response.js";
 import asyncHandler from "../../utils/asyncHandler.js";
 import createError from "../../utils/ApiError.js";
@@ -25,8 +26,8 @@ export const verifyOtp = asyncHandler(async (req, res) => {
   // Set refresh token in HttpOnly cookie
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
@@ -48,8 +49,8 @@ export const login = asyncHandler(async (req, res) => {
   // Set refresh token in HttpOnly cookie
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
@@ -137,14 +138,15 @@ export const googleCallback = asyncHandler(async (req, res) => {
   // Set refresh token cookie
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 
   // Redirect to frontend with access token in URL (temporary, for demo)
   // Ideally, frontend picks this up and stores it.
-  res.redirect(`${process.env.CORS_ORIGIN}/feed?token=${result.accessToken}`);
+  // Redirect to frontend with access token in URL
+  res.redirect(`${config.cors.origin}/feed?token=${result.accessToken}`);
 });
 
 /**
@@ -190,12 +192,12 @@ export const githubCallback = asyncHandler(async (req, res) => {
 
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 
-  res.redirect(`${process.env.CORS_ORIGIN}/feed?token=${result.accessToken}`);
+  res.redirect(`${config.cors.origin}/feed?token=${result.accessToken}`);
 });
 
 /**
@@ -208,8 +210,8 @@ export const refreshTokens = asyncHandler(async (req, res) => {
 
   res.cookie("refreshToken", result.refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: config.server.isProduction,
+    sameSite: config.server.isProduction ? "none" : "lax",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 

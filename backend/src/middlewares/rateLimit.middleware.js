@@ -7,6 +7,7 @@ export const apiLimiter = rateLimit({
   skip: (req) => process.env.NODE_ENV === "test",
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     statusCode: 429,
@@ -21,6 +22,7 @@ export const authLimiter = rateLimit({
   skip: (req) => process.env.NODE_ENV === "test",
   standardHeaders: true,
   legacyHeaders: false,
+  validate: { xForwardedForHeader: false },
   message: {
     success: false,
     statusCode: 429,
