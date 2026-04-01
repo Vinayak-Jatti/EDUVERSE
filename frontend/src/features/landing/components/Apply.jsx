@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle, Upload, ArrowRight, ShieldCheck } from 'lucide-react';
 import { toast } from 'react-toastify';
+import apiClient from '../../../services/apiClient';
 
 const Input = ({ placeholder, ...props }) => (
   <div className="relative group">
@@ -20,22 +21,51 @@ const Apply = () => {
         email: '',
         campus: '',
     });
+    const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleFileChange = (e) => {
-        if (e.target.files[0]) {
-            setFileName(e.target.files[0].name);
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+            setFileName(selectedFile.name);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (!file) {
+            toast.warning('Please attach your resume.');
+            return;
+        }
+
         setLoading(true);
-        setTimeout(() => {
+        try {
+            const payload = new FormData();
+            payload.append('first_name', formData.first_name);
+            payload.append('last_name', formData.last_name);
+            payload.append('email', formData.email);
+            payload.append('campus', formData.campus);
+            payload.append('resume', file);
+
+            await apiClient.post('/contact/apply', payload, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            toast.success('Thank you! Your application has been received.');
+            setFormData({ first_name: '', last_name: '', email: '', campus: '' });
+            setFile(null);
+            setFileName('');
+        } catch (error) {
+            console.error('Application Error:', error);
+            toast.error(error.response?.data?.message || 'Failed to apply. Please try again.');
+        } finally {
             setLoading(false);
-            toast.success('Registry Sync Complete: Application submitted to the EDUVERSE Sync Registry.');
-        }, 1500);
+        }
     };
 
 

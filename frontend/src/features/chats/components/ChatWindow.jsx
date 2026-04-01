@@ -132,62 +132,65 @@ const ChatWindow = ({
                   </div>
                 )}
 
-                <div className={`max-w-[85%] md:max-w-[70%] ${isMe ? "items-end" : "items-start"} flex flex-col gap-1.5`}>
-                  {/* Community sender name badge */}
-                  {isCommunity && !isMe && !isAI && (
-                    <span className="text-[10px] font-bold text-gray-500 ml-1">
-                      {msg.sender_name}
-                    </span>
-                  )}
-
-                  {/* Message bubble */}
-                  <div
-                    className={`p-4 md:p-5 text-[12px] md:text-sm font-semibold leading-relaxed transition-all shadow-sm ${
-                      isMe
-                        ? "bg-black text-white rounded-[1.5rem] md:rounded-[2rem] rounded-tr-none hover:shadow-black/20"
-                        : isAI
-                          ? "bg-indigo-50 border border-indigo-100 text-indigo-900 rounded-[1.5rem] md:rounded-[2rem] rounded-tl-none border-l-4 border-l-indigo-500"
-                          : "bg-white text-gray-800 border border-black/5 rounded-[1.5rem] md:rounded-[2rem] rounded-tl-none hover:border-black/10"
-                    }`}
-                  >
-                    {msg.content}
-                  </div>
-
-                  {/* Timestamp + Tick indicators */}
-                  <div className={`flex items-center gap-2 ${isMe ? "mr-2" : "ml-2"}`}>
-                    {isAI && <Sparkles className="w-3 h-3 text-indigo-400" />}
-                    <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-gray-300">
-                      {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
-                    </span>
-
-                    {/* WhatsApp-style ticks — sent: gray ✓, delivered: gray ✓✓, seen: GREEN ✓✓ */}
-                    {isMe && !isAI && (
-                      <span className="flex items-center ml-0.5">
-                        {msg.status === "sent" && (
-                          <Check className="w-3.5 h-3.5 text-gray-400" />
-                        )}
-                        {msg.status === "delivered" && (
-                          <CheckCheck className="w-3.5 h-3.5 text-gray-400" />
-                        )}
-                        {msg.status === "seen" && (
-                          <CheckCheck className="w-3.5 h-3.5 text-emerald-500" />
-                        )}
+                  <div className={`max-w-[85%] md:max-w-[70%] ${isMe ? "items-end" : "items-start"} flex flex-col gap-1.5 relative`}>
+                    {/* Community sender name badge */}
+                    {isCommunity && !isMe && !isAI && (
+                      <span className="text-[10px] font-bold text-gray-500 ml-1">
+                        {msg.sender_name}
                       </span>
                     )}
-                  </div>
-                </div>
 
-                {/* Unsend button (hover-reveal, own messages only) */}
-                {isMe && !isAI && typeof msg.id === "string" && !msg.id.startsWith("temp_") && (
-                  <button
-                    onClick={() => onUnsendMessage?.(msg.id)}
-                    className="absolute top-1/2 -translate-y-1/2 -left-10 md:-left-12 p-2 bg-white text-gray-400 hover:text-rose-500 rounded-full opacity-0 group-hover:opacity-100 transition-all border border-black/5 shadow-sm scale-90 group-hover:scale-100 z-10"
-                    title="Unsend for everyone"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                )}
-              </motion.div>
+                    {/* Bubble Wrapper with Actions */}
+                    <div className="relative group/msg flex items-center gap-2">
+                      {/* Unsend button (OWN MESSAGES ONLY) — Repositioned for full responsiveness */}
+                      {isMe && !isAI && typeof msg.id === "string" && !msg.id.startsWith("temp_") && (
+                        <button
+                          onClick={() => onUnsendMessage?.(msg.id)}
+                          className="absolute right-[calc(100%+8px)] md:right-[calc(100%+12px)] top-1/2 -translate-y-1/2 p-1.5 md:p-2 bg-white text-gray-400 hover:text-rose-500 rounded-full border border-black/5 shadow-sm transition-all md:opacity-0 md:group-hover/msg:opacity-100 scale-90 md:scale-100 flex-shrink-0 z-10"
+                          title="Unsend for everyone"
+                        >
+                          <Trash2 className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                        </button>
+                      )}
+
+                      {/* Message bubble */}
+                      <div
+                        className={`p-4 md:p-5 text-[12px] md:text-sm font-semibold leading-relaxed transition-all shadow-sm ${
+                          isMe
+                            ? "bg-black text-white rounded-[1.5rem] md:rounded-[2rem] rounded-tr-none hover:shadow-black/20"
+                            : isAI
+                              ? "bg-indigo-50 border border-indigo-100 text-indigo-900 rounded-[1.5rem] md:rounded-[2rem] rounded-tl-none border-l-4 border-l-indigo-500"
+                              : "bg-white text-gray-800 border border-black/5 rounded-[1.5rem] md:rounded-[2rem] rounded-tl-none hover:border-black/10"
+                        }`}
+                      >
+                        {msg.content}
+                      </div>
+                    </div>
+
+                    {/* Timestamp + Tick indicators */}
+                    <div className={`flex items-center gap-2 ${isMe ? "mr-2" : "ml-2"}`}>
+                      {isAI && <Sparkles className="w-3 h-3 text-indigo-400" />}
+                      <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-gray-300">
+                        {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
+                      </span>
+
+                      {/* WhatsApp-style ticks */}
+                      {isMe && !isAI && (
+                        <span className="flex items-center ml-0.5">
+                          {msg.status === "sent" && (
+                            <Check className="w-3.5 h-3.5 text-gray-400" />
+                          )}
+                          {msg.status === "delivered" && (
+                            <CheckCheck className="w-3.5 h-3.5 text-gray-400" />
+                          )}
+                          {msg.status === "seen" && (
+                            <CheckCheck className="w-3.5 h-3.5 text-emerald-500" />
+                          )}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
             );
           })}
         </AnimatePresence>
