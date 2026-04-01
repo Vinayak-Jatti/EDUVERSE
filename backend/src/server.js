@@ -20,8 +20,8 @@ const startServer = async () => {
 
     // 🌐 Start Listening
     server.listen(config.server.port, () => {
-      logger.info(`Server running on port ${config.server.port} [${config.server.env}]`);
-      logger.info(`Socket.io logic initialized [${config.cors.origin}]`);
+      logger.info(`Server running ...`);
+      logger.info(`Socket.io logic initialized ...`);
     });
 
     // ─── Graceful Shutdown ─────────────────────────────────────────────────

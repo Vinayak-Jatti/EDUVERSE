@@ -12,7 +12,7 @@ import searchRoutes from "../modules/search/search.routes.js";
 
 export default (app) => {
   // Base health check
-  app.get("/", (req, res) => {
+  app.get("/health", (req, res) => {
     res.json({ success: true, message: "🚀 EDUVERSE API is running" });
   });
 
