@@ -26,9 +26,14 @@ const sanitizeInput = (text) => {
  * @returns {Server} Configured Socket.IO server
  */
 const socketLoader = (server) => {
+  const allowedOrigins = (config.cors.origin || "http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
   const io = new Server(server, {
     cors: {
-      origin: config.cors.origin || "http://localhost:5173",
+      origin: allowedOrigins,
       methods: ["GET", "POST"],
       credentials: true,
     },

@@ -161,7 +161,7 @@ export const googleCallback = asyncHandler(async (req, res) => {
   });
 
   // Redirect to frontend without token in URL
-  res.redirect(`${config.cors.origin}/feed`);
+  res.redirect(`${config.frontendUrl}/feed`);
 });
 
 /**
@@ -221,7 +221,7 @@ export const githubCallback = asyncHandler(async (req, res) => {
   });
 
   // Redirect to frontend without token in URL
-  res.redirect(`${config.cors.origin}/feed`);
+  res.redirect(`${config.frontendUrl}/feed`);
 });
 
 /**

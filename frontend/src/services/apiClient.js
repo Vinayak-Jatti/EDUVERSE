@@ -1,9 +1,10 @@
 import axios from "axios";
 
+const API_VERSION = "/api/v1";
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api/v1",
+  baseURL: (import.meta.env.VITE_API_BASE_URL || "http://localhost:3000") + API_VERSION,
   withCredentials: true, // Required for HttpOnly cookies
-  timeout: 60000, // Layer 8 — Reliability: Increased to 60s to support large file uploads (Videos)
+  timeout: 60000, 
 });
 
 // Interceptor to attach Access Token from memory/store

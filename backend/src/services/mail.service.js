@@ -2,14 +2,23 @@ import nodemailer from "nodemailer";
 import config from "../config/env.js";
 import logger from "../utils/logger.js";
 
+/** DNS family 4 forces IPv4 resolution — Render blocks outbound IPv6 */
+const SMTP_TIMEOUT_MS = 10_000;
+const GREETING_TIMEOUT_MS = 10_000;
+
 const transporter = nodemailer.createTransport({
   host: config.mail.host,
-  port: parseInt(config.mail.port),
-  secure: config.mail.port == "465",
+  port: parseInt(config.mail.port, 10),
+  secure: config.mail.port === "465",
   auth: {
     user: config.mail.user,
     pass: config.mail.pass,
   },
+  family: 4,
+  connectionTimeout: SMTP_TIMEOUT_MS,
+  greetingTimeout: GREETING_TIMEOUT_MS,
+  pool: true,
+  maxConnections: 3,
 });
 
 /**

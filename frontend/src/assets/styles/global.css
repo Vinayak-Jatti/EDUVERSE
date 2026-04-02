@@ -33,12 +33,12 @@
   }
 
   /* ARCHITECTURAL 3D ELEVATION ON HOVER */
-  .clay-card:hover {
+  /* .clay-card:hover {
     transform: translateY(-6px) scale(0.99);
     box-shadow: 
       0 50px 100px -20px rgba(0, 0, 0, 0.15),
       0 30px 60px -30px rgba(0, 0, 0, 0.1);
-  }
+  } */
 
   /* PREMIUM SKEUOMORPHISM: PHYSICAL PRESSED/BEVELED DESIGN */
   .skeuo-node {

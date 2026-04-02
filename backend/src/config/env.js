@@ -24,6 +24,7 @@ const config = {
   cors: {
     origin: optional("CORS_ORIGIN", "http://localhost:5173"),
   },
+  frontendUrl: optional("FRONTEND_URL", optional("CORS_ORIGIN", "http://localhost:5173")),
   db: {
     host: optional("DB_HOST", "localhost"),
     port: optional("DB_PORT", "3306"),

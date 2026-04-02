@@ -11,6 +11,10 @@ import contactRoutes from "../modules/contact/contact.routes.js";
 import searchRoutes from "../modules/search/search.routes.js";
 
 export default (app) => {
+  app.get("/", (req, res) => {
+    res.json({ success: true, message: "🚀 EDUVERSE is running" });
+  });
+
   // Base health check
   app.get("/health", (req, res) => {
     res.json({ success: true, message: "🚀 EDUVERSE API is running" });

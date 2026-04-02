@@ -39,13 +39,13 @@ const AuthForm = ({ title, subtitle, footerText, footerLink, footerLinkText, chi
 
             <div className="grid grid-cols-2 gap-4 md:gap-6">
               <SocialButton 
-                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/github`}
+                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/github`}
                 icon={<Github className="w-3.5 h-3.5 md:w-4 md:h-4" />}
               >
                 GitHub
               </SocialButton>
               <SocialButton 
-                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`}
+                onClick={() => window.location.href = `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/google`}
                 icon={<img src="https://www.google.com/favicon.ico" className="w-3.5 h-3.5 md:w-4 md:h-4 grayscale group-hover:grayscale-0 transition-all" alt="G" />}
               >
                 Google
