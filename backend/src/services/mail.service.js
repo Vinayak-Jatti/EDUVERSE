@@ -1,6 +1,11 @@
 import nodemailer from "nodemailer";
+import dns from "dns";
 import config from "../config/env.js";
 import logger from "../utils/logger.js";
+
+// 🌍 Global Fix for Render IPv6 ENETUNREACH Error
+// Node 17+ prefers IPv6 by default, but Render free tier blocks outbound IPv6.
+dns.setDefaultResultOrder("ipv4first");
 
 /** DNS family 4 forces IPv4 resolution — Render blocks outbound IPv6 */
 const SMTP_TIMEOUT_MS = 10_000;
