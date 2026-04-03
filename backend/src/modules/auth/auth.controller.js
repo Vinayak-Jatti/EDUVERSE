@@ -144,24 +144,31 @@ export const googleCallback = asyncHandler(async (req, res) => {
     avatarUrl: googleUser.picture,
   });
 
-  // Set access token in HttpOnly cookie
-  res.cookie("accessToken", result.accessToken, {
+  // Layer 6 — Persistence Protocol: Token Issuance
+  const cookieOptions = {
     httpOnly: true,
     secure: config.server.isProduction,
     sameSite: config.server.isProduction ? "none" : "lax",
-    maxAge: 1 * 60 * 60 * 1000, 
+    path: "/",
+  };
+
+  // Set access token in HttpOnly cookie
+  res.cookie("accessToken", result.accessToken, {
+    ...cookieOptions,
+    maxAge: 1 * 60 * 60 * 1000, // 1 hour
   });
 
   // Set refresh token cookie
   res.cookie("refreshToken", result.refreshToken, {
-    httpOnly: true,
-    secure: config.server.isProduction,
-    sameSite: config.server.isProduction ? "none" : "lax",
-    maxAge: 30 * 24 * 60 * 60 * 1000,
+    ...cookieOptions,
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
-  // Redirect to frontend without token in URL
-  res.redirect(`${config.frontendUrl}/feed`);
+  // Security: Ensure we don't have trailing slashes in the base URL
+  const frontendUrl = config.frontendUrl.replace(/\/$/, "");
+  
+  // Layer 7 — Transition: Handover to Client
+  res.redirect(`${frontendUrl}/feed?token=${result.accessToken}`);
 });
 
 /**
@@ -205,23 +212,30 @@ export const githubCallback = asyncHandler(async (req, res) => {
     avatarUrl: githubUser.avatar_url,
   });
 
-  // Set access token in HttpOnly cookie
-  res.cookie("accessToken", result.accessToken, {
+  // Layer 6 — Persistence Protocol: Token Issuance
+  const cookieOptions = {
     httpOnly: true,
     secure: config.server.isProduction,
     sameSite: config.server.isProduction ? "none" : "lax",
+    path: "/",
+  };
+
+  // Set access token in HttpOnly cookie
+  res.cookie("accessToken", result.accessToken, {
+    ...cookieOptions,
     maxAge: 1 * 60 * 60 * 1000, // 1 hour
   });
 
   res.cookie("refreshToken", result.refreshToken, {
-    httpOnly: true,
-    secure: config.server.isProduction,
-    sameSite: config.server.isProduction ? "none" : "lax",
-    maxAge: 30 * 24 * 60 * 60 * 1000,
+    ...cookieOptions,
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
-  // Redirect to frontend without token in URL
-  res.redirect(`${config.frontendUrl}/feed`);
+  // Security: Ensure we don't have trailing slashes in the base URL
+  const frontendUrl = config.frontendUrl.replace(/\/$/, "");
+
+  // Layer 7 — Transition: Handover to Client
+  res.redirect(`${frontendUrl}/feed?token=${result.accessToken}`);
 });
 
 /**

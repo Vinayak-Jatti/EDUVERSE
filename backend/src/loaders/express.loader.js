@@ -51,16 +51,19 @@ export default (app) => {
     }
   }));
 
-  const allowedOrigins = config.cors.origin
+  const parsedOrigins = config.cors.origin
     .split(",")
-    .map((origin) => origin.trim())
+    .map((origin) => origin.trim().replace(/\/$/, ""))
     .filter(Boolean);
 
   app.use(cors({
     origin: (origin, callback) => {
       /* Allow server-to-server / health-check requests (no origin header) */
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
+      
+      const normalizedOrigin = origin.replace(/\/$/, "");
+      if (parsedOrigins.includes(normalizedOrigin)) return callback(null, true);
+      
       callback(new Error(`CORS: origin ${origin} is not allowed`));
     },
     credentials: true,

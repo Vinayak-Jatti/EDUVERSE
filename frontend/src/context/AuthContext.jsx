@@ -20,25 +20,38 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // 1. Check for token in URL (OAuth Callback)
-    const urlParams = new URLSearchParams(window.location.search);
-    const tokenFromUrl = urlParams.get("token");
+    const initializeAuth = async () => {
+      console.log("[Auth] Initializing session...");
+      
+      // 1. Check for token in URL (OAuth Callback)
+      // We look at both search and hash as some proxy/routing setups might mangle it
+      const urlParams = new URLSearchParams(window.location.search || window.location.hash.split("?")[1]);
+      const tokenFromUrl = urlParams.get("token");
 
-    if (tokenFromUrl) {
-      localStorage.setItem("accessToken", tokenFromUrl);
-      // Clean up the URL to remove the token immediately
-      window.history.replaceState({}, document.title, window.location.pathname);
-      fetchMe();
-      return;
-    }
+      if (tokenFromUrl) {
+        console.log("[Auth] Token discovered in URL. Provisioning local storage.");
+        localStorage.setItem("accessToken", tokenFromUrl);
+        
+        // Clean up the URL to remove the token immediately for security
+        const newUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+        
+        await fetchMe();
+        return;
+      }
 
-    // 2. Fallback to normal local storage check
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      fetchMe();
-    } else {
-      setLoading(false);
-    }
+      // 2. Fallback to normal local storage check
+      const savedToken = localStorage.getItem("accessToken");
+      if (savedToken) {
+        console.log("[Auth] Existing session found. Validating...");
+        await fetchMe();
+      } else {
+        console.log("[Auth] No active session. Transitioning to Guest.");
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
   }, []);
 
   const login = async (token) => {
