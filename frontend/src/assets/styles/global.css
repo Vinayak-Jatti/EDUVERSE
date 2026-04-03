@@ -69,6 +69,23 @@
   }
 }
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+}
+
 /* Custom Scrollbar for Premium Feel */
 ::-webkit-scrollbar {
   width: 8px;

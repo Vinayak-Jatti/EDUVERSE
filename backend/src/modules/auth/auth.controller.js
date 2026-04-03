@@ -28,6 +28,7 @@ export const verifyOtp = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: config.server.isProduction,
     sameSite: config.server.isProduction ? "none" : "lax",
+    path: "/",
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
@@ -51,6 +52,7 @@ export const login = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: config.server.isProduction,
     sameSite: config.server.isProduction ? "none" : "lax",
+    path: "/",
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
@@ -71,11 +73,13 @@ export const logout = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: config.server.isProduction,
     sameSite: config.server.isProduction ? "none" : "lax",
+    path: "/",
   });
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: config.server.isProduction,
     sameSite: config.server.isProduction ? "none" : "lax",
+    path: "/",
   });
   sendSuccess(res, req, { message: "Logged out successfully." });
 });
@@ -250,6 +254,7 @@ export const refreshTokens = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: config.server.isProduction,
     sameSite: config.server.isProduction ? "none" : "lax",
+    path: "/",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 

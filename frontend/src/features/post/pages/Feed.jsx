@@ -9,7 +9,7 @@ const Feed = () => {
   useEffect(() => {
     // Rely on AuthContext for global token extraction and session provisioning.
     // This component remains focused on display logic and feed orchestration.
-    console.log("[Feed] Mounted. Orchestrating insights...");
+    console.log("Loading your personalized learning feed...");
   }, []);
   const tabs = ["All", "Posts", "Twits", "Squads", "Videos", "Tech News"];
   

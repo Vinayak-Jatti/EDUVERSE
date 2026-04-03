@@ -84,11 +84,11 @@ const Apply = () => {
                 >
                     <div className="flex flex-col">
                         <span className="text-indigo-600 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.5em] mb-4 md:mb-6">
-                            Join the Network
+                            Join Our Community
                         </span>
                         <h2 className="text-3xl md:text-8xl font-black tracking-tighter uppercase text-black leading-[0.9] mb-6 md:mb-8">
-                           Sync Your <br />
-                           <span className="text-3d italic font-light text-gray-300">Journey</span> Now.
+                           Start Your <br />
+                           <span className="text-3d italic font-light text-gray-300">Academic Journey</span> Today.
                         </h2>
                     </div>
                     
@@ -98,9 +98,9 @@ const Apply = () => {
                                 <ShieldCheck className="text-indigo-600" size={20} md:size={24} />
                             </div>
                             <div>
-                                <h4 className="text-base md:text-lg font-black uppercase tracking-tighter mb-1 md:mb-2 text-black">Verified Onboarding</h4>
+                                <h4 className="text-base md:text-lg font-black uppercase tracking-tighter mb-1 md:mb-2 text-black">Secure Registration</h4>
                                 <p className="text-xs md:text-sm font-medium text-gray-400 font-manrope leading-relaxed">
-                                   Your profile will be encrypted and synchronized across the university ledger.
+                                   Your information is securely encrypted and validated within our academic network.
                                 </p>
                             </div>
                         </div>
@@ -108,7 +108,7 @@ const Apply = () => {
                         <div className="flex flex-col gap-4 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-black">
                            <div className="flex items-center gap-3">
                               <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                              Registrations Open Fall 2026
+                              Applications Open Fall 2026
                            </div>
                         </div>
                     </div>

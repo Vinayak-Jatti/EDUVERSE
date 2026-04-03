@@ -20,20 +20,20 @@ const ConnectButton = ({ targetUserId, initialStatus = "none", onStatusChange })
       if (action === "request") {
         await apiClient.post(`/connections/request/${targetUserId}`);
         setStatus("pending_sent");
-        toast.success("Handshake Initiated");
+        toast.success("Connection request sent successfully.");
       } else if (action === "accept") {
         await apiClient.post(`/connections/accept/${targetUserId}`); 
         setStatus("accepted");
-        toast.success("Mutual Bond Verified");
+        toast.success("Connection successfully established.");
       } else if (action === "remove") {
         await apiClient.delete(`/connections/${targetUserId}`);
         setStatus("none");
-        toast.info("Connection Neutralized");
+        toast.info("Connection has been removed.");
       }
       if (onStatusChange) onStatusChange(status);
     } catch (err) {
-      console.error("Connection Fault:", err);
-      toast.error(err.response?.data?.message || "Sync Fault");
+      console.error("Unable to complete the connection request:", err);
+      toast.error(err.response?.data?.message || "Unable to synchronize with the server. Please check your network and try again.");
     } finally {
       setLoading(false);
     }
@@ -91,9 +91,9 @@ const ConnectButton = ({ targetUserId, initialStatus = "none", onStatusChange })
         isOpen={isConfirmModalOpen}
         onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={() => handleAction("remove")}
-        title="Neutralize Bond?"
-        message="This action will terminate the academic handshake and shared intelligence sync with this user."
-        confirmText="Confirm Removal"
+        title="Disconnect Connection?"
+        message="This action will remove the user from your connections."
+        confirmText="Confirm"
       />
     </div>
   );

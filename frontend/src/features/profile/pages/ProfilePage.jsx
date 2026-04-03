@@ -70,7 +70,7 @@ const ProfilePage = () => {
       const { data } = await apiClient.get(`/feed/user/${profile.user_id}`);
       setPosts(data.data);
     } catch (err) {
-      console.error("Could not load user posts", err);
+      console.error("We encountered an issue loading the user's posts.", err);
     } finally {
       setLoadingPosts(false);
     }
@@ -159,7 +159,7 @@ const ProfilePage = () => {
                         });
                         navigate("/chats"); // SPA Navigation
                       } catch (err) {
-                        toast.error("Handshake Fault");
+                        toast.error("Unable to start the conversation at this time.");
                       }
                     }}
                     className="flex items-center gap-2 px-6 py-3 bg-white border border-black/5 text-black rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-gray-50 transition-all shadow-lg active:scale-95"

@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const initializeAuth = async () => {
-      console.log("[Auth] Initializing session...");
+      console.log("Starting secure session initialization...");
       
       // 1. Check for token in URL (OAuth Callback)
       // We look at both search and hash as some proxy/routing setups might mangle it
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       const tokenFromUrl = urlParams.get("token");
 
       if (tokenFromUrl) {
-        console.log("[Auth] Token discovered in URL. Provisioning local storage.");
+        console.log("Authentication token received. Securing session data.");
         localStorage.setItem("accessToken", tokenFromUrl);
         
         // Clean up the URL to remove the token immediately for security
@@ -43,10 +43,10 @@ export const AuthProvider = ({ children }) => {
       // 2. Fallback to normal local storage check
       const savedToken = localStorage.getItem("accessToken");
       if (savedToken) {
-        console.log("[Auth] Existing session found. Validating...");
+        console.log("Existing session detected. Verifying your credentials...");
         await fetchMe();
       } else {
-        console.log("[Auth] No active session. Transitioning to Guest.");
+        console.log("No active session found. Continuing as a guest user.");
         setLoading(false);
       }
     };
