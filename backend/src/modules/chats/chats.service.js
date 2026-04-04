@@ -1,4 +1,5 @@
 import chatsRepository from "./chats.repository.js";
+import connectionsRepository from "../connections/connections.repository.js";
 import createError from "../../utils/ApiError.js";
 
 const chatsService = {
@@ -10,6 +11,11 @@ const chatsService = {
         }
         if (currentUserId === targetUserId) {
             throw createError("BAD_REQUEST", "You cannot initialize a room with yourself.");
+        }
+
+        const connection = await connectionsRepository.findConnection(currentUserId, targetUserId);
+        if (!connection || connection.status !== 'accepted') {
+            throw createError("FORBIDDEN", "You can only message users you are connected with.");
         }
     }
 

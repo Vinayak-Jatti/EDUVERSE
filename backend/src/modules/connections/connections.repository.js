@@ -162,8 +162,7 @@ const connectionsRepository = {
         up.display_name,
         up.username,
         up.avatar_url,
-        up.bio,
-        up.headline
+        up.bio
       FROM users u
       JOIN user_profiles up ON u.id = up.user_id
       WHERE u.id != ?
